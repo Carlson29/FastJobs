@@ -1,6 +1,6 @@
 <?php
 
-class Users
+class User
 {
     private int $id;
     private string $firstName;
@@ -13,9 +13,37 @@ class Users
     private string $profilePic;
     private string $searchDiff;
 
-    public function User():void{
+
+
+    public function __construct(){
 
 }
+
+    /**
+     * @param int $id
+     * @param string $firstName
+     * @param string $lastName
+     * @param DateTime $dateOfBirth
+     * @param string $email
+     * @param int $userType
+     * @param string $longitude
+     * @param string $latitude
+     * @param string $profilePic
+     * @param string $searchDiff
+     */
+    public function user(int $id, string $firstName, string $lastName, DateTime $dateOfBirth, string $email, int $userType, string $longitude, string $latitude, string $profilePic, string $searchDiff)
+    {
+        $this->id = $id;
+        $this->firstName = $firstName;
+        $this->lastName = $lastName;
+        $this->dateOfBirth = $dateOfBirth;
+        $this->email = $email;
+        $this->userType = $userType;
+        $this->longitude = $longitude;
+        $this->latitude = $latitude;
+        $this->profilePic = $profilePic;
+        $this->searchDiff = $searchDiff;
+    }
 
     public function getId(): int
     {
