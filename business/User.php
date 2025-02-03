@@ -3,10 +3,10 @@
 class User
 {
     private int $id;
-    private string $firstName;
-    private  string $lastName;
+    private string $name;
     private DateTime $dateOfBirth;
     private string $email;
+    private string $password;
     private int $userType;
     private string $longitude;
     private string $latitude;
@@ -15,35 +15,35 @@ class User
 
 
 
-    public function __construct(){
+   public function __construct(){
 
 }
-
     /**
      * @param int $id
-     * @param string $firstName
-     * @param string $lastName
+     * @param string $name
      * @param DateTime $dateOfBirth
      * @param string $email
+     * @param string $paswword
      * @param int $userType
      * @param string $longitude
      * @param string $latitude
      * @param string $profilePic
      * @param string $searchDiff
      */
-    public function user(int $id, string $firstName, string $lastName, DateTime $dateOfBirth, string $email, int $userType, string $longitude, string $latitude, string $profilePic, string $searchDiff)
+    public function user(int $id, string $name, DateTime $dateOfBirth, string $email, string $password, int $userType, string $longitude, string $latitude, string $profilePic, string $searchDiff)
     {
         $this->id = $id;
-        $this->firstName = $firstName;
-        $this->lastName = $lastName;
+        $this->name = $name;
         $this->dateOfBirth = $dateOfBirth;
         $this->email = $email;
+        $this->password = $password;
         $this->userType = $userType;
         $this->longitude = $longitude;
         $this->latitude = $latitude;
         $this->profilePic = $profilePic;
         $this->searchDiff = $searchDiff;
     }
+
 
     public function getId(): int
     {
@@ -55,25 +55,17 @@ class User
         $this->id = $id;
     }
 
-    public function getFirstName(): string
+    public function getName(): string
     {
-        return $this->firstName;
+        return $this->name;
     }
 
-    public function setFirstName(string $firstName): void
+    public function setName(string $name): void
     {
-        $this->firstName = $firstName;
+        $this->name = $name;
     }
 
-    public function getLastName(): string
-    {
-        return $this->lastName;
-    }
 
-    public function setLastName(string $lastName): void
-    {
-        $this->lastName = $lastName;
-    }
 
     public function getDateOfBirth(): DateTime
     {
@@ -145,6 +137,11 @@ class User
         $this->searchDiff = $searchDiff;
     }
 
+    public function __toString()
+    {
+        string: $data =  $this->id . "" ;
+        return $data;
+    }
 
 
 }
