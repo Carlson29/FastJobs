@@ -6,7 +6,7 @@ require 'Dao.php';
 require '..\business\User.php';
 class UserDao extends Dao
 {
-    public function login(string $email, string $password):User{
+    public function login(string $email, string $password):?User{
 
         $user = new User();
         $query = "Select * from users where email=:email";
@@ -20,9 +20,15 @@ class UserDao extends Dao
         }
         $users = $statement->fetch();
         $statement->closeCursor();
-        $dbPass = $users['password'];
-        if (!password_verify($password, $dbPass)) {
-            $user=null;
+        if($statement->rowCount()==1) {
+            $dbPass = $users['password'];
+            if (!password_verify($password, $dbPass)) {
+                $user = null;
+                return $user;
+            }
+        }
+        else{
+            $user = null;
             return $user;
         }
         /*$_SESSION['userId'] = $users['adminId'];
@@ -39,7 +45,7 @@ class UserDao extends Dao
     public function getUserById(int  $id):User{
 
         $user = new User();
-        $query = "Select * from users where id=:id";
+        $query = "Select * from users where userId=:id";
         $statement = $this->getConn()->prepare($query);
         $statement->bindValue(':id', $id);
         try {
@@ -53,8 +59,8 @@ class UserDao extends Dao
         DateTime :$dateOfBirth= new DateTime($users[2]);
         string :$longitude= $users[6].'';
         $latitude= $users[7].'';
-
-        $user->user($users[0],$users['1'],$dateOfBirth,$users[3],$users[4],$users[5],$longitude,$latitude,$users[8], $users[9]);
+        $profilePic= $users[8].'';
+        $user->user($users[0],$users['1'],$dateOfBirth,$users[3],$users[4],$users[5],$longitude,$latitude,$profilePic, $users[9]);
         return $user;
     }
 
@@ -84,13 +90,18 @@ public  function register(string $name, DateTime $dateOfBirth, string  $email, s
     $statement->closeCursor();
     return $userId;
 }
-    public  function updateUser(string $name, DateTime $dateOfBirth, string  $email, string $newPassword, int $userType, string $profilePic, string $searchDiff, string $oldPassword):User {
+    public  function updateUser(string $name, DateTime $dateOfBirth, string  $email, string $oldPassword, int $userType, string $profilePic, string $searchDiff, string $newPassword):bool {
 
         $user=$this->login($email,$oldPassword);
         if($user!=null) {
-            $password = password_hash($newPassword, PASSWORD_BCRYPT);
-
-            $query = "Update users INSERT INTO (name, dateOfBirth, email, password, userType, profilePic, searchDiff) VALUES (:name, :dateOfBirth, :email, :password, :userType, :profilePic, :searchDiff ) where email=:email2 ";
+            string :$password= null;
+            if($newPassword!=null){
+                $password = password_hash($newPassword, PASSWORD_BCRYPT);
+            }
+            else{
+                $password = password_hash($oldPassword, PASSWORD_BCRYPT);
+            }
+            $query = "Update users set name=:name, dateOfBirth=:dateOfBirth, email=:email, password=:password, userType=:userType, profilePic=:profilePic, searchDiff=:searchDiff where email=:email2 ";
             $statement = $this->getConn()->prepare($query);
             $statement->bindValue(':name', $name);
             $dateOfBirth = $dateOfBirth->format('Y-m-d');
@@ -103,17 +114,51 @@ public  function register(string $name, DateTime $dateOfBirth, string  $email, s
             $statement->bindValue(':email2', $email);
             try {
                 $statement->execute();
-                $userId = $this->getConn()->lastInsertId();
+                //$userId = $this->getConn()->lastInsertId();
+                $statement->closeCursor();
+                if($statement->rowCount()==1){
+                return true;
+                }
             } catch (PDOException $ex) {
                 echo "An error occurred in register" . $ex->getMessage();
                 exit();
             }
 
-            $statement->closeCursor();
-            return $userId;
+            //$statement->closeCursor();
+
         }
-        return $user;
+        return false;
     }
+
+
+    public  function updateLocation(string $longitude, string  $latitude, int $id):bool {
+
+
+            $query = "Update users set longitude=:longitude, latitude=:latitude where userId=:id ";
+            $statement = $this->getConn()->prepare($query);
+            $statement->bindValue(':longitude', $longitude);
+            $statement->bindValue(':latitude', $latitude);
+            $statement->bindValue(':id', $id);
+            try {
+                $statement->execute();
+                //$userId = $this->getConn()->lastInsertId();
+                $statement->closeCursor();
+                if($statement->rowCount()==1){
+                    return true;
+                }
+            } catch (PDOException $ex) {
+                echo "An error occurred in updateLocation" . $ex->getMessage();
+                exit();
+            }
+
+            //$statement->closeCursor();
+
+
+        return false;
+    }
+
+
+
 
 
 }
@@ -144,11 +189,15 @@ function getUserLastName($userId,$db) {
 
 
 $lastName=getUserLastName(1, $db);*/
-$userDao= new UserDao("fastJobs");
-DateTime :$dateOfBirth= new DateTime("2013-03-15");
-$id=$userDao->register('carlson',$dateOfBirth,'carl@gmail','123', 1, 'picture', 'u'  );
+//$id=$userDao->register('carlson',$dateOfBirth,'carl@gmail','123', 1, 'picture', 'u'  );
 //$id=$userDao->login('carl@gmail', '123');
+$userDao=new UserDao("fastjobs");
+//$id=$userDao->login('carl@gmail', '123');
+DateTime:$dateOfBirth= new DateTime("2003-08-20");
+string :$newPassword= null."";
+//$id=$userDao->updateUser('carlson',$dateOfBirth,'carl@gmail','1234', 1, 'picture2', 'u',$newPassword );
+$id=$userDao->updateLocation("122","2343", 4);
 //$currentDate =$id->getDateOfBirth()->format('Y-m-d');
 //$dateOfBirth=$userDao->
 //echo $currentDate;
-echo $id;
+ var_dump($id);

@@ -25,7 +25,7 @@ class InboxParticipant
     }
 
 
-    private function __construct(){
+    public function __construct(){
 
     }
     public function getUserId(): int
@@ -76,6 +76,12 @@ class InboxParticipant
     public function setIsOpen(bool $isOpen): void
     {
         $this->isOpen = $isOpen;
+    }
+
+    public function __toString()
+    {
+        string: $data =  $this->userId . "" ;
+        return $data;
     }
 
 
