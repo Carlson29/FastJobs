@@ -41,7 +41,7 @@ class InboxParticipantsDao extends Dao
 
     public function getInboxParticipants(int $userId):array {
        // $user = new User();
-        $query = "Select * from inboxparticipants where userId=:userId";
+        $query = "Select * from inboxparticipants where userId=:userId and deletedState=false";
         $statement = $this->getConn()->prepare($query);
         $statement->bindValue(':userId', $userId);
         try {
@@ -62,8 +62,63 @@ class InboxParticipantsDao extends Dao
         return $ibpsArray;
     }
 
+    public function updateUnseenMessages(int $userId,int $inboxId, int $unseenMessages):bool
+    {
+        if($unseenMessages==0){
+            $query = "Update inboxparticipants set unseenMessages=0 where userId=:userId and inboxId=:inboxId";
+        }
+        else{
+            $query = "Update inboxparticipants set unseenMessages=unseenMessages+1 where userId=:userId and inboxId=:inboxId";
+        }
+        $statement = $this->getConn()->prepare($query);
+        $statement->bindValue(':userId', $userId);
+        $statement->bindValue(':inboxId', $inboxId);
+        try {
+            $statement->execute();
+            $statement->closeCursor();
+            if($statement->rowCount()==1){
+                return true;
+            }
+            // $userId = $this->getConn()->lastInsertId();
+        } catch (PDOException $ex) {
+            echo "An error occurred in updateUnseenMessages" . $ex->getMessage();
+            return false;
+            exit();
+        }
+
+        //$statement->closeCursor();
+        return false;
+    }
+    public function updateIsOpen(int $userId,int $inboxId, bool $isOpen):bool
+    {
+        $query = "Update inboxparticipants set isOpen=:isOpen where userId=:userId and inboxId=:inboxId";
+        $statement = $this->getConn()->prepare($query);
+        $statement->bindValue(':userId', $userId);
+        $statement->bindValue(':inboxId', $inboxId);
+        $statement->bindValue(':isOpen', $isOpen);
+        try {
+            $statement->execute();
+            $statement->closeCursor();
+            if($statement->rowCount()==1){
+                return true;
+            }
+            // $userId = $this->getConn()->lastInsertId();
+        } catch (PDOException $ex) {
+            echo "An error occurred in updateIsOpen" . $ex->getMessage();
+            return false;
+            exit();
+        }
+
+        //$statement->closeCursor();
+        return false;
+    }
+
+
 }
 $ibpDao = new InboxParticipantsDao("fastjobs");
 //$state=$ibpDao->insertInboxParticipants(1,1,false,0,false);
-$state=$ibpDao->getInboxParticipants(1);
+//$state=$ibpDao->getInboxParticipants(1);
+
+//$state=$ibpDao->updateIsOpen(1,1,false);
+$state=$ibpDao->updateUnseenMessages(1,1,0);
 var_dump($state);
