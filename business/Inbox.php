@@ -65,6 +65,11 @@ class Inbox
         $this->groupName = $groupName;
     }
 
+    public function __toString()
+    {
+        string: $data =  $this->inboxId . "" ;
+        return $data;
+    }
 
 
 }
