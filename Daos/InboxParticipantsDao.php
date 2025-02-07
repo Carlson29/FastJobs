@@ -41,7 +41,7 @@ class InboxParticipantsDao extends Dao
 
     public function getInboxParticipants(int $userId):array {
        // $user = new User();
-        $query = "Select * from inboxparticipants where userId=:userId and deletedState=false";
+        $query = "Select * from inboxparticipants where userId=:userId and deletedState=false order by lastSent DESC ";
         $statement = $this->getConn()->prepare($query);
         $statement->bindValue(':userId', $userId);
         try {
