@@ -6,24 +6,33 @@ class Review
     private int $userId;
     private string $review;
     private int $reviewerId;
-
+    private DateTime $dateReviewed;
     /**
      * @param int $reviewId
      * @param int $userId
      * @param string $review
      * @param int $reviewerId
      */
-    public function review(int $reviewId, int $userId, string $review, int $reviewerId)
+    public function review(int $reviewId, int $userId, string $review, int $reviewerId, DateTime $dateReviewed)
     {
         $this->reviewId = $reviewId;
         $this->userId = $userId;
         $this->review = $review;
         $this->reviewerId = $reviewerId;
+        $this->dateReviewed = $dateReviewed;
     }
     public function __construct(){
 
     }
+    public function getDateReviewed(): DateTime
+    {
+        return $this->dateReviewed;
+    }
 
+    public function setDateReviewed(DateTime $dateReviewed): void
+    {
+        $this->dateReviewed = $dateReviewed;
+    }
 
     public function getReviewId(): int
     {
