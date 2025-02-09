@@ -42,7 +42,7 @@ class UserDao extends Dao
         return $user;
     }
 
-    public function getUserById(int  $id):User{
+    public function getUserById(int  $id):?User{
 
         $user = new User();
         $query = "Select * from users where userId=:id";
@@ -50,17 +50,25 @@ class UserDao extends Dao
         $statement->bindValue(':id', $id);
         try {
             $statement->execute();
+            $users = $statement->fetch();
+            $statement->closeCursor();
+            if($users!=null) {
+                DateTime :
+                $dateOfBirth = new DateTime($users[2]);
+                string :
+                $longitude = $users[6] . '';
+                $latitude = $users[7] . '';
+                $profilePic = $users[8] . '';
+                $user->user($users[0], $users['1'], $dateOfBirth, $users[3], $users[4], $users[5], $longitude, $latitude, $profilePic, $users[9]);
+            }
+            else {
+                $user=null;
+            }
         } catch (PDOException $ex) {
             echo "An error occurred during login" . $ex->getMessage();
             exit();
         }
-        $users = $statement->fetch();
-        $statement->closeCursor();
-        DateTime :$dateOfBirth= new DateTime($users[2]);
-        string :$longitude= $users[6].'';
-        $latitude= $users[7].'';
-        $profilePic= $users[8].'';
-        $user->user($users[0],$users['1'],$dateOfBirth,$users[3],$users[4],$users[5],$longitude,$latitude,$profilePic, $users[9]);
+
         return $user;
     }
 
@@ -196,8 +204,9 @@ $userDao=new UserDao("fastjobs");
 DateTime:$dateOfBirth= new DateTime("2003-08-20");
 string :$newPassword= null."";
 //$id=$userDao->updateUser('carlson',$dateOfBirth,'carl@gmail','1234', 1, 'picture2', 'u',$newPassword );
-$id=$userDao->updateLocation("122","2343", 4);
+//$id=$userDao->updateLocation("122","2343", 4);
 //$currentDate =$id->getDateOfBirth()->format('Y-m-d');
 //$dateOfBirth=$userDao->
 //echo $currentDate;
- var_dump($id);
+$id=$userDao->getUserById(5);
+ echo $id;
