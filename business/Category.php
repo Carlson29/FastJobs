@@ -53,5 +53,10 @@ class Category
         $this->searchDiff = $searchDiff;
     }
 
+    public function __toString()
+    {
+        string: $data =  $this->categoryId . "" ;
+        return $data;
+    }
 
 }
