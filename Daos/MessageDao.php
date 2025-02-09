@@ -47,6 +47,7 @@ class MessageDao extends Dao
             exit();
         }
         $messages = $statement->fetchAll();
+        $statement->closeCursor();
         $messagesArray =[];
         //array_splice($ibpsArray, 0);
         foreach ($messages as $msg){
@@ -72,6 +73,7 @@ class MessageDao extends Dao
             exit();
         }
         $messages = $statement->fetchAll();
+        $statement->closeCursor();
         $messagesArray =[];
         //array_splice($ibpsArray, 0);
         foreach ($messages as $msg){
@@ -96,6 +98,7 @@ class MessageDao extends Dao
             exit();
         }
         $messages = $statement->fetchAll();
+        $statement->closeCursor();
         $messagesArray =[];
         //array_splice($ibpsArray, 0);
         foreach ($messages as $msg){
