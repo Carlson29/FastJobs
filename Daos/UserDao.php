@@ -72,6 +72,29 @@ class UserDao extends Dao
         return $user;
     }
 
+    public function checkEmail(string  $email):bool{
+
+
+        $query = "Select * from users where email=:email ";
+        $statement = $this->getConn()->prepare($query);
+        $statement->bindValue(':email',$email);
+        try {
+            $statement->execute();
+            $statement->closeCursor();
+            if($statement->rowCount()==0) {
+              return false;
+            }
+            else {
+                return true;
+            }
+        } catch (PDOException $ex) {
+            echo "An error occurred during login" . $ex->getMessage();
+            exit();
+        }
+
+        return true;
+    }
+
 public  function register(string $name, DateTime $dateOfBirth, string  $email, string $password, int $userType, string $profilePic, string $searchDiff) :int {
 
     $password = password_hash($password, PASSWORD_BCRYPT);
@@ -208,5 +231,5 @@ string :$newPassword= null."";
 //$currentDate =$id->getDateOfBirth()->format('Y-m-d');
 //$dateOfBirth=$userDao->
 //echo $currentDate;
-$id=$userDao->getUserById(5);
- echo $id;
+$id=$userDao->checkEmail("angel@gmail.com");
+ //var_dump($id);
