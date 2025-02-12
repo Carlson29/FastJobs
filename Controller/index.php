@@ -36,7 +36,7 @@ switch ($action) {
                 $dateOfBirth = new DateTime($dateOfBirth);
                 $id = $userDao->register($userName, $dateOfBirth, $email, $password, 2, "", "u");
                 // echo "helloo" . $id;
-            } else {
+            } else if(isset($_POST['user'])) {
                 $dateOfBirth = new DateTime($dateOfBirth);
                 $id = $userDao->register($userName, $dateOfBirth, $email, $password, 1, "", "u");
                 //echo "hello" .$id;
