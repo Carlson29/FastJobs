@@ -23,6 +23,7 @@ if ($action == NULL && $user != NULL) {
 }
 switch ($action) {
     case "show_signup":
+        $pageTitle='SignUp Page';
         include "../view/signUp.php";
         break;
     case "do_signup":
