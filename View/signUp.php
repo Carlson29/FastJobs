@@ -35,7 +35,7 @@
     <br>
     <button hidden id="signUp" >Sign Up</button>
 </form>
-    <button id="" name="" onclick="">Login</button>
+    <button id="" name="" onclick=""><a href="../Controller/index.php?action=show_login">Login</a></button>
 <button id="validateButton" name="" onclick="vakidateDetails()">Sign Up</button>
 </div>
 </div>
