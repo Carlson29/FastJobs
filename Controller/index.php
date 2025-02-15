@@ -46,4 +46,26 @@ switch ($action) {
             echo "in use";
         }
         break;
+    case "show_login":
+        $pageTitle='Login Page';
+        $msg = filter_input(INPUT_GET, "msg", FILTER_UNSAFE_RAW);
+        include "../view/login.php";
+        break;
+    case "do_login":
+        $userDao = new UserDao("fastjobs");
+        $password = filter_input(INPUT_POST, "password", FILTER_UNSAFE_RAW);
+        $email = filter_input(INPUT_POST, "email", FILTER_UNSAFE_RAW);
+       $user= $userDao->login($email,$password);
+       if($user!=null){
+           $_SESSION['user'] ==$user;
+           header("Location:?action=show_clientHome");
+       }
+       else {
+           header("Location:?action=show_login&msg=sorry credentials do not match ");
+       }
+        break;
+    case "show_clientHome":
+        $pageTitle='Home Page';
+        include "../view/clientHome.php";
+        break;
 }
