@@ -47,11 +47,26 @@ and open the template in the editor.
                 border-radius: 15px;
             }
 
+            #loginForm{
+                padding-top: 1%;
+                height: 90%;
+                margin-top: 30.5%;
+                margin-left: 2%;
+                margin-right: 2%;
+                border: 3px transparent;
+                background-color: whitesmoke;
+                border-radius: 15px;
+            }
+
             #validateButton {
                 margin-top: 3%;
                 margin-bottom: 45%;
                 /* border-radius: 15px;
                  background-color: #6A6A6A;*/
+            }
+            #loginValidateButton{
+                margin-top: 1%;
+                margin-bottom: 70%;
             }
         }
 
@@ -67,11 +82,26 @@ and open the template in the editor.
                 border-radius: 15px;
             }
 
+            #loginForm{
+                padding-top: 1%;
+                height: 90%;
+                margin-top: 15%;
+                margin-left: 30%;
+                margin-right: 30%;
+                border: 3px transparent;
+                background-color: whitesmoke;
+                border-radius: 15px;
+            }
+
             #validateButton {
                 margin-top: 1%;
                 margin-bottom: 25%;
                 /*border-radius: 15px;
                 background-color: #6A6A6A;*/
+            }
+            #loginValidateButton{
+                margin-top: 1%;
+                margin-bottom: 33%;
             }
         }
 
@@ -84,13 +114,15 @@ and open the template in the editor.
             background-color: #6A6A6A;
         }
 
+        #loginPage,
         #signUpPage {
             background-image: linear-gradient(#6A6A6A, #4C676B, #3b3c36);
             height: 100%;
+            overflow: hidden;
             /*Radial Gradients ,Conic Gradients*/
         }
 
-        #signUpBody {
+        #loginBody, #signUpBody {
             overflow: hidden;
         }
 
