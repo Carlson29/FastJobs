@@ -22,7 +22,14 @@ class UserDao extends Dao
         $statement->closeCursor();
         if($statement->rowCount()==1) {
             $dbPass = $users['password'];
-            if (!password_verify($password, $dbPass)) {
+            if (password_verify($password, $dbPass)==true) {
+                DateTime :$dateOfBirth= new DateTime($users[2]);
+                string :$longitude= $users[6].'';
+                $latitude= $users[7].'';
+                $user->user($users[0],$users['1'],$dateOfBirth,$users[3],$users[4],$users[5],$longitude,$latitude,$users[8], $users[9]);
+                return $user;
+            }
+            else {
                 $user = null;
                 return $user;
             }
@@ -34,11 +41,6 @@ class UserDao extends Dao
         /*$_SESSION['userId'] = $users['adminId'];
         $_SESSION['userType'] = $users['userType'];
         $_SESSION['userName'] = $users['firstName'] . " " . $users['LastName'];*/
-        DateTime :$dateOfBirth= new DateTime($users[2]);
-        string :$longitude= $users[6].'';
-        $latitude= $users[7].'';
-        //echo $dateOfBirth;
-        $user->user($users[0],$users['1'],$dateOfBirth,$users[3],$users[4],$users[5],$longitude,$latitude,$users[8], $users[9]);
         return $user;
     }
 
@@ -220,16 +222,17 @@ function getUserLastName($userId,$db) {
 
 
 $lastName=getUserLastName(1, $db);*/
-//$id=$userDao->register('carlson',$dateOfBirth,'carl@gmail','123', 1, 'picture', 'u'  );
-//$id=$userDao->login('carl@gmail', '123');
 $userDao=new UserDao("fastjobs");
-//$id=$userDao->login('carl@gmail', '123');
 DateTime:$dateOfBirth= new DateTime("2003-08-20");
-string :$newPassword= null."";
+//$id=$userDao->register('carlson',$dateOfBirth,'carl@gmail.com','123', 1, 'picture', 'u'  );
+$id=$userDao->login('carl@gmail.com', '123');
+//$id=$userDao->login('carl@gmail', '123');
+//$id=$userDao->login('carl@gmail', '123');
+//string :$newPassword= null."";
 //$id=$userDao->updateUser('carlson',$dateOfBirth,'carl@gmail','1234', 1, 'picture2', 'u',$newPassword );
 //$id=$userDao->updateLocation("122","2343", 4);
 //$currentDate =$id->getDateOfBirth()->format('Y-m-d');
 //$dateOfBirth=$userDao->
-//echo $currentDate;
-$id=$userDao->checkEmail("angel@gmail.com");
+//echo $id;
+//$id=$userDao->checkEmail("angel@gmail.com");
  //var_dump($id);
