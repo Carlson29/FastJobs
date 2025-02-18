@@ -5,13 +5,13 @@ namespace Daos;
 
 use Message;
 
-require 'Dao.php';
+//require 'Dao.php';
 require '..\business\Message.php';
 
 class MessageDao extends Dao
 {
 
-    public function insertMessage(int $inboxId, int $senderId, string $message, int $messageType){
+    public function insertMessage(int $inboxId, int $senderId, string $message, int $messageType):int{
         $query = "INSERT INTO messages (inboxId, senderId, message, messageType, deletedState) VALUES (:inboxId, :senderId, :message, :messageType,false) ";
         $statement = $this->getConn()->prepare($query);
         $statement->bindValue(':inboxId', $inboxId);
@@ -20,19 +20,20 @@ class MessageDao extends Dao
         $statement->bindValue(':messageType', $messageType);
         try {
             $statement->execute();
+            $userId = $this->getConn()->lastInsertId();
             $statement->closeCursor();
             if($statement->rowCount()==1){
-                return true;
+                return $userId;
             }
             // $userId = $this->getConn()->lastInsertId();
         } catch (PDOException $ex) {
             echo "An error occurred in insertMessage" . $ex->getMessage();
-            return false;
+            return -1;
             exit();
         }
 
         //$statement->closeCursor();
-        return false;
+        return -1;
     }
 
     public function getMessages(int $inboxId):array {
@@ -84,6 +85,34 @@ class MessageDao extends Dao
         }
         return $messagesArray;
     }
+
+    public function getMessageById(int  $id):?Message{
+
+        $msg = new Message();
+        $query = "Select * from messages where messageId=:id";
+        $statement = $this->getConn()->prepare($query);
+        $statement->bindValue(':id', $id);
+        try {
+            $statement->execute();
+            $results = $statement->fetch();
+            $statement->closeCursor();
+            if($results!=null) {
+                $message= new Message();
+                DateTime: $timeSent= new \DateTime($results[5]);
+                $message->message($results[0],$results[1],$results[2],$results[3],$results[4],$timeSent,$results[6]);
+                return $message;
+            }
+            else {
+                $msg=null;
+            }
+        } catch (PDOException $ex) {
+            echo "An error occurred during login" . $ex->getMessage();
+            exit();
+        }
+
+        return $msg;
+    }
+
     public function getNewMessages(int $inboxId, \DateTime $timeSent ):array {
         // $user = new User();
         $query = "SELECT * from messages where inboxId=:inboxId and deletedState=false and timeSent>:timeSent;";
@@ -117,4 +146,4 @@ $msgDao= new MessageDao("fastjobs");
 //$state=$msgDao->getMessages(1);
 DateTime :$timeSent= new \DateTime("2025-02-05 18:9:57");
 $state=$msgDao->getNewMessages(1,$timeSent);
-var_dump($state);
+//var_dump($state);
