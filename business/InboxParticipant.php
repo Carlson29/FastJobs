@@ -7,27 +7,30 @@ class InboxParticipant
  private bool $deletedState;
  private int $unSeenMessages;
  private bool $isOpen;
-
+ private DateTime $lastSent;
     /**
      * @param int $userId
      * @param int $inboxId
      * @param bool $deletedState
      * @param int $unSeenMessages
      * @param bool $isOpen
+     * @param DateTime $lastSent
      */
-    public function inboxParticipant(int $userId, int $inboxId, bool $deletedState, int $unSeenMessages, bool $isOpen)
+    public function inboxParticipant(int $userId, int $inboxId, bool $deletedState, int $unSeenMessages, bool $isOpen, DateTime $lastSent)
     {
         $this->userId = $userId;
         $this->inboxId = $inboxId;
         $this->deletedState = $deletedState;
         $this->unSeenMessages = $unSeenMessages;
         $this->isOpen = $isOpen;
+        $this->lastSent = $lastSent;
+    }
+
+    public function __construct()
+    {
     }
 
 
-    public function __construct(){
-
-    }
     public function getUserId(): int
     {
         return $this->userId;
