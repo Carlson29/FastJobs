@@ -80,7 +80,8 @@ class InboxParticipantsDao extends Dao
         //array_splice($ibpsArray, 0);
         foreach ($ibps as $ibp){
             $Ibp= new InboxParticipant();
-            $Ibp->inboxParticipant($ibp[0],$ibp[1],$ibp[2],$ibp[3],$ibp[4]);
+            $lastSent= new DateTime($ibp[5]);
+            $Ibp->inboxParticipant($ibp[0],$ibp[1],$ibp[2],$ibp[3],$ibp[4],$lastSent);
             //$ibpsArray =$Ibp;
             array_push($ibpsArray, $Ibp);
         }
@@ -88,28 +89,30 @@ class InboxParticipantsDao extends Dao
     }
 
 
-    public function getOtherIbps(int $inboxId, int $userId):array {
-        // $user = new User();
-        $query = "Select * from inboxparticipants where inboxId=:inboxId and userId=!userId deletedState=false order by lastSent DESC ";
+    public function getOtherIbp(int $inboxId, int $userId):?InboxParticipant {
+        $Ibp= new InboxParticipant();
+        $query = "Select * from inboxparticipants where inboxId=:inboxId and userId!=:userId";
         $statement = $this->getConn()->prepare($query);
         $statement->bindValue(':inboxId', $inboxId);
         $statement->bindValue(':userId', $userId);
         try {
             $statement->execute();
+            $ibp = $statement->fetch();
+            $statement->closeCursor();
+            if($ibp!=null){
+                $lastSent= new DateTime($ibp[5]);
+
+                $Ibp->inboxParticipant($ibp[0],$ibp[1],$ibp[2],$ibp[3],$ibp[4],$lastSent);
+            }
+            else{
+                $Ibp=null;
+            }
         } catch (PDOException $ex) {
-            echo "An error occurred  on getInboxParticipants" . $ex->getMessage();
+            echo "An error occurred  on getOtherIbp" . $ex->getMessage();
             exit();
         }
-        $ibps = $statement->fetchAll();
-        $ibpsArray =[];
-        //array_splice($ibpsArray, 0);
-        foreach ($ibps as $ibp){
-            $Ibp= new InboxParticipant();
-            $Ibp->inboxParticipant($ibp[0],$ibp[1],$ibp[2],$ibp[3],$ibp[4]);
-            //$ibpsArray =$Ibp;
-            array_push($ibpsArray, $Ibp);
-        }
-        return $ibpsArray;
+
+        return $Ibp;
     }
 
     public function updateUnseenMessages(int $userId,int $inboxId, int $unseenMessages):bool
