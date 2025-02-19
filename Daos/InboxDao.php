@@ -3,7 +3,6 @@
 namespace Daos;
 use Inbox;
 
-require 'Dao.php';
 require '..\business\Inbox.php';
 class InboxDao extends Dao
 {
@@ -62,4 +61,4 @@ class InboxDao extends Dao
 $d= new InboxDao("fastjobs");
 //$state=$d->createInbox(1,-1,"");
 $state=$d->getInbox(1);
-echo $state;
+//echo $state;
