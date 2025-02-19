@@ -62,7 +62,7 @@ class MessageDao extends Dao
 
     public function getPreviousMessages(int $inboxId, \DateTime $timeSent ):array {
         // $user = new User();
-        $query = "SELECT * from messages where inboxId=:inboxId and deletedState=false and timeSent<=:timeSent order by timeSent desc limit 20;";
+        $query = "SELECT * from messages where inboxId=:inboxId and deletedState=false and timeSent<:timeSent order by timeSent desc limit 20;";
         $statement = $this->getConn()->prepare($query);
         $statement->bindValue(':inboxId', $inboxId);
         $timeSent =$timeSent->format('Y-m-d H:i:s');
@@ -115,7 +115,7 @@ class MessageDao extends Dao
 
     public function getNewMessages(int $inboxId, \DateTime $timeSent ):array {
         // $user = new User();
-        $query = "SELECT * from messages where inboxId=:inboxId and deletedState=false and timeSent>:timeSent;";
+        $query = "SELECT * from messages where inboxId=:inboxId and deletedState=false and timeSent>:timeSent order by timeSent DESC ";
         $statement = $this->getConn()->prepare($query);
         $statement->bindValue(':inboxId', $inboxId);
         $timeSent =$timeSent->format('Y-m-d H:i:s');
