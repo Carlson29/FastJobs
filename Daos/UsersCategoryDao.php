@@ -52,7 +52,7 @@ class UsersCategoryDao extends Dao
     }
 
 }
-$dao=new UsersCategoryDao("fastjobs");
+//$dao=new UsersCategoryDao("fastjobs");
 //$id=$dao->createUserCategory(1,1);
-$id=$dao->getUserCategories(1);
-var_dump($id);
+//$id=$dao->getUserCategories(1);
+//var_dump($id);

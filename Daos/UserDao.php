@@ -222,10 +222,10 @@ function getUserLastName($userId,$db) {
 
 
 $lastName=getUserLastName(1, $db);*/
-$userDao=new UserDao("fastjobs");
-DateTime:$dateOfBirth= new DateTime("2003-08-20");
+//$userDao=new UserDao("fastjobs");
+//DateTime:$dateOfBirth= new DateTime("2003-08-20");
 //$id=$userDao->register('carlson',$dateOfBirth,'carl@gmail.com','123', 1, 'picture', 'u'  );
-$id=$userDao->login('carl@gmail.com', '123');
+//$id=$userDao->login('carl@gmail.com', '123');
 //$id=$userDao->login('carl@gmail', '123');
 //$id=$userDao->login('carl@gmail', '123');
 //string :$newPassword= null."";

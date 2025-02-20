@@ -175,5 +175,5 @@ $ibpDao = new InboxParticipantsDao("fastjobs");
 //$state=$ibpDao->getInboxParticipants(1);
 
 //$state=$ibpDao->updateIsOpen(1,1,false);
-$state=$ibpDao->updateUnseenMessages(1,1,0);
+//$state=$ibpDao->updateUnseenMessages(3,1,1);
 //var_dump($state);

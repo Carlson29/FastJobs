@@ -58,7 +58,7 @@ class InboxDao extends Dao
 
 }
 
-$d= new InboxDao("fastjobs");
+//$d= new InboxDao("fastjobs");
 //$state=$d->createInbox(1,-1,"");
-$state=$d->getInbox(1);
+//$state=$d->getInbox(1);
 //echo $state;

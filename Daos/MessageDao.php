@@ -141,9 +141,9 @@ class MessageDao extends Dao
 
 }
 
-$msgDao= new MessageDao("fastjobs");
+//$msgDao= new MessageDao("fastjobs");
 //$state=$msgDao->insertMessage(1,1,"hello",1);
 //$state=$msgDao->getMessages(1);
-DateTime :$timeSent= new \DateTime("2025-02-05 18:9:57");
-$state=$msgDao->getNewMessages(1,$timeSent);
+//DateTime :$timeSent= new \DateTime("2025-02-05 18:9:57");
+//$state=$msgDao->getNewMessages(1,$timeSent);
 //var_dump($state);
