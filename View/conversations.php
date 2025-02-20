@@ -25,6 +25,7 @@ and open the template in the editor.
     </div>
 
     <div>
+        <input type="file" id="messageFile">
         <input type="text" id="messageEntered">
         <button onclick="sendMessage()"> send message</button>
     </div>
@@ -41,21 +42,23 @@ and open the template in the editor.
         if (mainInboxId != 0) {
             setInterval(getNewMessages, 2000);
             //setInterval(getPreviousMessages, 2000);
+        } else if (otherUserId != 0) {
+            getInboxId();
         }
     }
 
-    function sendMessage() {
+    async function sendMessage() {
         var msg = document.getElementById("messageEntered").value.trim();
-        if(mainInboxId!=0) {
-            if (msg !== "" && msg !== null) {
-
+        var msgFile = document.getElementById("messageFile");
+        if (msg !== "" && msg !== null) {
+            if (mainInboxId != 0) {
                 $(document).ready(function () {
                     $.ajax({
                         url: "../Controller/index.php",
                         type: 'post',
                         data: {action: "send_Message", "inboxId": mainInboxId, "message": msg},
                         success: function (data) {
-                            //alert(data);
+                            // alert(data);
                         },
                         error: function () {
                             alert("Error with ajax");
@@ -63,27 +66,59 @@ and open the template in the editor.
                     });
                 });
 
-            }
-        }
-        else{
-            otherUserId=2
-            if (msg !== "" && msg !== null) {
 
+            } else if (otherUserId != 0) {
                 $(document).ready(function () {
                     $.ajax({
                         url: "../Controller/index.php",
                         type: 'post',
                         data: {action: "send_First_Message", "userId": otherUserId, "message": msg},
                         success: function (data) {
-                            //alert(data);
+                            alert(data);
+                            if (data != 0) {
+                                getMessages(data)
+                                otherUserId = 0;
+                                mainInboxId = data;
+                            }
                         },
                         error: function () {
                             alert("Error with ajax");
                         }
                     });
                 });
-
             }
+
+        } else if (msgFile.value != "") {
+            var formData = new FormData();
+            var extension = msgFile.value.split(".").pop();
+            if (mainInboxId === 0 && otherUserId !== 0) {
+                formData.append("action", "send_First_File");
+                formData.append("userId", otherUserId);
+            } else if (mainInboxId != 0 && otherUserId == 0) {
+                formData.append("action", "send_File");
+                formData.append("inboxId", mainInboxId);
+            }
+            formData.append("file", msgFile.files[0]);
+            formData.append("extension", extension);
+
+            var response = await fetch('../Controller/index.php', {
+                    method: "POST",
+                    body: formData
+                })
+                /* .then(data => {
+                     alert(data.body); // Handle your response here
+                 })
+*/
+            ;
+            // Check if the request was successful (status code 200)
+            if (!response.ok) {
+                // throw new Error('Network response was not ok');
+            }
+            // Parse the response body if it's JSON (or text if it's not)
+            //const data = await response.json(); // or response.text() for text responses
+
+            //console.log(response);
+            msgFile.value = "";
         }
     }
 
@@ -141,6 +176,7 @@ and open the template in the editor.
         });
 
     }
+
     function getPreviousMessages() {
         $(document).ready(function () {
             $.ajax({
@@ -158,7 +194,7 @@ and open the template in the editor.
                             messages = messages + "<div id='friendMessage'><p>" + allMessages[i][3] + "</p></div>";
                         }
                     }
-                    document.getElementById("conversationBody").innerHTML = messages +document.getElementById("conversationBody").innerHTML;
+                    document.getElementById("conversationBody").innerHTML = messages + document.getElementById("conversationBody").innerHTML;
                 },
                 error: function () {
                     alert("Error with ajax");
@@ -183,6 +219,29 @@ and open the template in the editor.
                         ibps = ibps + "<button onclick='getMessages(" + allIbps[i][0] + ")'> " + allIbps[i][4] + "</button>";
                     }
                     document.getElementById("inboxSection").innerHTML = ibps
+                },
+                error: function () {
+                    alert("Error with ajax");
+                }
+            });
+        });
+
+    }
+
+    function getInboxId() {
+        $(document).ready(function () {
+            $.ajax({
+                url: "../Controller/index.php",
+                type: 'post',
+                data: {action: "get_inboxId", "userId": otherUserId},
+                success: function (data) {
+                    if (data != 0) {
+                        //alert(data);
+                        getMessages(data);
+                        otherUserId = 0;
+                        mainInboxId = data;
+                    }
+
                 },
                 error: function () {
                     alert("Error with ajax");
