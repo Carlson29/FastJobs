@@ -12,6 +12,7 @@ require '..\Daos\UserDao.php';
 require '..\Daos\MessageDao.php';
 require '..\Daos\InboxParticipantsDao.php';
 require '..\Daos\InboxDao.php';
+require '..\business\Miscellaneous.php';
 
 if (isset($_SESSION['user'])) {
     $user = $_SESSION['user'];
@@ -92,11 +93,14 @@ switch ($action) {
     case "send_File":
         $user = unserialize($_SESSION['user']);
         $inboxId = filter_input(INPUT_POST, "inboxId", FILTER_UNSAFE_RAW);
-        $target_dir="../messageImages/";
+        $target_dir = "../messageImages/";
+        $m = new Miscellaneous();
         //chnage file name
         $target_file = $target_dir . basename($_FILES["file"]["name"]);
-        $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+        $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
         $check = getimagesize($_FILES["file"]["tmp_name"]);
+        $date = new DateTime();
+        $date = $date->format('Y-m-d H:i:s') . $imageFileType;
         /*if($check !== false) {
             echo "File is an image - " . $check["mime"] . ".";
             $uploadOk = 1;
@@ -105,10 +109,11 @@ switch ($action) {
             $uploadOk = 0;
         }*/
 
-        if (move_uploaded_file($_FILES["file"]["tmp_name"], $target_file)) {
+        //if (move_uploaded_file($_FILES["file"]["tmp_name"], $target_file)) {
+        if ($m->uploadFile($target_dir, $_FILES["file"], $date)) {
             //echo "The file ". htmlspecialchars( basename( $_FILES["file"]["name"])). " has been uploaded.";
             $messageDao = new MessageDao("fastjobs");
-            $insertState = $messageDao->insertMessage($inboxId, $user->getId(), basename($_FILES["file"]["name"]), 2);
+            $insertState = $messageDao->insertMessage($inboxId, $user->getId(), $date, 2);
             if ($insertState > 0) {
                 $msg = $messageDao->getMessageById($insertState);
                 $ibpDao = new InboxParticipantsDao("fastjobs");
@@ -145,22 +150,22 @@ switch ($action) {
                 break;
             }
         }
-        if($id==0) {
+        if ($id == 0) {
             $inboxDao = new InboxDao("fastjobs");
             $id = $inboxDao->createInbox(1, -1, "");
         }
-            if($id>0) {
-                $ibpDao->insertInboxParticipants($user->getId(), $id, false, 0, true);
-                $ibpDao->insertInboxParticipants($otherUserId, $id, false, 0, false);
-                $insertState = $messageDao->insertMessage($id, $user->getId(), $message, 1);
-                if ($insertState > 0) {
-                    $msg = $messageDao->getMessageById($insertState);
-                    $ibpDao->updateUnseenMessages($user->getId(), $id, 1);
-                    //update the users lastsent
-                    $ibpDao->updateLastSent($id, $msg->getTimeSent());
-                    //echo "worked";
-                }
+        if ($id > 0) {
+            $ibpDao->insertInboxParticipants($user->getId(), $id, false, 0, true);
+            $ibpDao->insertInboxParticipants($otherUserId, $id, false, 0, false);
+            $insertState = $messageDao->insertMessage($id, $user->getId(), $message, 1);
+            if ($insertState > 0) {
+                $msg = $messageDao->getMessageById($insertState);
+                $ibpDao->updateUnseenMessages($user->getId(), $id, 1);
+                //update the users lastsent
+                $ibpDao->updateLastSent($id, $msg->getTimeSent());
+                //echo "worked";
             }
+        }
         echo $id;
         break;
     case "get_inboxId":
@@ -193,17 +198,17 @@ switch ($action) {
         $user = unserialize($_SESSION['user']);
         $inboxId = filter_input(INPUT_POST, "inboxId", FILTER_UNSAFE_RAW);
         $messageDao = new MessageDao("fastjobs");
-        $ibpDao= new InboxParticipantsDao("fastjobs");
+        $ibpDao = new InboxParticipantsDao("fastjobs");
         $messages = $messageDao->getMessages($inboxId);
-        if(isset($_SESSION['previousInbox'])){
+        if (isset($_SESSION['previousInbox'])) {
             $prevId = unserialize($_SESSION['previousInbox']);
-            if($prevId!=$inboxId) {
+            if ($prevId != $inboxId) {
                 $ibpDao->updateIsOpen($user->getId(), $prevId, false);
             }
         }
-        $_SESSION['previousInbox']=serialize($inboxId);
-        $ibpDao->updateIsOpen($user->getId(),$inboxId,true);
-        $ibpDao->updateUnseenMessages($user->getId(),$inboxId,0);
+        $_SESSION['previousInbox'] = serialize($inboxId);
+        $ibpDao->updateIsOpen($user->getId(), $inboxId, true);
+        $ibpDao->updateUnseenMessages($user->getId(), $inboxId, 0);
         $jsonMessages = "";
         $length = count($messages);
         $msgs = [];
