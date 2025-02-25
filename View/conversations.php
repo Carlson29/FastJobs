@@ -25,7 +25,7 @@ and open the template in the editor.
         div #lastMessage{
             /*text-align:center;*/
             align-self: end;
-            max-height: 2em;
+            max-height: 2.5em;
            position: absolute;
              bottom: 0;
             width: 27vw;
@@ -41,6 +41,30 @@ and open the template in the editor.
          overflow: hidden;
          text-overflow: ellipsis;
      }
+     #ibpPic{
+         height: 8vh;
+         width: 5vw;
+         position: absolute;
+         bottom: 2vw;
+         margin-left: 0.5vw;
+         border-radius:5vw;
+     }
+     #ibpTimeSent{
+         position: absolute;
+         top: 0.5vw;
+         right: 1vw;
+     }
+     #ibpUnseenMessages{
+         position: absolute;
+         top: 2.5vw;
+         right: 1vw;
+         height: 3vh;
+         width: 3vw;
+         background-color: black;
+         color: whitesmoke;
+         border-radius: 2vw;
+         text-align: center;
+     }
 
     </style>
     <title><?php
@@ -54,8 +78,8 @@ and open the template in the editor.
 
 <body>
 <div id="ibpSection">
-   <div id="ibp"><div id="ibpName"><p>Craic</p></div><p id="lastMessage">heyyyyyyyyyyyyyyyyyyyyyyyy yyyyyyy yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy</p></div>
-    <div id="ibp"><p id="lastMessage">hey</p></div>
+   <div id="ibp"> <div > <img id="ibpPic" src="../defaultPic/default.jpg"> </div> <div id="ibpName"><p>Craic</p></div><p id="lastMessage">heyyyyyyyyyyyyyyyyyyyyyyyy yyyyyyy yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy</p> <div id="ibpTimeSent"> <p >19:56</p></div> <div id=""><p id="ibpUnseenMessages">1</p></div> </div>
+    <div id="ibp"><div > <img id="ibpPic" src="../defaultPic/default.jpg"> </div> <div id="ibpName"><p>Craic</p></div> <p id="lastMessage">hey</p> <div id="ibpTimeSent"> <p >19:56</p></div> <div id=""><p id="ibpUnseenMessages">1</p></div> </div>
 </div>
 <div id="conversationBox">
     <div id="conversationBody">
