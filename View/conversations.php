@@ -6,6 +6,43 @@ and open the template in the editor.
 -->
 <html>
 <head>
+    <style>
+        body{
+            display:flex;
+            flex-direction:row;
+        }
+        #ibp{
+            background-color:whitesmoke;
+            display:flex;
+            flex-direction:column;
+            width:33vw;
+            height: 15vh;
+            border-bottom: 1px solid black;
+            position: relative;
+           /* overflow: hidden;
+            text-overflow: ellipsis;*/
+        }
+        div #lastMessage{
+            /*text-align:center;*/
+            align-self: end;
+            max-height: 2em;
+           position: absolute;
+             bottom: 0;
+            width: 27vw;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+     #ibpName{
+         top: 1vw;
+         align-self: center;
+        height: 10vh;
+         width: 12vw;
+         font-weight: bold;
+         overflow: hidden;
+         text-overflow: ellipsis;
+     }
+
+    </style>
     <title><?php
         global $pageTitle;
         global $user;
@@ -16,8 +53,9 @@ and open the template in the editor.
 
 
 <body>
-<div id="inboxSection">
-    <button onclick="getMessages(1)"> show messages</button>
+<div id="ibpSection">
+   <div id="ibp"><div id="ibpName"><p>Craic</p></div><p id="lastMessage">heyyyyyyyyyyyyyyyyyyyyyyyy yyyyyyy yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy</p></div>
+    <div id="ibp"><p id="lastMessage">hey</p></div>
 </div>
 <div id="conversationBox">
     <div id="conversationBody">
@@ -35,8 +73,8 @@ and open the template in the editor.
 <script>
     var mainInboxId = 0;
     var otherUserId = 0;
-    setInterval(getIbps, 2000);
-    setInterval(refresh, 2000);
+    //setInterval(getIbps, 2000);
+    //setInterval(refresh, 2000);
 
     function refresh() {
         if (mainInboxId != 0) {
