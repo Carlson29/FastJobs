@@ -15,16 +15,115 @@ and open the template in the editor.
             display: flex;
             flex-direction: row;
         }
+        #headers{
+            display: flex;
+            flex-direction: row;
+        }
 
         #ibpSectionHeader {
             position: relative;
             width: 33vw;
-            height: 5vh;
+            height: 6.5vh;
             background-color: whitesmoke;
-            margin-bottom: 0.5vh;
+            margin-bottom: 0.3vh;
         }
         #messageHeader{
+            width: 63.5vw;
+            height: 6.5vh;
+            background-color: whitesmoke;
+            /*margin-bottom: 0.5vh;*/
+           right:1vw;
+            position: fixed;
+        }
+        #messageHeaderPic{
+            position: relative;
+            left: 1vw;
+            top: 0.25vh;
+            height: 6vh;
+            width: 3vw;
+            border-radius: 2vw;
+        }
+        #messageHeaderName{
+            position: absolute;
+            left: 3vw;
+            bottom: 1vw;
+           font-size: 1.8vw;
+            text-align: center;
+            width: 10vw;
+            height: 6vh;
+        }
+        #conversationBody{
+            position: relative;
+            width: 63.5vw;
+            height: 83vh;
+            background-color: whitesmoke;
+            display: flex;
+            flex-direction: column;
+            left: 1vw;
+            overflow-y: auto;
+        }
+        #myMsg{
+          /*  right: 1vw;*/
+           background-color: grey;
+            display: inline-block;
+            max-width:55vw ;
+            margin-bottom: 0.3vw;
+           align-self: end;
+            font-size: 1.2vw;
+            word-wrap: break-word;
+            white-space: pre-wrap;
+            border-radius: 2vw;
+            padding: 0.5vw 0.5vw 0.5vw 0.5vw;
+           position: relative;
+            bottom:0.1vw ;
+        }
+        #FriendMsg{
+           /* left: 1vw;*/
+            background-color: grey;
+            display: inline-block;
+            max-width:55vw ;
+            margin-bottom: 0.3vw;
+            align-self: start;
+            font-size: 1.2vw;
+            word-wrap: break-word;
+            white-space: pre-wrap;
+            border-radius: 1vw;
+            padding: 0.5vw 0.5vw 0.5vw 0.5vw;
+            position: relative;
+            left: 0.5vw;
+            bottom: 2.2vh;
+        }
+        #sent-arrow{
+           align-self: end;
+        }
+        #sent-arrow::after {
+            content: '';
+            position: relative;
+            width: 0;
+            height: 0;
+            border-left: 1vw solid transparent;
+            border-right: 1vw solid transparent;
+            border-top: 1vw solid grey;
+            top: 0.5vh;
+             left: -0.6vw;
+        }
+        #received-arrow{
+            align-self: start;
 
+        }
+        #received-msg{
+            align-self: start;
+        }
+        #received-arrow::after {
+            content: '';
+            width: 0;
+            height: 0;
+            border-left: 1vw solid transparent;
+            border-right: 1vw solid transparent;
+            border-top: 1vw solid grey;
+            position: absolute;
+            left:0;
+            right: 0vw;
         }
 
         #ibp {
@@ -151,9 +250,15 @@ and open the template in the editor.
 
 </div>
 <div id="messageHeader">
+<div id="">
+    <img id="messageHeaderPic" src="../defaultPic/default.jpg">
+</div>
+    <div id="messageHeaderName">
+        <p> Craic  </p>
+    </div>
+</div>
+</div>
 
-</div>
-</div>
 <div id="conversationContents">
     <div id="ibpSection">
         <div id="ibp">
@@ -214,6 +319,35 @@ and open the template in the editor.
     </div>
     <div id="conversationBox">
         <div id="conversationBody">
+
+            <div class="" id="sent-arrow">
+            <p id="myMsg">hellojdjdndndndndnndndn </p>
+            </div>
+            <div id="received-msg">
+            <div class="" id="received-arrow">
+            <p id="FriendMsg">hi carl</p>
+            </div>
+            </div>
+            <div class="" id="sent-arrow">
+            <p id="myMsg">hellojdjdndndndndnndndn     jjsjskksnmddkdldlllllllllllllllllllllllllllllllllllm    dmmdmdddhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh</p>
+            </div>
+            <div class="" id="sent-arrow">
+                <p id="myMsg">hellojdjdndndndndnndndn hjhhh    jjsjskksnmddkdldlllllllllllllllllllllllllllllllllllm    dmmdmdddhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh</p>
+            </div>
+            <div id="received-msg">
+            <div class="" id="received-arrow">
+                <p id="FriendMsg">hi carl</p>
+            </div>
+            </div>
+            <div class="" id="sent-arrow">
+                <p id="myMsg">hellojdjdndndndndnndndn</p>
+            </div>
+            <div id="received-msg">
+            <div class="" id="received-arrow">
+            <p id="FriendMsg">hi carl nnnnnnnnnnnnnnnnnnndjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj dnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnj hdhhhhhhhhhhhhhhhhhhhhhh hddddddddddddddddd hddddddddddddddddddddddd hhhhhhhhhhhhhhhhhhhhhhhhhhhhh</p>
+            </div>
+            </div>
+
         </div>
 
         <div id="conversationFooter">
