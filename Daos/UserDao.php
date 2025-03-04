@@ -26,7 +26,7 @@ class UserDao extends Dao
                 DateTime :$dateOfBirth= new DateTime($users[2]);
                 string :$longitude= $users[6].'';
                 $latitude= $users[7].'';
-                $user->user($users[0],$users['1'],$dateOfBirth,$users[3],$users[4],$users[5],$longitude,$latitude,$users[8], $users[9]);
+                $user->user($users[0],$users['1'],$dateOfBirth,$users[3],$users[4],$users[5],$longitude,$latitude,$users[8]."", $users[9]);
                 return $user;
             }
             else {

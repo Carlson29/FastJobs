@@ -250,7 +250,7 @@ switch ($action) {
                 $otherUser = $userDao->getUserById($otherIbp->getUserId());
                 //here..........
                 $ibp[0] = $inboxParticipants[$i]->getInboxId();
-                $ibp[1] = $inboxParticipants[$i]->isDeletedState();
+                $ibp[1] = date_format($inboxParticipants[$i]->getLastSent(), "Y-m-d H:i:s");;
                 $ibp[2] = $inboxParticipants[$i]->getUnSeenMessages();
                 $ibp[3] = $otherIbp->isOpen();
                 $ibp[4] = $otherUser->getName();
