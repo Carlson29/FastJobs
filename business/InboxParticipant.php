@@ -81,6 +81,17 @@ class InboxParticipant
         $this->isOpen = $isOpen;
     }
 
+    public function getLastSent(): DateTime
+    {
+        return $this->lastSent;
+    }
+
+    public function setLastSent(DateTime $lastSent): void
+    {
+        $this->lastSent = $lastSent;
+    }
+
+
     public function __toString()
     {
         string: $data =  $this->userId . "" ;
