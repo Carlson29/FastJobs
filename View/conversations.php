@@ -73,9 +73,11 @@ and open the template in the editor.
             word-wrap: break-word;
             white-space: pre-wrap;
             border-radius: 2vw;
-            padding: 0.5vw 0.5vw 0.5vw 0.5vw;
+            padding: 1vw 1vw 1vw 1vw;
            position: relative;
-            bottom:0.1vw ;
+            bottom: 2.2vh;
+            right:0.5vw;
+           /* bottom:0.1vw ;*/
         }
         #FriendMsg{
            /* left: 1vw;*/
@@ -88,7 +90,7 @@ and open the template in the editor.
             word-wrap: break-word;
             white-space: pre-wrap;
             border-radius: 1vw;
-            padding: 0.5vw 0.5vw 0.5vw 0.5vw;
+            padding: 1vw 1vw 1vw 1vw;
             position: relative;
             left: 0.5vw;
             bottom: 2.2vh;
@@ -104,12 +106,17 @@ and open the template in the editor.
             border-left: 1vw solid transparent;
             border-right: 1vw solid transparent;
             border-top: 1vw solid grey;
-            top: 0.5vh;
-             left: -0.6vw;
+            position: absolute;
+            right:0vw;
+           /* top: 0.5vh;
+             left: -0.6vw;*/
         }
         #received-arrow{
             align-self: start;
 
+        }
+        #sent-msg{
+            align-self: end;
         }
         #received-msg{
             align-self: start;
@@ -122,8 +129,7 @@ and open the template in the editor.
             border-right: 1vw solid transparent;
             border-top: 1vw solid grey;
             position: absolute;
-            left:0;
-            right: 0vw;
+           left:0vw;
         }
 
         #ibp {
@@ -244,7 +250,7 @@ and open the template in the editor.
 </head>
 
 
-<body>
+<body onload="">
 <div id="headers">
 <div id="ibpSectionHeader">
 
@@ -319,28 +325,35 @@ and open the template in the editor.
     </div>
     <div id="conversationBox">
         <div id="conversationBody">
-
+            <div id="sent-msg">
             <div class="" id="sent-arrow">
             <p id="myMsg">hellojdjdndndndndnndndn </p>
+            </div>
             </div>
             <div id="received-msg">
             <div class="" id="received-arrow">
             <p id="FriendMsg">hi carl</p>
             </div>
             </div>
+            <div id="sent-msg">
             <div class="" id="sent-arrow">
             <p id="myMsg">hellojdjdndndndndnndndn     jjsjskksnmddkdldlllllllllllllllllllllllllllllllllllm    dmmdmdddhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh</p>
             </div>
+            </div>
+            <div id="sent-msg">
             <div class="" id="sent-arrow">
                 <p id="myMsg">hellojdjdndndndndnndndn hjhhh    jjsjskksnmddkdldlllllllllllllllllllllllllllllllllllm    dmmdmdddhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh</p>
             </div>
-            <div id="received-msg">
+            </div>
+                <div id="received-msg">
             <div class="" id="received-arrow">
                 <p id="FriendMsg">hi carl</p>
             </div>
             </div>
+            <div id="sent-msg">
             <div class="" id="sent-arrow">
                 <p id="myMsg">hellojdjdndndndndnndndn</p>
+            </div>
             </div>
             <div id="received-msg">
             <div class="" id="received-arrow">
@@ -364,13 +377,13 @@ and open the template in the editor.
 <script>
     var mainInboxId = 0;
     var otherUserId = 0;
-    //setInterval(getIbps, 2000);
-    //setInterval(refresh, 2000);
+    setInterval(getIbps, 2000);
+    setInterval(refresh, 2000);
 
     function refresh() {
         if (mainInboxId != 0) {
             setInterval(getNewMessages, 2000);
-            //setInterval(getPreviousMessages, 2000);
+            setInterval(getPreviousMessages, 2000);
         } else if (otherUserId != 0) {
             getInboxId();
         }
@@ -543,11 +556,19 @@ and open the template in the editor.
                     //alert(data);
                     var allIbps = JSON.parse(data);
                     var ibps = "";
-                    for (var i = 0; i < allIbps.length; i++) {
 
-                        ibps = ibps + "<button onclick='getMessages(" + allIbps[i][0] + ")'> " + allIbps[i][4] + "</button>";
+                    for (var i = 0; i < allIbps.length; i++) {
+                        var profilePic="../defaultPic/default.jpg";
+                        var pic =allIbps[i][5];
+                        if(pic!=""){
+                            profilePic="../profilePics/"+allIbps[i][5];
+                        }
+                        //alert(allIbps[i][5]);
+                        //console.log(allIbps[i][5]);
+
+                        ibps = ibps + " <div id='ibp' onclick='getMessages("+allIbps[i][0] +")' > <div><img id='ibpPic' src='" + profilePic + "'></div>  <div id='ibpName'><p>"+allIbps[i][4]+"</p></div><p id='lastMessage'>hey</p> <div id='ibpTimeSent'><p>"+allIbps[i][1] +"</p></div> <div id=''><p id='ibpUnseenMessages'>"+ allIbps[i][2] +"</p></div> </div>"
                     }
-                    document.getElementById("inboxSection").innerHTML = ibps
+                    document.getElementById("ibpSection").innerHTML = ibps
                 },
                 error: function () {
                     alert("Error with ajax");
