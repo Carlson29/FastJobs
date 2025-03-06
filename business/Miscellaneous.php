@@ -8,7 +8,7 @@ class Miscellaneous
     }
     public function uploadFile(string $directory, $file,$filename):bool{
         $target_file = $directory . $filename;
-        if (move_uploaded_file($file["tmp_name"], $target_file)) {
+        if (move_uploaded_file($file["file"]["tmp_name"], $target_file)) {
   return true;
         }
         else{
