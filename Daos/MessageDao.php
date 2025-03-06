@@ -139,6 +139,34 @@ class MessageDao extends Dao
         return $messagesArray;
     }
 
+    public function getLastMessage(int  $id):?Message{
+
+        $msg = new Message();
+        $query = "SELECT * FROM messages WHERE messageId=(SELECT MAX(messageId) from messages where inboxId=:id and deletedState=false)";
+        $statement = $this->getConn()->prepare($query);
+        $statement->bindValue(':id', $id);
+        try {
+            $statement->execute();
+            $results = $statement->fetch();
+            $statement->closeCursor();
+            if($results!=null) {
+                $message= new Message();
+                DateTime: $timeSent= new \DateTime($results[5]);
+                $message->message($results[0],$results[1],$results[2],$results[3],$results[4],$timeSent,$results[6]);
+                return $message;
+            }
+            else {
+                $msg=null;
+            }
+        } catch (PDOException $ex) {
+            echo "An error occurred during login" . $ex->getMessage();
+            exit();
+        }
+
+        return $msg;
+    }
+
+
 }
 
 //$msgDao= new MessageDao("fastjobs");
