@@ -96,11 +96,11 @@ switch ($action) {
         $target_dir = "../messageImages/";
         $m = new Miscellaneous();
         //chnage file name
-        $target_file = $target_dir . basename($_FILES["file"]["name"]);
+        $target_file = basename($_FILES["file"]["name"]);
         $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
         $check = getimagesize($_FILES["file"]["tmp_name"]);
         $date = new DateTime();
-        $date = $date->format('Y-m-d H:i:s') . $imageFileType;
+        $date = $date->format('Y-m-d H-i-s')."." . $imageFileType;
         /*if($check !== false) {
             echo "File is an image - " . $check["mime"] . ".";
             $uploadOk = 1;
@@ -109,8 +109,8 @@ switch ($action) {
             $uploadOk = 0;
         }*/
 
-        //if (move_uploaded_file($_FILES["file"]["tmp_name"], $target_file)) {
-        if ($m->uploadFile($target_dir, $_FILES["file"], $date)) {
+      // if (move_uploaded_file($_FILES["file"]["tmp_name"], $target_dir .$date)) {
+        if ($m->uploadFile($target_dir, $_FILES, $date)) {
             //echo "The file ". htmlspecialchars( basename( $_FILES["file"]["name"])). " has been uploaded.";
             $messageDao = new MessageDao("fastjobs");
             $insertState = $messageDao->insertMessage($inboxId, $user->getId(), $date, 2);
@@ -239,6 +239,7 @@ switch ($action) {
         $userDao = new UserDao("fastjobs");
         $ibpDao = new InboxParticipantsDao("fastjobs");
         $inboxDao = new InboxDao("fastjobs");
+        $messageDao = new MessageDao("fastjobs");
         $inboxParticipants = $ibpDao->getInboxParticipants($user->getId());
         $length = count($inboxParticipants);
         $ibps = [];
@@ -248,11 +249,12 @@ switch ($action) {
             if ($inbox->getInboxType() == 1) {
                 $otherIbp = $ibpDao->getOtherIbp($inboxParticipants[$i]->getInboxId(), $user->getId());
                 $otherUser = $userDao->getUserById($otherIbp->getUserId());
+                $lastMessage= $messageDao->getLastMessage($inboxParticipants[$i]->getInboxId());
                 //here..........
                 $ibp[0] = $inboxParticipants[$i]->getInboxId();
                 $ibp[1] = date_format($inboxParticipants[$i]->getLastSent(), "Y-m-d H:i:s");;
                 $ibp[2] = $inboxParticipants[$i]->getUnSeenMessages();
-                $ibp[3] = $otherIbp->isOpen();
+                $ibp[3] = $lastMessage->getMessage();
                 $ibp[4] = $otherUser->getName();
                 $ibp[5] = $otherUser->getProfilePic();
                 array_push($ibps, $ibp);
@@ -318,5 +320,32 @@ switch ($action) {
         $messages = json_encode($msgs);
         echo $messages;
         break;
+    case "getMessageHeader":
+        $user = unserialize($_SESSION['user']);
+        $inboxId = filter_input(INPUT_POST, "inboxId", FILTER_UNSAFE_RAW);
+        $userId = filter_input(INPUT_POST, "userId", FILTER_UNSAFE_RAW);
+        $ibpDao = new InboxParticipantsDao("fastjobs");
+        $userDao = new UserDao("fastjobs");
+        $otherUser= new User();
+        $details=[];
+        if($inboxId!=0) {
+            $otherIbp=$ibpDao->getOtherIbp($inboxId, $user->getId());
+            $otherUser=$userDao->getUserById($otherIbp->getUserId());
+        }
+        if($userId!=0) {
+            $otherUser= $userDao->getUserById($userId);
+        }
+        $details[0] = $otherUser->getName();
+        $details[1] = $otherUser->getProfilePic()."";
+        $details[2] ="online";
+        $details = json_encode($details);
+        echo $details;
+            break;
+        case "close_Previous_Ibp":
+            $user = unserialize($_SESSION['user']);
+            $prevId=unserialize($_SESSION['previousInbox']);
+            $ibpDao = new InboxParticipantsDao("fastjobs");
+            $ibpDao->updateIsOpen($user->getId(), $prevId,false);
+            break;
 
 }
