@@ -8,14 +8,15 @@ and open the template in the editor.
 <head>
     <style>
         body {
-        overflow-y: hidden;
+            overflow-y: hidden;
         }
 
         #conversationContents {
             display: flex;
             flex-direction: row;
         }
-        #headers{
+
+        #headers {
             display: flex;
             flex-direction: row;
         }
@@ -27,15 +28,17 @@ and open the template in the editor.
             background-color: whitesmoke;
             margin-bottom: 0.3vh;
         }
-        #messageHeader{
+
+        #messageHeader {
             width: 63.5vw;
             height: 6.5vh;
             background-color: whitesmoke;
             /*margin-bottom: 0.5vh;*/
-           right:1vw;
+            right: 1vw;
             position: fixed;
         }
-        #messageHeaderPic{
+
+        #messageHeaderPic {
             position: relative;
             left: 1vw;
             top: 0.25vh;
@@ -43,16 +46,18 @@ and open the template in the editor.
             width: 3vw;
             border-radius: 2vw;
         }
-        #messageHeaderName{
+
+        #messageHeaderName {
             position: absolute;
             left: 3vw;
             bottom: 1vw;
-           font-size: 1.8vw;
+            font-size: 1.8vw;
             text-align: center;
             width: 10vw;
             height: 6vh;
         }
-        #conversationBody{
+
+        #conversationBody {
             position: relative;
             width: 63.5vw;
             height: 83vh;
@@ -62,28 +67,30 @@ and open the template in the editor.
             left: 1vw;
             overflow-y: auto;
         }
-        #myMsg{
-          /*  right: 1vw;*/
-           background-color: grey;
+
+        #myMsg {
+            /*  right: 1vw;*/
+            background-color: grey;
             display: inline-block;
-            max-width:55vw ;
+            max-width: 55vw;
             margin-bottom: 0.3vw;
-           align-self: end;
+            align-self: end;
             font-size: 1.2vw;
             word-wrap: break-word;
             white-space: pre-wrap;
             border-radius: 2vw;
             padding: 1vw 1vw 1vw 1vw;
-           position: relative;
+            position: relative;
             bottom: 2.2vh;
-            right:0.5vw;
-           /* bottom:0.1vw ;*/
+            right: 0.5vw;
+            /* bottom:0.1vw ;*/
         }
-        #FriendMsg{
-           /* left: 1vw;*/
+
+        #FriendMsg {
+            /* left: 1vw;*/
             background-color: grey;
             display: inline-block;
-            max-width:55vw ;
+            max-width: 55vw;
             margin-bottom: 0.3vw;
             align-self: start;
             font-size: 1.2vw;
@@ -95,9 +102,11 @@ and open the template in the editor.
             left: 0.5vw;
             bottom: 2.2vh;
         }
-        #sent-arrow{
-           align-self: end;
+
+        #sent-arrow {
+            align-self: end;
         }
+
         #sent-arrow::after {
             content: '';
             position: relative;
@@ -107,20 +116,24 @@ and open the template in the editor.
             border-right: 1vw solid transparent;
             border-top: 1vw solid grey;
             position: absolute;
-            right:0vw;
-           /* top: 0.5vh;
-             left: -0.6vw;*/
+            right: 0vw;
+            /* top: 0.5vh;
+              left: -0.6vw;*/
         }
-        #received-arrow{
+
+        #received-arrow {
             align-self: start;
 
         }
-        #sent-msg{
+
+        #sent-msg {
             align-self: end;
         }
-        #received-msg{
+
+        #received-msg {
             align-self: start;
         }
+
         #received-arrow::after {
             content: '';
             width: 0;
@@ -129,7 +142,7 @@ and open the template in the editor.
             border-right: 1vw solid transparent;
             border-top: 1vw solid grey;
             position: absolute;
-           left:0vw;
+            left: 0vw;
         }
 
         #ibp {
@@ -252,17 +265,19 @@ and open the template in the editor.
 
 <body onload="">
 <div id="headers">
-<div id="ibpSectionHeader">
-
-</div>
-<div id="messageHeader">
-<div id="">
-    <img id="messageHeaderPic" src="../defaultPic/default.jpg">
-</div>
-    <div id="messageHeaderName">
-        <p> Craic  </p>
+    <div id="ibpSectionHeader">
+<button onclick="">Home</button>
     </div>
-</div>
+    <div id="messageHeader">
+        <div id="messageHeaderDetails">
+        <div id="">
+            <img id="messageHeaderPic" src="../defaultPic/default.jpg">
+        </div>
+        <div id="messageHeaderName">
+            <p> Craic </p>
+        </div>
+        </div>
+    </div>
 </div>
 
 <div id="conversationContents">
@@ -326,39 +341,43 @@ and open the template in the editor.
     <div id="conversationBox">
         <div id="conversationBody">
             <div id="sent-msg">
-            <div class="" id="sent-arrow">
-            <p id="myMsg">hellojdjdndndndndnndndn </p>
-            </div>
-            </div>
-            <div id="received-msg">
-            <div class="" id="received-arrow">
-            <p id="FriendMsg">hi carl</p>
-            </div>
-            </div>
-            <div id="sent-msg">
-            <div class="" id="sent-arrow">
-            <p id="myMsg">hellojdjdndndndndnndndn     jjsjskksnmddkdldlllllllllllllllllllllllllllllllllllm    dmmdmdddhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh</p>
-            </div>
-            </div>
-            <div id="sent-msg">
-            <div class="" id="sent-arrow">
-                <p id="myMsg">hellojdjdndndndndnndndn hjhhh    jjsjskksnmddkdldlllllllllllllllllllllllllllllllllllm    dmmdmdddhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh</p>
-            </div>
-            </div>
-                <div id="received-msg">
-            <div class="" id="received-arrow">
-                <p id="FriendMsg">hi carl</p>
-            </div>
-            </div>
-            <div id="sent-msg">
-            <div class="" id="sent-arrow">
-                <p id="myMsg">hellojdjdndndndndnndndn</p>
-            </div>
+                <div class="" id="sent-arrow">
+                    <p id="myMsg">hellojdjdndndndndnndndn </p>
+                </div>
             </div>
             <div id="received-msg">
-            <div class="" id="received-arrow">
-            <p id="FriendMsg">hi carl nnnnnnnnnnnnnnnnnnndjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj dnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnj hdhhhhhhhhhhhhhhhhhhhhhh hddddddddddddddddd hddddddddddddddddddddddd hhhhhhhhhhhhhhhhhhhhhhhhhhhhh</p>
+                <div class="" id="received-arrow">
+                    <p id="FriendMsg">hi carl</p>
+                </div>
             </div>
+            <div id="sent-msg">
+                <div class="" id="sent-arrow">
+                    <p id="myMsg">hellojdjdndndndndnndndn jjsjskksnmddkdldlllllllllllllllllllllllllllllllllllm
+                        dmmdmdddhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh</p>
+                </div>
+            </div>
+            <div id="sent-msg">
+                <div class="" id="sent-arrow">
+                    <p id="myMsg">hellojdjdndndndndnndndn hjhhh jjsjskksnmddkdldlllllllllllllllllllllllllllllllllllm
+                        dmmdmdddhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh</p>
+                </div>
+            </div>
+            <div id="received-msg">
+                <div class="" id="received-arrow">
+                    <p id="FriendMsg">hi carl</p>
+                </div>
+            </div>
+            <div id="sent-msg">
+                <div class="" id="sent-arrow">
+                    <p id="myMsg">hellojdjdndndndndnndndn</p>
+                </div>
+            </div>
+            <div id="received-msg">
+                <div class="" id="received-arrow">
+                    <p id="FriendMsg">hi carl nnnnnnnnnnnnnnnnnnndjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj
+                        dnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnj hdhhhhhhhhhhhhhhhhhhhhhh
+                        hddddddddddddddddd hddddddddddddddddddddddd hhhhhhhhhhhhhhhhhhhhhhhhhhhhh</p>
+                </div>
             </div>
 
         </div>
@@ -377,13 +396,17 @@ and open the template in the editor.
 <script>
     var mainInboxId = 0;
     var otherUserId = 0;
+    var convoBody = document.getElementById("conversationBody");
+    var convoBodyHeight = 0;
+    var height = 0;
+    var fetched = false;
     setInterval(getIbps, 2000);
     setInterval(refresh, 2000);
 
     function refresh() {
         if (mainInboxId != 0) {
             setInterval(getNewMessages, 2000);
-            setInterval(getPreviousMessages, 2000);
+            //setInterval(getPreviousMessages, 2000);
         } else if (otherUserId != 0) {
             getInboxId();
         }
@@ -454,7 +477,7 @@ and open the template in the editor.
             ;
             // Check if the request was successful (status code 200)
             if (!response.ok) {
-                // throw new Error('Network response was not ok');
+                 throw new Error('Network response was not ok');
             }
             // Parse the response body if it's JSON (or text if it's not)
             //const data = await response.json(); // or response.text() for text responses
@@ -471,18 +494,48 @@ and open the template in the editor.
                 type: 'post',
                 data: {action: "get_Messages", "inboxId": inboxId},
                 success: function (data) {
+                    getMessageHeader(inboxId,0);
                     //alert(data);
                     var allMessages = JSON.parse(data);
                     var messages = "";
                     for (var i = allMessages.length - 1; i >= 0; i--) {
-                        if (allMessages[i][3] ==<?php echo $userId ?>) {
-                            messages = messages + "<div id='myMessage'><p>" + allMessages[i][3] + "</p></div>";
+                        if (allMessages[i][2] ==<?php echo $userId ?>) {
+                            messages = messages + "<div id='sent-msg'><div class='' id='sent-arrow'> <p id='myMsg'>" + allMessages[i][3] + "</p>  </div> </div>";
                         } else {
-                            messages = messages + "<div id='friendMessage'><p>" + allMessages[i][3] + "</p></div>";
+                            messages = messages + "<div id='received-msg'>  <div class='' id='received-arrow'>  <p id='FriendMsg'>" + allMessages[i][3] + "</p> </div></div>";
                         }
                     }
                     mainInboxId = inboxId;
                     document.getElementById("conversationBody").innerHTML = messages
+                    convoBody.scrollTop = convoBody.scrollHeight;
+                    convoBodyHeight = convoBody.scrollHeight
+                },
+                error: function () {
+                    alert("Error with ajax");
+                }
+            });
+        });
+
+    }
+
+     function getMessageHeader(inboxId, userId) {
+        $(document).ready(function () {
+            $.ajax({
+                url: "../Controller/index.php",
+                type: 'post',
+                data: {action: "getMessageHeader", "inboxId": inboxId, "userId": userId},
+                success: function (data) {
+                    var header="";
+                    var details = JSON.parse(data);
+
+                var profilePic = "../defaultPic/default.jpg";
+                var pic = details[1];
+                if (pic != "" && pic != null) {
+                    profilePic = "../profilePics/" + details[1];
+                }
+                    header=" <div id=''> <img id='messageHeaderPic' src='"+ profilePic+"'> </div> <div id='messageHeaderName'> <p>" + details[0] +"</p> </div> </div>";
+                    document.getElementById("messageHeaderDetails").innerHTML = header;
+                    //alert(header[0] );
                 },
                 error: function () {
                     alert("Error with ajax");
@@ -503,13 +556,16 @@ and open the template in the editor.
                     var allMessages = JSON.parse(data);
                     var messages = "";
                     for (var i = allMessages.length - 1; i >= 0; i--) {
-                        if (allMessages[i][3] ==<?php echo $userId ?>) {
-                            messages = messages + "<div id='myMessage'><p>" + allMessages[i][3] + "</p></div>";
+                        if (allMessages[i][2] ==<?php echo $userId ?>) {
+                            messages = messages + "<div id='sent-msg'><div class='' id='sent-arrow'> <p id='myMsg'>" + allMessages[i][3] + "</p>  </div> </div>";
                         } else {
-                            messages = messages + "<div id='friendMessage'><p>" + allMessages[i][3] + "</p></div>";
+                            messages = messages + "<div id='received-msg'>  <div class='' id='received-arrow'>  <p id='FriendMsg'>" + allMessages[i][3] + "</p> </div></div>";
                         }
                     }
                     document.getElementById("conversationBody").innerHTML += messages
+
+                    /*convoBody.scrollTop = convoBody.scrollHeight;
+                    convoBodyHeight = convoBody.scrollHeight;*/
                 },
                 error: function () {
                     alert("Error with ajax");
@@ -519,7 +575,7 @@ and open the template in the editor.
 
     }
 
-    function getPreviousMessages() {
+    async function getPreviousMessages() {
         $(document).ready(function () {
             $.ajax({
                 url: "../Controller/index.php",
@@ -530,13 +586,20 @@ and open the template in the editor.
                     var allMessages = JSON.parse(data);
                     var messages = "";
                     for (var i = allMessages.length - 1; i >= 0; i--) {
-                        if (allMessages[i][3] ==<?php echo $userId ?>) {
-                            messages = messages + "<div id='myMessage'><p>" + allMessages[i][3] + "</p></div>";
+                        fetched = true;
+                        if (allMessages[i][2] ==<?php echo $userId ?>) {
+                            messages = messages + "<div id='sent-msg'><div class='' id='sent-arrow'> <p id='myMsg'>" + allMessages[i][3] + "</p>  </div> </div>";
                         } else {
-                            messages = messages + "<div id='friendMessage'><p>" + allMessages[i][3] + "</p></div>";
+                            messages = messages + "<div id='received-msg'>  <div class='' id='received-arrow'>  <p id='FriendMsg'>" + allMessages[i][3] + "</p> </div></div>";
                         }
                     }
+                    //var temp=document.getElementById("conversationBody").innerHTML;
                     document.getElementById("conversationBody").innerHTML = messages + document.getElementById("conversationBody").innerHTML;
+                    convoBody.scrollTop = convoBody.scrollHeight - convoBodyHeight;
+                    //alert(fetched);
+                    /*  height= convoBody.scrollHeight;
+                    document.getElementById("conversationBody").innerHTML += temp;*/
+
                 },
                 error: function () {
                     alert("Error with ajax");
@@ -558,15 +621,19 @@ and open the template in the editor.
                     var ibps = "";
 
                     for (var i = 0; i < allIbps.length; i++) {
-                        var profilePic="../defaultPic/default.jpg";
-                        var pic =allIbps[i][5];
-                        if(pic!=""){
-                            profilePic="../profilePics/"+allIbps[i][5];
+                        var profilePic = "../defaultPic/default.jpg";
+                        var pic = allIbps[i][5];
+                        if (pic != "" && pic != null) {
+                            profilePic = "../profilePics/" + allIbps[i][5];
+                        }
+                        if (allIbps[i][2] > 0) {
+                            ibps = ibps + " <div id='ibp' onclick='getMessages(" + allIbps[i][0] + ")' > <div><img id='ibpPic' src='" + profilePic + "'></div>  <div id='ibpName'><p>" + allIbps[i][4] + "</p></div><p id='lastMessage'>" + allIbps[i][3] + "</p><div id='ibpTimeSent'><p>" + allIbps[i][1] + "</p></div> <div id=''><p id='ibpUnseenMessages'>" + allIbps[i][2] + "</p></div> </div>"
+                        }
+                        else{
+                            ibps = ibps + " <div id='ibp' onclick='getMessages(" + allIbps[i][0] + ")' > <div><img id='ibpPic' src='" + profilePic + "'></div>  <div id='ibpName'><p>" + allIbps[i][4] + "</p></div><p id='lastMessage'>" + allIbps[i][3] + "</p><div id='ibpTimeSent'><p>" + allIbps[i][1] + "</p></div></div>"
                         }
                         //alert(allIbps[i][5]);
                         //console.log(allIbps[i][5]);
-
-                        ibps = ibps + " <div id='ibp' onclick='getMessages("+allIbps[i][0] +")' > <div><img id='ibpPic' src='" + profilePic + "'></div>  <div id='ibpName'><p>"+allIbps[i][4]+"</p></div><p id='lastMessage'>hey</p> <div id='ibpTimeSent'><p>"+allIbps[i][1] +"</p></div> <div id=''><p id='ibpUnseenMessages'>"+ allIbps[i][2] +"</p></div> </div>"
                     }
                     document.getElementById("ibpSection").innerHTML = ibps
                 },
@@ -600,6 +667,46 @@ and open the template in the editor.
         });
 
     }
+    function closPreviousIbp() {
+        $(document).ready(function () {
+            $.ajax({
+                url: "../Controller/index.php",
+                type: 'post',
+                data: {action: "close_Previous_Ibp"},
+                success: function (data) {
+
+
+                },
+                error: function () {
+                    alert("Error with ajax");
+                }
+            });
+        });
+
+    }
+
+    //when the user scrolls
+    convoBody.addEventListener('scroll', (event) => {
+        //set current scroll height to current scroll height
+        // convoBodyHeight = convoBody.scrollTop;
+        convoBodyHeight = convoBody.scrollHeight;
+        //alert(convoBodyHeight);
+        if (convoBody.scrollTop == 0) {
+            //alert("hey")
+            getPreviousMessages();
+            //alert(height);
+            //var height = document.getElementById("conversationBody");
+            // alert(height.scrollHeight);
+            // alert(fetched);
+            //if(fetched==true){
+            // convoBody.scrollTop=convoBodyHeight;
+            //}
+
+            // convoBodyHeight= convoBody.scrollHeight;
+            //fetched=false;
+        }
+
+    });
 
 </script>
 
