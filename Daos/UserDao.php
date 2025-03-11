@@ -24,9 +24,10 @@ class UserDao extends Dao
             $dbPass = $users['password'];
             if (password_verify($password, $dbPass)==true) {
                 DateTime :$dateOfBirth= new DateTime($users[2]);
+                $dateJoint=new DateTime($users[10]);
                 string :$longitude= $users[6].'';
                 $latitude= $users[7].'';
-                $user->user($users[0],$users['1'],$dateOfBirth,$users[3],$users[4],$users[5],$longitude,$latitude,$users[8]."", $users[9]);
+                $user->user($users[0],$users[1],$dateOfBirth,$users[3],$users[4],$users[5],$longitude,$latitude,$users[8]."", $users[9],$dateJoint);
                 return $user;
             }
             else {
@@ -57,11 +58,12 @@ class UserDao extends Dao
             if($users!=null) {
                 DateTime :
                 $dateOfBirth = new DateTime($users[2]);
+                $dateJoint=new DateTime($users[10]);
                 string :
                 $longitude = $users[6] . '';
                 $latitude = $users[7] . '';
                 $profilePic = $users[8] . '';
-                $user->user($users[0], $users['1'], $dateOfBirth, $users[3], $users[4], $users[5], $longitude, $latitude, $profilePic, $users[9]);
+                $user->user($users[0], $users[1], $dateOfBirth, $users[3], $users[4], $users[5], $longitude, $latitude, $profilePic, $users[9],$dateJoint);
             }
             else {
                 $user=null;
@@ -95,6 +97,67 @@ class UserDao extends Dao
         }
 
         return true;
+    }
+
+    public function getFirstUser():?User{
+
+        $u= new User();
+        $query = "Select * from users where userId=(Select MIN(userId) from users)";
+        $statement = $this->getConn()->prepare($query);
+        try {
+            $statement->execute();
+            $users = $statement->fetch();
+            $statement->closeCursor();
+            if($users!=null) {
+                DateTime :
+                $dateOfBirth = new DateTime($users[2]);
+                $dateJoint=new DateTime($users[10]);
+                string :
+                $longitude = $users[6] . '';
+                $latitude = $users[7] . '';
+                $profilePic = $users[8] . '';
+                $u->user($users[0], $users[1], $dateOfBirth, $users[3], $users[4], $users[5], $longitude, $latitude, $profilePic, $users[9],$dateJoint);
+            return $u;
+            }
+
+        } catch (PDOException $ex) {
+            echo "An error occurred during getFirstUser" . $ex->getMessage();
+            exit();
+        }
+        return $u;
+    }
+
+
+    public function getUsers(DateTime $dateJoint,int $count):array{
+
+        $u= new User();
+        $query = "Select * from users where dateJoint >=:dateJoint order by dateJoint ASC limit". $count;
+        $statement = $this->getConn()->prepare($query);
+        $dateJoint =$dateJoint->format('Y-m-d H:i:s');
+        $statement->bindValue(':dateJoint', $dateJoint);
+        try {
+            $statement->execute();
+            $users = $statement->fetchAll();
+            $statement->closeCursor();
+            $allUsers=[];
+            foreach($users as $user) {
+                DateTime :
+                $dateOfBirth = new DateTime($user[2]);
+                $dateJoint=new DateTime($user[10]);
+                string :
+                $longitude = $user[6] . '';
+                $latitude = $user[7] . '';
+                $profilePic = $user[8] . '';
+                $u->user($user[0], $user[1], $dateOfBirth, $user[3], $user[4], $user[5], $longitude, $latitude, $profilePic, $user[9], $dateJoint);
+                array_push($allUsers, $u);
+            }
+            return $allUsers;
+
+        } catch (PDOException $ex) {
+            echo "An error occurred during getUsers" . $ex->getMessage();
+            exit();
+        }
+        return $allUsers;
     }
 
 public  function register(string $name, DateTime $dateOfBirth, string  $email, string $password, int $userType, string $profilePic, string $searchDiff) :int {
