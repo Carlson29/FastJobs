@@ -100,7 +100,7 @@ switch ($action) {
         $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
         $check = getimagesize($_FILES["file"]["tmp_name"]);
         $date = new DateTime();
-        $date = $date->format('Y-m-d H-i-s')."." . $imageFileType;
+        $date = $date->format('Y-m-d H-i-s') . "." . $imageFileType;
         /*if($check !== false) {
             echo "File is an image - " . $check["mime"] . ".";
             $uploadOk = 1;
@@ -109,7 +109,7 @@ switch ($action) {
             $uploadOk = 0;
         }*/
 
-      // if (move_uploaded_file($_FILES["file"]["tmp_name"], $target_dir .$date)) {
+        // if (move_uploaded_file($_FILES["file"]["tmp_name"], $target_dir .$date)) {
         if ($m->uploadFile($target_dir, $_FILES, $date)) {
             //echo "The file ". htmlspecialchars( basename( $_FILES["file"]["name"])). " has been uploaded.";
             $messageDao = new MessageDao("fastjobs");
@@ -249,7 +249,7 @@ switch ($action) {
             if ($inbox->getInboxType() == 1) {
                 $otherIbp = $ibpDao->getOtherIbp($inboxParticipants[$i]->getInboxId(), $user->getId());
                 $otherUser = $userDao->getUserById($otherIbp->getUserId());
-                $lastMessage= $messageDao->getLastMessage($inboxParticipants[$i]->getInboxId());
+                $lastMessage = $messageDao->getLastMessage($inboxParticipants[$i]->getInboxId());
                 //here..........
                 $ibp[0] = $inboxParticipants[$i]->getInboxId();
                 $ibp[1] = date_format($inboxParticipants[$i]->getLastSent(), "Y-m-d H:i:s");;
@@ -326,26 +326,54 @@ switch ($action) {
         $userId = filter_input(INPUT_POST, "userId", FILTER_UNSAFE_RAW);
         $ibpDao = new InboxParticipantsDao("fastjobs");
         $userDao = new UserDao("fastjobs");
-        $otherUser= new User();
-        $details=[];
-        if($inboxId!=0) {
-            $otherIbp=$ibpDao->getOtherIbp($inboxId, $user->getId());
-            $otherUser=$userDao->getUserById($otherIbp->getUserId());
+        $otherUser = new User();
+        $details = [];
+        if ($inboxId != 0) {
+            $otherIbp = $ibpDao->getOtherIbp($inboxId, $user->getId());
+            $otherUser = $userDao->getUserById($otherIbp->getUserId());
         }
-        if($userId!=0) {
-            $otherUser= $userDao->getUserById($userId);
+        if ($userId != 0) {
+            $otherUser = $userDao->getUserById($userId);
         }
         $details[0] = $otherUser->getName();
-        $details[1] = $otherUser->getProfilePic()."";
-        $details[2] ="online";
+        $details[1] = $otherUser->getProfilePic() . "";
+        $details[2] = "online";
         $details = json_encode($details);
         echo $details;
-            break;
-        case "close_Previous_Ibp":
-            $user = unserialize($_SESSION['user']);
-            $prevId=unserialize($_SESSION['previousInbox']);
-            $ibpDao = new InboxParticipantsDao("fastjobs");
-            $ibpDao->updateIsOpen($user->getId(), $prevId,false);
-            break;
+        break;
+    case "close_Previous_Ibp":
+        $user = unserialize($_SESSION['user']);
+        $prevId = unserialize($_SESSION['previousInbox']);
+        $ibpDao = new InboxParticipantsDao("fastjobs");
+        $ibpDao->updateIsOpen($user->getId(), $prevId, false);
+        break;
+    case "get_workers":
+        $userDao = new UserDao("fastjobs");
+        $firstUser = $userDao->getFirstUser();
+        $count = 20;
+        $num = $count;
+        $distance = 0;
+        $users = $userDao->getUsers($firstUser->getDateJoint(), $count);
+        $closeUsers = [];
+        $tracker = 0;
+        while ($tracker < $num) {
+            $users = $userDao->getUsers($users[count($users) - 1]->getDateJoint(), $count);
+            if ($users == null) {
+                break;
+            }
+            //$tracker=0;
+            for ($i = 0; $i < count($users); $i++) {
+                $lat = $users[$i]->getLongitude();
+                $long = $users[$i]->getLatitude();
+                if ($distance < 30) {
+                    array_push($closeUsers, $users[$i]);
+                    $tracker++;
+                }
+
+            }
+            $count = $count - $tracker;
+        }
+
+        break;
 
 }
