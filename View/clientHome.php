@@ -66,6 +66,26 @@ include 'header.php';
             document.getElementById("mySidenav").style.width = "0";
             document.getElementById("main").style.marginLeft = "0";
         }
+
+        function getUsersByLocation() {
+            $(document).ready(function () {
+                $.ajax({
+                    url: "../Controller/index.php",
+                    type: 'post',
+                    data: {action: "get_Workers_By_Location"},
+                    success: function (data) {
+                        //alert(data);
+                        var allUsers = JSON.parse(data);
+
+                    },
+                    error: function () {
+                        alert("Error with ajax");
+                    }
+                });
+            });
+
+        }
+
         </script>
 <?php
 include 'footer.php';
