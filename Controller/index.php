@@ -347,17 +347,32 @@ switch ($action) {
         $ibpDao = new InboxParticipantsDao("fastjobs");
         $ibpDao->updateIsOpen($user->getId(), $prevId, false);
         break;
-    case "get_workers":
+    case "get_Workers_By_Location":
         $userDao = new UserDao("fastjobs");
-        $firstUser = $userDao->getFirstUser();
+        $mySelf = unserialize($_SESSION['user']);
+        $mySelf = $userDao->getUserById($mySelf->getId());
+        $myLong = (float)$mySelf->getLongitude();
+        $myLat = (float)$mySelf->getLatitude();
+        $lat1 = deg2rad($myLat);
+        $lon1 = deg2rad($myLong);
+        $earth_radius = 6371.0;
+        $dateJoint = "";
         $count = 20;
+        if (isset($_SESSION['workerDateJoint'])) {
+            if (unserialize($_SESSION['workerDateJoint']) != null) {
+                $dateJoint = unserialize($_SESSION['workerDateJoint']);
+            }
+        } else {
+            $firstUser = $userDao->getFirstUser();
+            $dateJoint = $firstUser->getDateJoint();
+            //$users = $userDao->getUsers($dateJoint, $count);
+        }
         $num = $count;
         $distance = 0;
-        $users = $userDao->getUsers($firstUser->getDateJoint(), $count);
         $closeUsers = [];
         $tracker = 0;
         while ($tracker < $num) {
-            $users = $userDao->getUsers($users[count($users) - 1]->getDateJoint(), $count);
+                $users = $userDao->getUsers($dateJoint, $count);
             if ($users == null) {
                 break;
             }
@@ -365,15 +380,87 @@ switch ($action) {
             for ($i = 0; $i < count($users); $i++) {
                 $lat = $users[$i]->getLongitude();
                 $long = $users[$i]->getLatitude();
+
+                // Convert degrees to radians
+                $lat2 = deg2rad($lat);
+                $lon2 = deg2rad($long);
+
+                // Differences in coordinates
+                $dlat = $lat2 - $lat1;
+                $dlon = $lon2 - $lon1;
+// Haversine formula
+                $a = sin($dlat / 2) * sin($dlat / 2) + cos($lat1) * cos($lat2) * sin($dlon / 2) * sin($dlon / 2);
+                $c = 2 * atan2(sqrt($a), sqrt(1 - $a));
+                $distance = $earth_radius * $c;
+
                 if ($distance < 30) {
+                    $users[$i]->setDistance($distance);
                     array_push($closeUsers, $users[$i]);
                     $tracker++;
                 }
 
             }
             $count = $count - $tracker;
+            $dateJoint=$users[count($users) - 1]->getDateJoint();
         }
+        $_SESSION['workerDateJoint'] = serialize($users[count($users) - 1]->getDateJoint());
+        $allUsers = [];
+        foreach ($closeUsers as $u) {
+            $user = [];
+            $user[0] = $u->getId();
+            $user[1] = $u->getName();
+            $user[2] = $u->getProfilePic();
+            $user[3] = $u->getDistance();
+            array_push($allUsers, $user);
+        }
+        $allUsers = json_encode($allUsers);
+        echo $allUsers;
+        break;
+    case "get_Workers":
+        $userDao = new UserDao("fastjobs");
 
+        $dateJoint = "";
+        $count = 20;
+        if (isset($_SESSION['workerDateJoint'])) {
+            if (unserialize($_SESSION['workerDateJoint']) != null) {
+                $dateJoint = unserialize($_SESSION['workerDateJoint']);
+            }
+        } else {
+            $firstUser = $userDao->getFirstUser();
+            $dateJoint = $firstUser->getDateJoint();
+            //$users = $userDao->getUsers($dateJoint, $count);
+        }
+        $num = $count;
+        $distance = 0;
+        $closeUsers = [];
+        $tracker = 0;
+        while ($tracker < $num) {
+            $users = $userDao->getUsers($dateJoint, $count);
+            if ($users == null) {
+                break;
+            }
+            //$tracker=0;
+            for ($i = 0; $i < count($users); $i++) {
+                    array_push($closeUsers, $users[$i]);
+                    $tracker++;
+
+
+            }
+            $count = $count - $tracker;
+            $dateJoint=$users[count($users) - 1]->getDateJoint();
+        }
+        $_SESSION['workerDateJoint'] = serialize($users[count($users) - 1]->getDateJoint());
+        $allUsers = [];
+        foreach ($closeUsers as $u) {
+            $user = [];
+            $user[0] = $u->getId();
+            $user[1] = $u->getName();
+            $user[2] = $u->getProfilePic();
+            $user[3] = $u->getDistance();
+            array_push($allUsers, $user);
+        }
+        $allUsers = json_encode($allUsers);
+        echo $allUsers;
         break;
 
 }
