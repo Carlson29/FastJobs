@@ -13,6 +13,7 @@ class User
     private string $profilePic;
     private string $searchDiff;
     private DateTime $dateJoint;
+    private Float $distance;
 
 
    public function __construct(){
@@ -99,7 +100,7 @@ class User
         $this->userType = $userType;
     }
 
-    public function getLongitude(): string
+    public function getLongitude(): ?string
     {
         return $this->longitude;
     }
@@ -109,7 +110,7 @@ class User
         $this->longitude = $longitude;
     }
 
-    public function getLatitude(): string
+    public function getLatitude(): ?string
     {
         return $this->latitude;
     }
@@ -147,6 +148,16 @@ class User
     public function setDateJoint(DateTime $dateJoint): void
     {
         $this->dateJoint = $dateJoint;
+    }
+
+    public function getDistance():?float
+    {
+        return $this->distance;
+    }
+
+    public function setDistance(float $distance): void
+    {
+        $this->distance = $distance;
     }
 
 
