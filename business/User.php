@@ -45,6 +45,7 @@ class User
         $this->profilePic = $profilePic;
         $this->searchDiff = $searchDiff;
         $this->dateJoint=$dateJoint;
+        $this->distance=-1;
     }
 
 
