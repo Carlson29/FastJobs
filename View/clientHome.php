@@ -38,7 +38,7 @@ include 'header.php';
     }
 
 </style>
-<body>
+<body onload="getLocation()">
 <div id="sidebar">
     <div id="mySidenav" class="sidenav">
         <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
@@ -67,6 +67,42 @@ include 'header.php';
             document.getElementById("main").style.marginLeft = "0";
         }
 
+        function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(showPosition); // showPosition is the function that will handle the location data
+
+                function showPosition(position) {
+
+                    let latitude = position.coords.latitude;
+                    let longitude = position.coords.longitude;
+                    //alert("Latitude: " + latitude +
+                        "Longitude: " + longitude);
+                    $.ajax({
+                        url: "../Controller/index.php",
+                        type: 'post',
+                        data: {action: "store_Location","latitude": latitude, "longitude": longitude},
+                        success: function (data) {
+                     getUsersByLocation();
+                        },
+                        error: function () {
+                            $("#output").html("Error with ajax");
+                        }
+                    });
+
+                }
+
+            } else {
+                alert("Geolocation is not supported by this browser.");
+            }
+
+            /*const elmnt = document.getElementById("worker");
+
+             document.getElementById("pictures").style.height = elmnt.offsetHeight - (0.68 * elmnt.offsetHeight);
+             document.getElementById("pictures").style.width = elmnt.offsetWidth;
+             document.getElementById("pictures").style.marginTop = elmnt.offsetHeight - (0.32 * elmnt.offsetHeight);
+             document.getElementById("pictures").style.marginBottom = "0px";*/
+        }
+
         function getUsersByLocation() {
             $(document).ready(function () {
                 $.ajax({
@@ -76,6 +112,7 @@ include 'header.php';
                     success: function (data) {
                         //alert(data);
                         var allUsers = JSON.parse(data);
+                        alert(allUsers);
 
                     },
                     error: function () {
