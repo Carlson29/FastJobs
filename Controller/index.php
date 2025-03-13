@@ -347,70 +347,93 @@ switch ($action) {
         $ibpDao = new InboxParticipantsDao("fastjobs");
         $ibpDao->updateIsOpen($user->getId(), $prevId, false);
         break;
+    case "store_Location":
+        $user = unserialize($_SESSION['user']);
+        $latitude = filter_input(INPUT_POST, "latitude", FILTER_UNSAFE_RAW);
+        $longitude = filter_input(INPUT_POST, "longitude", FILTER_UNSAFE_RAW);
+        $userDao = new userDao("fastjobs");
+        $userDao->updateLocation($longitude, $latitude, $user->getId());
+
+        break;
     case "get_Workers_By_Location":
         $userDao = new UserDao("fastjobs");
+        $m = new Miscellaneous();
         $mySelf = unserialize($_SESSION['user']);
         $mySelf = $userDao->getUserById($mySelf->getId());
-        $myLong = (float)$mySelf->getLongitude();
-        $myLat = (float)$mySelf->getLatitude();
-        $lat1 = deg2rad($myLat);
-        $lon1 = deg2rad($myLong);
-        $earth_radius = 6371.0;
+        $lon1 = (float)$mySelf->getLongitude();
+        $lat1 = (float)$mySelf->getLatitude();
         $dateJoint = "";
         $count = 20;
+        $firstLoop = "";
         if (isset($_SESSION['workerDateJoint'])) {
             if (unserialize($_SESSION['workerDateJoint']) != null) {
                 $dateJoint = unserialize($_SESSION['workerDateJoint']);
+                $firstLoop = false;
             }
         } else {
             $firstUser = $userDao->getFirstUser();
             $dateJoint = $firstUser->getDateJoint();
+            $firstLoop = true;
             //$users = $userDao->getUsers($dateJoint, $count);
         }
         $num = $count;
-        $distance = 0;
+        $distance = -1;
         $closeUsers = [];
+        //track the number that was added through out the while loop
         $tracker = 0;
+        $users = [];
+        $lat2 = "";
+        $lon2 = "";
+        //$up=[];
         while ($tracker < $num) {
-                $users = $userDao->getUsers($dateJoint, $count);
-            if ($users == null) {
+            $users = $userDao->getUsers($dateJoint, $count, $firstLoop);
+            $firstLoop = false;
+            if (count($users) == 0 || $users == null) {
                 break;
             }
-            //$tracker=0;
+            //keep track if a user was added
+            $add = false;
+            //track the number that was added during a particular loop
+            $added = 0;
             for ($i = 0; $i < count($users); $i++) {
-                $lat = $users[$i]->getLongitude();
-                $long = $users[$i]->getLatitude();
-
-                // Convert degrees to radians
-                $lat2 = deg2rad($lat);
-                $lon2 = deg2rad($long);
-
-                // Differences in coordinates
-                $dlat = $lat2 - $lat1;
-                $dlon = $lon2 - $lon1;
-// Haversine formula
-                $a = sin($dlat / 2) * sin($dlat / 2) + cos($lat1) * cos($lat2) * sin($dlon / 2) * sin($dlon / 2);
-                $c = 2 * atan2(sqrt($a), sqrt(1 - $a));
-                $distance = $earth_radius * $c;
-
-                if ($distance < 30) {
-                    $users[$i]->setDistance($distance);
+                if ($users[$i]->getLongitude() != null && $users[$i]->getLatitude() != null) {
+                    $lon2 = (float)$users[$i]->getLongitude();
+                    $lat2 = (float)$users[$i]->getLatitude();
+                    $distance = $m->getDistance($lon1, $lat2, $lon2, $lat2);
+                    if ($distance < 30) {
+                        $users[$i]->setDistance($distance);
+                        array_push($closeUsers, $users[$i]);
+                        $tracker++;
+                        $added++;
+                        $add = true;
+                    }
+                    /*else{
+                        array_push($closeUsers, $users[$i]);
+                        $tracker++;
+                        $add = true;
+                    }*/
+                } else {
                     array_push($closeUsers, $users[$i]);
                     $tracker++;
+                    $added++;
+                    $add = true;
                 }
+            }
+            if ($add == true) {
+                $count = $count - $added;
 
             }
-            $count = $count - $tracker;
-            $dateJoint=$users[count($users) - 1]->getDateJoint();
+            $dateJoint = $users[count($users) - 1]->getDateJoint();
+            $_SESSION['workerDateJoint'] = serialize($users[count($users) - 1]->getDateJoint());
         }
-        $_SESSION['workerDateJoint'] = serialize($users[count($users) - 1]->getDateJoint());
+
         $allUsers = [];
-        foreach ($closeUsers as $u) {
+        for ($i = 0; $i < count($closeUsers); $i++) {
             $user = [];
-            $user[0] = $u->getId();
-            $user[1] = $u->getName();
-            $user[2] = $u->getProfilePic();
-            $user[3] = $u->getDistance();
+            $user[0] = $closeUsers[$i]->getId();
+            $user[1] = $closeUsers[$i]->getName();
+            // $user[2] = $u->getProfilePic();
+            // $user[3] = $u->getDistance()."";
             array_push($allUsers, $user);
         }
         $allUsers = json_encode($allUsers);
@@ -441,13 +464,13 @@ switch ($action) {
             }
             //$tracker=0;
             for ($i = 0; $i < count($users); $i++) {
-                    array_push($closeUsers, $users[$i]);
-                    $tracker++;
+                array_push($closeUsers, $users[$i]);
+                $tracker++;
 
 
             }
             $count = $count - $tracker;
-            $dateJoint=$users[count($users) - 1]->getDateJoint();
+            $dateJoint = $users[count($users) - 1]->getDateJoint();
         }
         $_SESSION['workerDateJoint'] = serialize($users[count($users) - 1]->getDateJoint());
         $allUsers = [];
