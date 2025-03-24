@@ -265,6 +265,34 @@ class UserDao extends Dao
         return false;
     }
 
+    function searchWorkers(String $input):array
+    {
+        $query = "SELECT users.userId, users.name, users.searchDiff from users where name like :input1 and userType=2 UNION SELECT categories.categoryId, categories.categoryName, categories.searchDiff FROM categories where categories.categoryName like :input2 LIMIT 10";
+
+        $statement = $this->getConn()->prepare($query);
+        $statement->bindValue(':input1', '%'.$input.'%');
+        $statement->bindValue(':input2', '%'.$input.'%');
+        try {
+            $statement->execute();
+            $cats = $statement->fetchAll();
+            $statement->closeCursor();
+            $allCats = [];
+            foreach ($cats as $cat) {
+             $c =[];
+             $c[0]=$cat[0];
+             $c[1]=$cat[1];
+             $c[2]=$cat[2];
+             array_push($allCats, $c);
+            }
+            return $allCats;
+
+        } catch (PDOException $ex) {
+            echo "An error occurred during searchWorkers" . $ex->getMessage();
+            exit();
+        }
+        return $allCats;
+    }
+
 
 }
 
