@@ -363,7 +363,7 @@ switch ($action) {
         $lon1 = (float)$mySelf->getLongitude();
         $lat1 = (float)$mySelf->getLatitude();
         $dateJoint = "";
-        $count = 20;
+        $count = 1;
         $firstLoop = "";
         if (isset($_SESSION['workerDateJoint'])) {
             if (unserialize($_SESSION['workerDateJoint']) != null) {
@@ -386,6 +386,7 @@ switch ($action) {
         $lon2 = "";
         //$up=[];
         while ($tracker < $num) {
+            //get users
             $users = $userDao->getUsers($dateJoint, $count, $firstLoop);
             $firstLoop = false;
             if (count($users) == 0 || $users == null) {
@@ -412,7 +413,8 @@ switch ($action) {
                         $tracker++;
                         $add = true;
                     }*/
-                } else {
+                } //add those who don't have their location registered
+                else {
                     array_push($closeUsers, $users[$i]);
                     $tracker++;
                     $added++;
@@ -432,8 +434,8 @@ switch ($action) {
             $user = [];
             $user[0] = $closeUsers[$i]->getId();
             $user[1] = $closeUsers[$i]->getName();
-            // $user[2] = $u->getProfilePic();
-            // $user[3] = $u->getDistance()."";
+            $user[2] = $closeUsers[$i]->getProfilePic();
+            $user[3] = $closeUsers[$i]->getDistance() . "";
             array_push($allUsers, $user);
         }
         $allUsers = json_encode($allUsers);
@@ -478,12 +480,37 @@ switch ($action) {
             $user = [];
             $user[0] = $u->getId();
             $user[1] = $u->getName();
-            $user[2] = $u->getProfilePic();
+            $user[2] = $u->getProfilePic() . "";
             $user[3] = $u->getDistance();
             array_push($allUsers, $user);
         }
         $allUsers = json_encode($allUsers);
         echo $allUsers;
+        break;
+    case "search_Cat_Worker":
+        $search = filter_input(INPUT_POST, "searchInput", FILTER_UNSAFE_RAW);
+        $userDao = new UserDao("fastjobs");
+        $categories = $userDao->searchWorkers($search);
+        $allCategories = [];
+        foreach ($categories as $category) {
+            $cat = [];
+            if ($category[2] == "u") {
+                $user = $userDao->getUserById($category[0]);
+                $cat[0] = $user->getId();
+                $cat[1] = $user->getName();
+                $cat[2] = $category[2];
+                $cat[3] = $user->getProfilePic() . "";
+            } else if ($category[2] == "c") {
+                $cat[0] = $category[0];
+                $cat[1] = $category[1];
+                $cat[2] = $category[2];
+                $cat[3] = "";
+            }
+            array_push($allCategories, $cat);
+        }
+
+        $allCat = json_encode($allCategories);
+        echo $allCat;
         break;
 
 }
