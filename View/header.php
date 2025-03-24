@@ -18,13 +18,12 @@ and open the template in the editor.
             background-color: #4C676B;
             width: 100%;
             overflow: hidden;
-
         }
 
         #foot {
             height: 50px;
             background-color: #4C676B;
-            position: absolute;
+            position: fixed;
             bottom: 0;
             color: #3b3c36;
             width: 100%;
@@ -135,7 +134,7 @@ and open the template in the editor.
 
         #sideMenuButton {
             height: 40px;
-            float: right;
+            /*float: right;*/
         }
 
 
@@ -145,7 +144,7 @@ and open the template in the editor.
         global $pageTitle;
         echo $pageTitle; ?></title>
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
