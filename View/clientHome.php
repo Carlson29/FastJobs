@@ -149,7 +149,75 @@ include 'header.php';
             position: relative;
             margin-top: 3vh;
         }
+
+
+
+        #suggestions {
+            display: flex;
+            flex-direction: column;
+            height: 10vh;
+            /*position: relative;
+            display: inline-block;*/
+        }
+
+        .autocomplete-items {
+            position: absolute;
+            border: 1px solid #d4d4d4;
+            border-bottom: none;
+            border-top: none;
+            z-index: 99;
+            /*position the autocomplete items to be the same width as the container:*/
+            top: 100%;
+            left: 0;
+            right: 0;
+            width: 50%;
+        }
+
+        #suggestion{
+            border: 1px solid black;
+            border-top: none;
+            /*position the autocomplete items to be the same width as the container:*/
+            top: 100%;
+            width: 20vw;
+            height: 3vh;
+            z-index: 99;
+
+
+            padding: 10px;
+            cursor: pointer;
+            background-color: #fff;
+overflow: visible;
+        }
+
+        /*when hovering an item:*/
+        .autocomplete-items div:hover {
+            background-color: #e9e9e9;
+        }
+
+        #suggestPic {
+            border-radius: 50%;
+            width:3vw;
+            margin-left:2%;
+            /* margin-top:vw;*/
+            float:left;
+            height:2vw;
+        }
+        #search-suggest{
+            margin: auto;
+            width: 20%;
+            margin-top: 2vh;
+        }
+        #search{
+            width: 21vw; ;
+        }
+        #suggestionName, #suggestionCategory{
+         position: relative;
+            bottom: 2vh;
+        }
+
     </style>
+
+
     <body onload="getLocation()" id="main" >
     <div id="sidebar">
         <div id="mySidenav" class="sidenav">
@@ -161,7 +229,7 @@ include 'header.php';
                     <path d="M16 2a2 2 0 0 0-2-2H2a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h9.586a1 1 0 0 1 .707.293l2.853 2.853a.5.5 0 0 0 .854-.353V2zM3.5 3h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1 0-1zm0 2.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1 0-1zm0 2.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1 0-1z"/>
                 </svg>
                 chats </a>
-            <a href="" class="button">
+            <a href="../Controller/index.php?action=show_Profile" class="button">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                      class="bi bi-person-fill" viewBox="0 0 16 16">
                     <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3Zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/>
@@ -171,41 +239,16 @@ include 'header.php';
         </div>
 
     </div>
-
+<div id="search-suggest">
     <div id="searchBar"><input placeholder="Search" id="search">
-    <div id="suggestions"></div>
+    <div id="suggestions">  </div>
     </div>
+    </div>
+</div>
+
+
     <div id="workers">
 
-        <div id='worker' class=''>
-            <div id='workerPictureDiv' class='container-fluid'><img id='workerPicture' class='container-fluid'
-                                                                    src='../defaultPic/default.jpg' alt='workers image'
-                                                                    onclick='showProfilePic()'></div>
-            <div id='details'>
-                <div id="workername"><a class='workername'> Punch jdhhdjj jjjjjjjjjjjjjjjjjjj hnunk h mmmmbkbk
-                        hjjjjjjjjjjjj</a></div>
-                <div><a class='message' href=''>
-                        <svg xmlns='http://www.w3.org/2000/svg' id="message" class='' viewBox="0 0 16 16">
-                            <path d='M16 2a2 2 0 0 0-2-2H2a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h9.586a1 1 0 0 1 .707.293l2.853 2.853a.5.5 0 0 0 .854-.353V2zM3.5 3h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1 0-1zm0 2.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1 0-1zm0 2.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1 0-1z'/>
-                        </svg>
-                    </a></div>
-                <p id="distanceAway"> 5km away</p></div>
-        </div>
-
-        <div id='worker' class=''>
-            <div id='workerPictureDiv' class='container-fluid'><img id='workerPicture' class='container-fluid'
-                                                                    src='../defaultPic/default.jpg' alt='workers image'
-                                                                    onclick='showProfilePic()'></div>
-            <div id='details'>
-                <div id="workername"><a class='workername'> Punch jdhhdjj jjjjjjjjjjjjjjjjjjj hnunk h mmmmbkbk
-                        hjjjjjjjjjjjj</a></div>
-                <div><a class='message' href=''>
-                        <svg xmlns='http://www.w3.org/2000/svg' id="message" class='' viewBox="0 0 16 16">
-                            <path d='M16 2a2 2 0 0 0-2-2H2a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h9.586a1 1 0 0 1 .707.293l2.853 2.853a.5.5 0 0 0 .854-.353V2zM3.5 3h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1 0-1zm0 2.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1 0-1zm0 2.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1 0-1z'/>
-                        </svg>
-                    </a></div>
-            </div>
-        </div>
         <div id='worker' class=''>
             <div id='workerPictureDiv' class='container-fluid'><img id='workerPicture' class='container-fluid'
                                                                     src='../defaultPic/default.jpg' alt='workers image'
@@ -220,34 +263,13 @@ include 'header.php';
             </div>
         </div>
 
-        <div id='worker' class=''>
-            <div id='details'><a class='workername' href=''> Punch"</a>"
-                . "<a class='message' href=''>
-                    <svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor'
-                         class='bi bi-chat-right-text-fill' viewBox='0 0 16 16'>
-                        <path d='M16 2a2 2 0 0 0-2-2H2a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h9.586a1 1 0 0 1 .707.293l2.853 2.853a.5.5 0 0 0 .854-.353V2zM3.5 3h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1 0-1zm0 2.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1 0-1zm0 2.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1 0-1z'/>
-                    </svg>
-                </a></div>
-            <div id='image' class='container-fluid'><img id='pictures' class='container-fluid' src='"'
-                                                         alt='workers image' onclick='showProfilePic()'></div>
-        </div>
-        <div id='worker' class=''>
-            <div id='details'><a class='workername' href=''> Punch"</a>"
-                . "<a class='message' href=''>
-                    <svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor'
-                         class='bi bi-chat-right-text-fill' viewBox='0 0 16 16'>
-                        <path d='M16 2a2 2 0 0 0-2-2H2a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h9.586a1 1 0 0 1 .707.293l2.853 2.853a.5.5 0 0 0 .854-.353V2zM3.5 3h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1 0-1zm0 2.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1 0-1zm0 2.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1 0-1z'/>
-                    </svg>
-                </a></div>
-            <div id='image' class='container-fluid'><img id='pictures' class='container-fluid' src='"'
-                                                         alt='workers image' onclick='showProfilePic()'></div>
-        </div>
+
     </div>
 
 
     </body>
     <script>
-     //   setInterval(getUsersByLocation, 2000);
+      // setInterval(getUsersByLocation, 2000);
         function openNav() {
             document.getElementById("mySidenav").style.width = "4vw";
             document.getElementById("main").style.marginLeft = "4vw";
@@ -303,7 +325,7 @@ include 'header.php';
                     success: function (data) {
                         //alert(data);
                         var allUsers = JSON.parse(data);
-                        alert(allUsers);
+                        //alert(allUsers);
                         var workers ="";
                         for (var i = 0; i < allUsers.length; i++) {
                             var profilePic = "../defaultPic/default.jpg";
@@ -311,7 +333,7 @@ include 'header.php';
                             if (pic != "" && pic != null) {
                                 profilePic = "../profilePics/" + allUsers[i][2];
                             }
-                            workers  =  workers + "<div id='worker' class=''>  <div id ='workerPictureDiv' class ='container-fluid' > <img id ='workerPicture' class ='container-fluid' src ='"+profilePic+"' alt='workers image' onclick='showProfilePic()'></div>    <div id='details'> <div id='workername'><a class='workername'>" +allUsers[i][1] + "</a></div> <div><a class='message' href='"+ allUsers[i][1]+"'> <svg xmlns='http://www.w3.org/2000/svg' id='message' class='' viewBox='0 0 16 16'> <path d='M16 2a2 2 0 0 0-2-2H2a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h9.586a1 1 0 0 1 .707.293l2.853 2.853a.5.5 0 0 0 .854-.353V2zM3.5 3h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1 0-1zm0 2.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1 0-1zm0 2.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1 0-1z'/> </svg> </a></div>   <p id='distanceAway'> "+ allUsers[i][3] +" km away</p></div> </div>";
+                            workers  =  workers + "<div id='worker' class=''>  <div id ='workerPictureDiv' class ='container-fluid' > <img id ='workerPicture' class ='container-fluid' src ='"+profilePic+"' alt='workers image' onclick='showProfilePic()'></div>    <div id='details'> <div id='workername'><a class='workername'>" +allUsers[i][1] + "</a></div> <div><a class='message' href= '../Controller/index.php?action=show_conversations&otherUserId="+ allUsers[i][0]+"'> <svg xmlns='http://www.w3.org/2000/svg' id='message' class='' viewBox='0 0 16 16'> <path d='M16 2a2 2 0 0 0-2-2H2a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h9.586a1 1 0 0 1 .707.293l2.853 2.853a.5.5 0 0 0 .854-.353V2zM3.5 3h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1 0-1zm0 2.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1 0-1zm0 2.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1 0-1z'/> </svg> </a></div>   <p id='distanceAway'> "+ allUsers[i][3] +" km away</p></div> </div>";
 
                         }
                         document.getElementById("workers").innerHTML += workers;
@@ -337,7 +359,21 @@ include 'header.php';
                      data: {action: "search_Cat_Worker", "searchInput": searchInput},
                      success: function (data) {
                         // var allsearch = JSON.parse(data);
-                         alert(data);
+                         var data = JSON.parse(data);
+                         var suggestions= "";
+                         for(var i = 0; i < data.length; i++){
+                             if(data[i][2]=="u"){
+                                 var profilePic = "../defaultPic/default.jpg";
+                                 if(data[i][3]!="" && data[i][3]!=null){
+                                        profilePic = "../profilePics/" + data[i][3] ;
+                                 }
+                                 suggestions+= "<div id='suggestion'> <a href='../Controller/index.php?action=show_User_Profile&id=" + data[i][0] +"'> <img id='suggestPic' src='"+ profilePic+"'> <p id='suggestionName'>"+data[i][1] + "</p></div> </a>";
+                             }
+                             else if(data[i][2]=="c"){
+                                suggestions+= "<div id='suggestion' onclick='getUserByCategoryId("+data[i][0]+")'><p id='suggestionCategory'>" +data[i][1] + "</p> </div>";
+                             }
+                             document.getElementById("suggestions").innerHTML = suggestions;
+                         }
                      },
                      error: function () {
                          $("#output").html("Error with ajax");
@@ -349,6 +385,48 @@ include 'header.php';
          }
          }
      );
+     function getUserByCategoryId(categoryId) {
+         $(document).ready(function () {
+             $.ajax({
+                 url: "../Controller/index.php",
+                 type: 'post',
+                 data: {action: "get_Workers_By_Category", categoryId: categoryId},
+                 success: function (data) {
+                     //alert(data);
+                     var allUsers = JSON.parse(data);
+                     //alert(allUsers);
+                     var workers ="";
+                     document.getElementById("workers").innerHTML ="";
+                     for (var i = 0; i < allUsers.length; i++) {
+                         var profilePic = "../defaultPic/default.jpg";
+                         var pic = allUsers[i][2];
+                         if (pic != "" && pic != null) {
+                             profilePic = "../profilePics/" + allUsers[i][2];
+                         }
+                         workers  =  workers + "<div id='worker' class=''>  <div id ='workerPictureDiv' class ='container-fluid' > <img id ='workerPicture' class ='container-fluid' src ='"+profilePic+"' alt='workers image' onclick='showProfilePic()'></div>    <div id='details'> <div id='workername'><a class='workername'>" +allUsers[i][1] + "</a></div> <div><a class='message' href= '../Controller/index.php?action=show_conversations&otherUserId="+ allUsers[i][0]+"'> <svg xmlns='http://www.w3.org/2000/svg' id='message' class='' viewBox='0 0 16 16'> <path d='M16 2a2 2 0 0 0-2-2H2a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h9.586a1 1 0 0 1 .707.293l2.853 2.853a.5.5 0 0 0 .854-.353V2zM3.5 3h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1 0-1zm0 2.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1 0-1zm0 2.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1 0-1z'/> </svg> </a></div>   <p id='distanceAway'> "+ allUsers[i][3] +" km away</p></div> </div>";
+
+                     }
+                     document.getElementById("workers").innerHTML += workers;
+                 },
+                 error: function () {
+                     alert("Error with ajax");
+                 }
+             });
+         });
+     }
+      window.addEventListener('beforeunload', function(event) {
+          $.ajax({
+              url: "../Controller/index.php",
+              type: 'post',
+              data: {action: "clear_DateTime"},
+              success: function (data) {
+
+              },
+              error: function () {
+             alert("Error with ajax");
+              }
+          });
+      });
     </script>
 <?php
 include 'footer.php';
