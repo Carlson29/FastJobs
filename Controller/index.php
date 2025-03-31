@@ -190,6 +190,10 @@ switch ($action) {
         break;
     case "show_conversations":
         $pageTitle = 'Conversations';
+        $otherUserId = filter_input(INPUT_GET, "otherUserId", FILTER_UNSAFE_RAW);
+        if($otherUserId==null || $otherUserId==""){
+            $otherUserId=0;
+        }
         $user = unserialize($_SESSION['user']);
         include "../view/conversations.php";
         break;
@@ -356,6 +360,7 @@ switch ($action) {
 
         break;
     case "get_Workers_By_Location":
+        $_SESSION['workerDateJoint2']= serialize(null);
         $userDao = new UserDao("fastjobs");
         $m = new Miscellaneous();
         $mySelf = unserialize($_SESSION['user']);
@@ -363,13 +368,12 @@ switch ($action) {
         $lon1 = (float)$mySelf->getLongitude();
         $lat1 = (float)$mySelf->getLatitude();
         $dateJoint = "";
-        $count = 1;
+        $count = 20;
         $firstLoop = "";
-        if (isset($_SESSION['workerDateJoint'])) {
-            if (unserialize($_SESSION['workerDateJoint']) != null) {
+        if (isset($_SESSION['workerDateJoint']) && unserialize($_SESSION['workerDateJoint']) != null) {
                 $dateJoint = unserialize($_SESSION['workerDateJoint']);
                 $firstLoop = false;
-            }
+
         } else {
             $firstUser = $userDao->getFirstUser();
             $dateJoint = $firstUser->getDateJoint();
@@ -387,7 +391,7 @@ switch ($action) {
         //$up=[];
         while ($tracker < $num) {
             //get users
-            $users = $userDao->getUsers($dateJoint, $count, $firstLoop);
+            $users = $userDao->getUsers($dateJoint, $count, $firstLoop,$mySelf->getId());
             $firstLoop = false;
             if (count($users) == 0 || $users == null) {
                 break;
@@ -427,6 +431,88 @@ switch ($action) {
             }
             $dateJoint = $users[count($users) - 1]->getDateJoint();
             $_SESSION['workerDateJoint'] = serialize($users[count($users) - 1]->getDateJoint());
+        }
+
+        $allUsers = [];
+        for ($i = 0; $i < count($closeUsers); $i++) {
+            $user = [];
+            $user[0] = $closeUsers[$i]->getId();
+            $user[1] = $closeUsers[$i]->getName();
+            $user[2] = $closeUsers[$i]->getProfilePic();
+            $user[3] = $closeUsers[$i]->getDistance() . "";
+            array_push($allUsers, $user);
+        }
+        $allUsers = json_encode($allUsers);
+        echo $allUsers;
+        break;
+    case "get_Workers_By_Category":
+        $_SESSION['workerDateJoint']= serialize(null);
+        $catId=filter_input(INPUT_POST, "categoryId", FILTER_UNSAFE_RAW);
+        $userDao = new UserDao("fastjobs");
+        $m = new Miscellaneous();
+        $mySelf = unserialize($_SESSION['user']);
+        $mySelf = $userDao->getUserById($mySelf->getId());
+        $lon1 = (float)$mySelf->getLongitude();
+        $lat1 = (float)$mySelf->getLatitude();
+        $dateJoint = "";
+        $count = 20;
+        $firstLoop = "";
+        if (isset($_SESSION['workerDateJoint2']) && unserialize($_SESSION['workerDateJoint2']) != null) {
+                $dateJoint = unserialize($_SESSION['workerDateJoint2']);
+                $firstLoop = false;
+        } else {
+            $firstUser = $userDao->getFirstUser();
+            $dateJoint = $firstUser->getDateJoint();
+            $firstLoop = true;
+            //$users = $userDao->getUsers($dateJoint, $count);
+        }
+        $num = $count;
+        $distance = -1;
+        $closeUsers = [];
+        //track the number that was added through out the while loop
+        $tracker = 0;
+        $users = [];
+        $lat2 = "";
+        $lon2 = "";
+        //$up=[];
+        while ($tracker < $num) {
+            //get users
+            $users = $userDao->getUsersByCategory($dateJoint, $count, $firstLoop,$mySelf->getId(),$catId);
+            $firstLoop = false;
+            if (count($users) == 0 || $users == null) {
+                break;
+            }
+            //keep track if a user was added
+            $add = false;
+            //track the number that was added during a particular loop
+            $added = 0;
+            for ($i = 0; $i < count($users); $i++) {
+                if ($users[$i]->getLongitude() != null && $users[$i]->getLatitude() != null) {
+                    $lon2 = (float)$users[$i]->getLongitude();
+                    $lat2 = (float)$users[$i]->getLatitude();
+                    $distance = $m->getDistance($lon1, $lat2, $lon2, $lat2);
+                    if ($distance < 30) {
+                        $users[$i]->setDistance($distance);
+                        array_push($closeUsers, $users[$i]);
+                        $tracker++;
+                        $added++;
+                        $add = true;
+                    }
+
+                } //add those who don't have their location registered
+                else {
+                    array_push($closeUsers, $users[$i]);
+                    $tracker++;
+                    $added++;
+                    $add = true;
+                }
+            }
+            if ($add == true) {
+                $count = $count - $added;
+
+            }
+            $dateJoint = $users[count($users) - 1]->getDateJoint();
+            $_SESSION['workerDateJoint2'] = serialize($users[count($users) - 1]->getDateJoint());
         }
 
         $allUsers = [];
@@ -511,6 +597,22 @@ switch ($action) {
 
         $allCat = json_encode($allCategories);
         echo $allCat;
+        break;
+    case "show_Profile":
+        $userDao= new UserDao("fastjobs");
+        $mySelf = unserialize($_SESSION['user']);
+        $mySelf = $userDao->getUserById($mySelf->getId());
+        include "../View/profile.php";
+        break;
+    case "show_User_Profile":
+        $userId = filter_input(INPUT_GET, "id", FILTER_UNSAFE_RAW);
+        $userDao= new UserDao("fastjobs");
+        $mySelf = $userDao->getUserById($userId);
+        include "../View/profile.php";
+        break;
+    case "clear_DateTime":
+        $_SESSION['workerDateJoint']= serialize(null);
+        $_SESSION['workerDateJoint2']= serialize(null);
         break;
 
 }
