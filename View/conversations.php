@@ -257,6 +257,8 @@ and open the template in the editor.
     <title><?php
         global $pageTitle;
         global $user;
+        global $otherUserId;
+        //$otherUser=$otherUserId;
         $userId = $user->getId();
         echo $pageTitle; ?></title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -395,7 +397,8 @@ and open the template in the editor.
 </body>
 <script>
     var mainInboxId = 0;
-    var otherUserId = 0;
+    var otherUserId = <?php echo $otherUserId ?>;
+    alert(otherUserId);
     var convoBody = document.getElementById("conversationBody");
     var convoBodyHeight = 0;
     var height = 0;
@@ -657,6 +660,10 @@ and open the template in the editor.
                         getMessages(data);
                         otherUserId = 0;
                         mainInboxId = data;
+                    }
+                    else{
+                        getMessageHeader(0,otherUserId);
+                        document.getElementById("conversationBody").innerHTML ="";
                     }
 
                 },
