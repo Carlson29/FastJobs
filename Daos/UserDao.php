@@ -91,18 +91,19 @@ class UserDao extends Dao
         return $u;
     }
 
-    public function getUsers(DateTime $dateJoint, int $count, bool $firstLoop): array
+    public function getUsers(DateTime $dateJoint, int $count, bool $firstLoop, int $userId): array
     {
         $u = new User();
         $query = "";
         if ($firstLoop == true) {
-            $query = "Select * from users where dateJoint >=:dateJoint order by dateJoint ASC limit " . " " . $count;
+            $query = "Select * from users where dateJoint >=:dateJoint and userId!=:userId order by dateJoint ASC limit " . " " . $count;
         } else {
-            $query = "Select * from users where dateJoint >:dateJoint order by dateJoint ASC limit " . " " . $count;
+            $query = "Select * from users where dateJoint >:dateJoint and userId!=:userId order by dateJoint ASC limit " . " " . $count;
         }
         $statement = $this->getConn()->prepare($query);
         $dateJoint = $dateJoint->format('Y-m-d H:i:s');
         $statement->bindValue(':dateJoint', $dateJoint);
+        $statement->bindValue(':userId', $userId);
         try {
             $statement->execute();
             $users = $statement->fetchAll();
@@ -124,6 +125,46 @@ class UserDao extends Dao
 
         } catch (PDOException $ex) {
             echo "An error occurred during getUsers" . $ex->getMessage();
+            exit();
+        }
+        return $allUsers;
+    }
+
+    public function getUsersByCategory(DateTime $dateJoint, int $count, bool $firstLoop, int $userId, int $catId): array
+    {
+        $u = new User();
+        $query = "";
+        if ($firstLoop == true) {
+            $query = "Select * from users, userscategory where users.dateJoint >=:dateJoint and users.userId!=:userId and userscategory.categoryId =:catId and userscategory.userId=users.userId order by users.dateJoint ASC limit" . " " . $count;
+        } else {
+            $query = "Select * from users, userscategory where users.dateJoint >:dateJoint and users.userId!=:userId and userscategory.categoryId =:catId and userscategory.userId=users.userId order by users.dateJoint ASC limit" . " " . $count;
+        }
+        $statement = $this->getConn()->prepare($query);
+        $dateJoint = $dateJoint->format('Y-m-d H:i:s');
+        $statement->bindValue(':dateJoint', $dateJoint);
+        $statement->bindValue(':userId', $userId);
+        $statement->bindValue(':catId', $catId);
+        try {
+            $statement->execute();
+            $users = $statement->fetchAll();
+            $statement->closeCursor();
+            $allUsers = [];
+            foreach ($users as $user) {
+                DateTime :
+                $dateOfBirth = new DateTime($user[2]);
+                $dateJoint = new DateTime($user[10]);
+                string :
+                $longitude = $user[6] . '';
+                $latitude = $user[7] . '';
+                $profilePic = $user[8] . '';
+                $u = new User();
+                $u->user($user[0], $user[1], $dateOfBirth, $user[3], $user[4], $user[5], $longitude, $latitude, $profilePic, $user[9], $dateJoint);
+                array_push($allUsers, $u);
+            }
+            return $allUsers;
+
+        } catch (PDOException $ex) {
+            echo "An error occurred during getUsersByCategory" . $ex->getMessage();
             exit();
         }
         return $allUsers;
