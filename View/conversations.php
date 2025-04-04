@@ -253,6 +253,79 @@ and open the template in the editor.
 
         }
 
+        #received-media-arrow::after {
+            content: '';
+            width: 0;
+            height: 0;
+            border-left: 1vw solid transparent;
+            border-right: 1vw solid transparent;
+            border-top: 1vw solid grey;
+            position: absolute;
+            left: 0vw;
+        }
+
+        #received-msg-img{
+            align-self: start;
+            height: 54vh;
+            width: 32vw;
+            background-color: grey;
+            margin-left: 1vw;
+            margin-top:1vh;
+            border-radius: 1vw;
+        }
+        #received-img{
+            height: 50vh;
+            width: 30vw;
+            align-self: center;
+            margin-left: 1vw;
+            margin-top:1vh;
+            padding-bottom: 1vh;
+        }
+        #received-timeSent-img{
+            position: relative;
+            top:-3vh;
+            margin-left:1vw ;
+        }
+
+
+        #sent-media-arrow::after {
+            content: '';
+            position: relative;
+            width: 0;
+            height: 0;
+            border-left: 1vw solid transparent;
+            border-right: 1vw solid transparent;
+            border-top: 1vw solid grey;
+            position: absolute;
+            right: 0vw;
+            /* top: 0.5vh;
+              left: -0.6vw;*/
+        }
+
+        #sent-msg-img{
+            align-self: end;
+            height: 54vh;
+            width: 32vw;
+            background-color: grey;
+            margin-right: 1vw;
+            margin-top:1vh;
+            border-radius: 1vw;
+        }
+        #sent-img{
+            height: 50vh;
+            width: 30vw;
+            align-self: center;
+            margin-left: 1vw;
+            margin-top:1vh;
+            padding-bottom: 1vh;
+        }
+
+        #sent-timeSent-img{
+            position: relative;
+            top:-3vh;
+            margin-left:1vw ;
+        }
+
     </style>
     <title><?php
         global $pageTitle;
@@ -268,7 +341,7 @@ and open the template in the editor.
 <body onload="">
 <div id="headers">
     <div id="ibpSectionHeader">
-<button onclick="">Home</button>
+<button ><a href="../Controller/index.php?action=show_clientHome">Home</a> </button>
     </div>
     <div id="messageHeader">
         <div id="messageHeaderDetails">
@@ -381,7 +454,16 @@ and open the template in the editor.
                         hddddddddddddddddd hddddddddddddddddddddddd hhhhhhhhhhhhhhhhhhhhhhhhhhhhh</p>
                 </div>
             </div>
-
+            <div id="received-msg-img">
+                <div class="" id="received-media-arrow">  </div>
+               <img src="../defaultPic/default.jpg" id="received-img">
+               <p id="received-timeSent-img" > today</p>
+        </div>
+            <div id="sent-msg-img">
+                <div class="" id="sent-media-arrow">  </div>
+                <img src="../messageImages/20250404.jpg" id="sent-img">
+                <p id="sent-timeSent-img" > today</p>
+            </div>
         </div>
 
         <div id="conversationFooter">
@@ -398,12 +480,12 @@ and open the template in the editor.
 <script>
     var mainInboxId = 0;
     var otherUserId = <?php echo $otherUserId ?>;
-    alert(otherUserId);
+    //alert(otherUserId);
     var convoBody = document.getElementById("conversationBody");
     var convoBodyHeight = 0;
     var height = 0;
     var fetched = false;
-    setInterval(getIbps, 2000);
+   setInterval(getIbps, 2000);
     setInterval(refresh, 2000);
 
     function refresh() {
@@ -503,9 +585,20 @@ and open the template in the editor.
                     var messages = "";
                     for (var i = allMessages.length - 1; i >= 0; i--) {
                         if (allMessages[i][2] ==<?php echo $userId ?>) {
-                            messages = messages + "<div id='sent-msg'><div class='' id='sent-arrow'> <p id='myMsg'>" + allMessages[i][3] + "</p>  </div> </div>";
+                             if(allMessages[i][4]==1) {
+                                 messages = messages + "<div id='sent-msg'><div class='' id='sent-arrow'> <p id='myMsg'>" + allMessages[i][3] + "</p>  </div> </div>";
+                             }
+                             else if(allMessages[i][4]==2) {
+                             messages += "<div id='sent-msg-img'>  <div class='' id='sent-media-arrow'>  </div> <img src='../messageImages/"+ allMessages[i][3]+"' id='sent-img'>     <p id='sent-timeSent-img' >" +allMessages[i][5] +"</p>  </div>";
+                             }
+
                         } else {
-                            messages = messages + "<div id='received-msg'>  <div class='' id='received-arrow'>  <p id='FriendMsg'>" + allMessages[i][3] + "</p> </div></div>";
+                            if(allMessages[i][4]==1) {
+                                messages = messages + "<div id='received-msg'>  <div class='' id='received-arrow'>  <p id='FriendMsg'>" + allMessages[i][3] + "</p> </div></div>";
+                            }
+                            else if(allMessages[i][4]==2) {
+                                messages += "<div id='received-msg-img'>  <div class='' id='received-media-arrow'>  </div> <img src='../messageImages/"+ allMessages[i][3]+"' id='received-img'>     <p id='received-timeSent-img' >" +allMessages[i][5] +"</p>  </div>";
+                            }
                         }
                     }
                     mainInboxId = inboxId;
@@ -560,9 +653,19 @@ and open the template in the editor.
                     var messages = "";
                     for (var i = allMessages.length - 1; i >= 0; i--) {
                         if (allMessages[i][2] ==<?php echo $userId ?>) {
-                            messages = messages + "<div id='sent-msg'><div class='' id='sent-arrow'> <p id='myMsg'>" + allMessages[i][3] + "</p>  </div> </div>";
+                            if(allMessages[i][4]==1) {
+                                messages = messages + "<div id='sent-msg'><div class='' id='sent-arrow'> <p id='myMsg'>" + allMessages[i][3] + "</p>  </div> </div>";
+                            }
+                            else if(allMessages[i][4]==2) {
+                                messages += "<div id='sent-msg-img'>  <div class='' id='sent-media-arrow'>  </div> <img src='../messageImages/"+ allMessages[i][3]+"' id='sent-img'>     <p id='sent-timeSent-img' >" +allMessages[i][5] +"</p>  </div>";
+                            }
                         } else {
-                            messages = messages + "<div id='received-msg'>  <div class='' id='received-arrow'>  <p id='FriendMsg'>" + allMessages[i][3] + "</p> </div></div>";
+                            if(allMessages[i][4]==1) {
+                                messages = messages + "<div id='received-msg'>  <div class='' id='received-arrow'>  <p id='FriendMsg'>" + allMessages[i][3] + "</p> </div></div>";
+                            }
+                            else if(allMessages[i][4]==2) {
+                                messages += "<div id='received-msg-img'>  <div class='' id='received-media-arrow'>  </div> <img src='../messageImages/"+ allMessages[i][3]+"' id='received-img'>     <p id='received-timeSent-img' >" +allMessages[i][5] +"</p>  </div>";
+                            }
                         }
                     }
                     document.getElementById("conversationBody").innerHTML += messages
