@@ -1,5 +1,6 @@
 <?php
 
+require 'Destination.php';
 class User
 {
     private int $id;
@@ -13,7 +14,7 @@ class User
     private string $profilePic;
     private string $searchDiff;
     private DateTime $dateJoint;
-    private Float $distance;
+    private ? Destination $destination;
 
 
    public function __construct(){
@@ -45,7 +46,7 @@ class User
         $this->profilePic = $profilePic;
         $this->searchDiff = $searchDiff;
         $this->dateJoint=$dateJoint;
-        $this->distance=-1;
+        $this->destination=null;
     }
 
 
@@ -151,15 +152,17 @@ class User
         $this->dateJoint = $dateJoint;
     }
 
-    public function getDistance():?float
+    public function getDestination(): ?Destination
     {
-        return $this->distance;
+        return $this->destination;
     }
 
-    public function setDistance(float $distance): void
+    public function setDestination(?Destination $destination): void
     {
-        $this->distance = $distance;
+        $this->destination = $destination;
     }
+
+
 
 
 
