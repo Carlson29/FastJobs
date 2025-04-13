@@ -178,7 +178,9 @@ and open the template in the editor.
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title><?php
         global $pageTitle;
-        echo $pageTitle; ?></title>
+        global $user;
+        echo $pageTitle;
+        ?></title>
 
 
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.slim.min.js"></script>
@@ -190,16 +192,26 @@ and open the template in the editor.
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
 
     <div id="header">
-        <span style="font-size:30px;cursor:pointer" id="openSideBar" onclick="openNav()"><svg
-                    xmlns="http://www.w3.org/2000/svg" id="sideMenuButton" fill="currentColor"
-                    class="bi bi-arrow-left-square-fill" viewBox="0 0 16 16">
+        <?php
+        if($user!=null){
+            ?>
+            <span style="font-size:30px;cursor:pointer" id="openSideBar" onclick="openNav()"><svg
+                        xmlns="http://www.w3.org/2000/svg" id="sideMenuButton" fill="currentColor"
+                        class="bi bi-arrow-left-square-fill" viewBox="0 0 16 16">
             <path d="M16 14a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12zm-4.5-6.5H5.707l2.147-2.146a.5.5 0 1 0-.708-.708l-3 3a.5.5 0 0 0 0 .708l3 3a.5.5 0 0 0 .708-.708L5.707 8.5H11.5a.5.5 0 0 0 0-1z"/>
             </svg></span>
+            <?php
+        }
+
+        ?>
 
     </div>
+    <?php
+    if($user!=null){
+    ?>
     <div id="sidebar">
         <div id="mySidenav" class="sidenav">
-            <a href="" class="closebtn" onclick="closeNav()">&times;</a>
+            <a class="closebtn" onclick="closeNav()">&times;</a>
 
             <a href="../Controller/index.php?action=show_conversations" class="button">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
@@ -215,5 +227,9 @@ and open the template in the editor.
                 profile</a>
             <a href="../Controller/index.php?action=show_clientHome" class="button">Home</a>
         </div>
+    </div>
+        <?php
+        }
 
+        ?>
 
