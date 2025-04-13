@@ -1,4 +1,5 @@
 <?php
+//require "Destination.php";
 
 class Miscellaneous
 {
@@ -43,7 +44,7 @@ class Miscellaneous
         $point1=$lat1.",".$lon1;
         $point2=$lat2.",".$lon2;
         $key="AIzaSyB0nKwKyFJ6bQuyVew-RGf12E8tRM-7Eyc";
-        $url = "https://maps.googleapis.com/maps/api/distancematrix/json?origins=".$point1."&destinations=".$point2."&key=".$key;
+        $url = "https://maps.googleapis.com/maps/api/distancematrix/json?origins=".$point1."&destinations=".$point2."&units=metric&key=".$key;
             //"https://maps.googleapis.com/maps/api/distancematrix/json?origins=53.9962218,-6.377908&destinations=53.9962218,-6.377908&key=AIzaSyB0nKwKyFJ6bQuyVew-RGf12E8tRM-7Eyc";
 
             //"https://maps.googleapis.com/maps/api/distancematrix/json?origins=" . $lat1 . ", " . $lon1 . "&destinations=" . $lat2 . "," . $lon2 . "&key=AIzaSyB0nKwKyFJ6bQuyVew-RGf12E8tRM-7Eyc";
@@ -60,16 +61,38 @@ class Miscellaneous
 
         // Check if the response has 'rows' and 'elements' to extract the distance
         if (isset($data['rows'][0]['elements'][0]['distance']['text'])) {
+            $destination= new Destination();
             $distance = $data['rows'][0]['elements'][0]['distance']['text'];
-            $duration = $data['rows'][0]['elements'][0]['duration']['text'];
-            $destination=$data['destination_addresses'][0];
-            return $distance;
+            $destination->Destination($distance,null,null );
+            if(isset($data['rows'][0]['elements'][0]['duration']['text'])){
+                $duration = $data['rows'][0]['elements'][0]['duration']['text'];
+                $destination->setDuration($duration);
+            }
+            if(isset($data['destination_addresses'][0])){
+                $address=$data['destination_addresses'][0];
+                $destination->setAddress($address);
+            }
+            return $destination;
         } else {
-            return -2;
+            return null;
         }
 
+    }
 
-        return $distance;
+    public function verifyDistance(int $maxDistance, string $distance):bool
+    {
+       $distanceArray= explode(" ", $distance);
+       if($distanceArray[1]=="m"){
+          $km= $distanceArray[0]/1000;
+          if($km<=$maxDistance){
+              return true;
+          }
+       }else if($distanceArray[1]=="km"){
+           if($distanceArray[0]<=$maxDistance){
+               return true;
+           }
+       }
+       return false;
     }
 }
 
@@ -79,6 +102,8 @@ $myLong = "-6.377908";
 //$lat1 = deg2rad($myLat);
 //$lon1 = deg2rad($myLong);
 //phpinfo();
-$d = $m->googleGetDistance($myLong, $myLat, $myLong, $myLat);
-echo $d;
+//$d = $m->googleGetDistance($myLong, $myLat, $myLong, $myLat);
+//$d=$m->verifyDistance(30,"31000 m");
+//var_dump($d);
+//echo $d;
 //https://maps.googleapis.com/maps/api/distancematrix/json?origins=53.9962218,-6.377908&destinations=53.9962218,-6.377908&key=AIzaSyB0nKwKyFJ6bQuyVew-RGf12E8tRM-7Eyc
