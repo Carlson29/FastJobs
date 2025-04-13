@@ -230,7 +230,7 @@ overflow: visible;
         } */
 
         function getLocation() {
-            closeNav();
+            //closeNav();
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(showPosition); // showPosition is the function that will handle the location data
 
@@ -272,7 +272,7 @@ overflow: visible;
                     type: 'post',
                     data: {action: "get_Workers_By_Location"},
                     success: function (data) {
-                        //alert(data);
+                      //  alert(data);
                         var allUsers = JSON.parse(data);
                         //alert(allUsers);
                         var workers ="";
@@ -282,7 +282,7 @@ overflow: visible;
                             if (pic != "" && pic != null) {
                                 profilePic = "../profilePics/" + allUsers[i][2];
                             }
-                            workers  =  workers + "<div id='worker' class=''>  <div id ='workerPictureDiv' class ='container-fluid' > <img id ='workerPicture' class ='container-fluid' src ='"+profilePic+"' alt='workers image' onclick='showProfilePic()'></div>    <div id='details'> <div id='workername'><a class='workername'>" +allUsers[i][1] + "</a></div> <div><a class='message' href= '../Controller/index.php?action=show_conversations&otherUserId="+ allUsers[i][0]+"'> <svg xmlns='http://www.w3.org/2000/svg' id='message' class='' viewBox='0 0 16 16'> <path d='M16 2a2 2 0 0 0-2-2H2a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h9.586a1 1 0 0 1 .707.293l2.853 2.853a.5.5 0 0 0 .854-.353V2zM3.5 3h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1 0-1zm0 2.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1 0-1zm0 2.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1 0-1z'/> </svg> </a></div>   <p id='distanceAway'> "+ allUsers[i][3] +" km away</p></div> </div>";
+                            workers  =  workers + "<div id='worker' class=''>  <div id ='workerPictureDiv' class ='container-fluid' > <img id ='workerPicture' class ='container-fluid' src ='"+profilePic+"' alt='workers image' onclick='showProfilePic()'></div>    <div id='details'> <div id='workername'><a class='workername'>" +allUsers[i][1] + "</a></div> <div><a class='message' href= '../Controller/index.php?action=show_conversations&otherUserId="+ allUsers[i][0]+"'> <svg xmlns='http://www.w3.org/2000/svg' id='message' class='' viewBox='0 0 16 16'> <path d='M16 2a2 2 0 0 0-2-2H2a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h9.586a1 1 0 0 1 .707.293l2.853 2.853a.5.5 0 0 0 .854-.353V2zM3.5 3h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1 0-1zm0 2.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1 0-1zm0 2.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1 0-1z'/> </svg> </a></div>   <p id='distanceAway'> "+ allUsers[i][3] +" away</p></div> </div>";
 
                         }
                         document.getElementById("workers").innerHTML += workers;
@@ -375,6 +375,13 @@ overflow: visible;
              alert("Error with ajax");
               }
           });
+      });
+
+      document.addEventListener('click', function(event) {
+          let suggs= document.getElementById('suggestions');
+          if(!suggs.contains(event.target)){
+              suggs.innerHTML= "";
+          }
       });
     </script>
 <?php
