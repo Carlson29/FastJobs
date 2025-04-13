@@ -66,14 +66,24 @@ switch ($action) {
         $user = $userDao->login($email, $password);
         if ($user != null) {
             $_SESSION['user'] = serialize($user);
-            header("Location:?action=show_clientHome");
+            if($user->getUserType()==1){
+                header("Location:?action=show_clientHome");
+            } else if($user->getUserType()==2){
+                header("Location:?action=show_workerHome");
+            }
         } else {
             header("Location:?action=show_login&msg=sorry credentials do not match ");
         }
         break;
     case "show_clientHome":
         $pageTitle = 'Home Page';
+        $user = unserialize($_SESSION['user']);
         include "../view/clientHome.php";
+        break;
+    case "show_workerHome":
+        $pageTitle = 'Home Page';
+        $user = unserialize($_SESSION['user']);
+        include "../view/workerHome.php";
         break;
     case "send_Message":
         $user = unserialize($_SESSION['user']);
@@ -381,7 +391,7 @@ switch ($action) {
             //$users = $userDao->getUsers($dateJoint, $count);
         }
         $num = $count;
-        $distance = -1;
+        //$destination = new Destination();
         $closeUsers = [];
         //track the number that was added through out the while loop
         $tracker = 0;
@@ -402,11 +412,12 @@ switch ($action) {
             $added = 0;
             for ($i = 0; $i < count($users); $i++) {
                 if ($users[$i]->getLongitude() != null && $users[$i]->getLatitude() != null) {
+                   // $destination = new Destination();
                     $lon2 = (float)$users[$i]->getLongitude();
                     $lat2 = (float)$users[$i]->getLatitude();
-                    $distance = $m->getDistance($lon1, $lat2, $lon2, $lat2);
-                    if ($distance < 30) {
-                        $users[$i]->setDistance($distance);
+                    $destination = $m->googleGetDistance($lon1, $lat2, $lon2, $lat2);
+                    if ($destination!=null && $m->verifyDistance(30,$destination->getDistance())) {
+                        $users[$i]->setDestination($destination);
                         array_push($closeUsers, $users[$i]);
                         $tracker++;
                         $added++;
@@ -419,7 +430,7 @@ switch ($action) {
                     }*/
                 } //add those who don't have their location registered
                 else {
-                    array_push($closeUsers, $users[$i]);
+                   array_push($closeUsers, $users[$i]);
                     $tracker++;
                     $added++;
                     $add = true;
@@ -439,7 +450,12 @@ switch ($action) {
             $user[0] = $closeUsers[$i]->getId();
             $user[1] = $closeUsers[$i]->getName();
             $user[2] = $closeUsers[$i]->getProfilePic();
-            $user[3] = $closeUsers[$i]->getDistance() . "";
+            if($closeUsers[$i]->getDestination()==null){
+                $user[3] =" ";
+            }
+            else {
+                $user[3] = $closeUsers[$i]->getDestination()->getDistance(). "";
+            }
             array_push($allUsers, $user);
         }
         $allUsers = json_encode($allUsers);
