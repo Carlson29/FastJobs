@@ -325,6 +325,13 @@ and open the template in the editor.
             top:-3vh;
             margin-left:1vw ;
         }
+        .logo{
+            width: 2vw;
+            height: 4vh;
+            position:relative;
+            padding-left: 1vw;
+            padding-top: 1vh;
+        }
 
     </style>
     <title><?php
@@ -341,7 +348,18 @@ and open the template in the editor.
 <body onload="">
 <div id="headers">
     <div id="ibpSectionHeader">
-<button ><a href="../Controller/index.php?action=show_clientHome">Home</a> </button>
+<a
+            <?php
+            $action="";
+            if($user->getUserType() == 1){
+                $action= "show_clientHome";
+            }
+            else if($user->getUserType() == 2){
+                $action= "show_workerHome";
+            }
+            ?>
+            href="../Controller/index.php?action=<?php echo $action; ?>"
+    ><img src="../logo/home.png" alt="" class="logo" >  </a>
     </div>
     <div id="messageHeader">
         <div id="messageHeaderDetails">
