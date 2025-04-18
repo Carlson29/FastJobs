@@ -618,6 +618,7 @@ switch ($action) {
         $userDao= new UserDao("fastjobs");
         $mySelf = unserialize($_SESSION['user']);
         $mySelf = $userDao->getUserById($mySelf->getId());
+        $user=$mySelf;
         include "../View/profile.php";
         break;
     case "show_User_Profile":
@@ -629,6 +630,26 @@ switch ($action) {
     case "clear_DateTime":
         $_SESSION['workerDateJoint']= serialize(null);
         $_SESSION['workerDateJoint2']= serialize(null);
+        break;
+    case "logout":
+        session_destroy();
+        header("Location: ?action=show_login");
+        break;
+    case "get_Worker_Pictures":
+        //$files = glob('path/to/your/folder/*.*'); // You can change the pattern
+        //$files = glob('../tradesPeoplePictures/*.png');
+        $folder="../tradesPeoplePictures/";
+        $files = array_diff(scandir($folder), array('.', '..'));
+        $allFiles=[];
+        $i=0;
+        foreach ($files as $file) {
+            if (is_file($folder . DIRECTORY_SEPARATOR . $file)) {
+                $allFiles[$i] = $file;
+                $i++;
+            }
+        }
+        $allFiles= json_encode($allFiles);
+        echo $allFiles;
         break;
 
 }
