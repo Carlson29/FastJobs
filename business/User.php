@@ -1,6 +1,8 @@
 <?php
-
-require 'Destination.php';
+namespace business;
+use DateTime;
+//use business\Destination;
+//require 'Destination.php';
 class User
 {
     private int $id;
@@ -33,7 +35,7 @@ class User
      * @param string $searchDiff
      * @param string $dateJoint
      */
-    public function user(int $id, string $name, DateTime $dateOfBirth, string $email, string $password, int $userType, string $longitude, string $latitude, string $profilePic, string $searchDiff, DateTime $dateJoint)
+    public function user(int $id, string $name, \DateTime $dateOfBirth, string $email, string $password, int $userType, string $longitude, string $latitude, string $profilePic, string $searchDiff, \DateTime $dateJoint)
     {
         $this->id = $id;
         $this->name = $name;
@@ -48,7 +50,6 @@ class User
         $this->dateJoint=$dateJoint;
         $this->destination=null;
     }
-
 
     public function getId(): int
     {
@@ -160,6 +161,16 @@ class User
     public function setDestination(?Destination $destination): void
     {
         $this->destination = $destination;
+    }
+
+    public function getPassword(): string
+    {
+        return $this->password;
+    }
+
+    public function setPassword(string $password): void
+    {
+        $this->password = $password;
     }
 
 

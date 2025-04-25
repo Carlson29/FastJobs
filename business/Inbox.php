@@ -1,5 +1,5 @@
 <?php
-
+namespace business;
 class Inbox
 {
     private int $inboxId;

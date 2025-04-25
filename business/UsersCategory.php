@@ -1,5 +1,6 @@
 <?php
 
+namespace business;
 class UsersCategory
 {
     private int $categoryId;

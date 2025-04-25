@@ -1,5 +1,6 @@
 <?php
-
+namespace business;
+use DateTime;
 class Message
 {
     private int $messageId;
@@ -19,7 +20,7 @@ class Message
      * @param DateTime $timeSent
      * @param bool $deletedState
      */
-    public function message(int $messageId, int $inboxId, int $senderId, string $message, int $messageType, DateTime $timeSent, bool $deletedState)
+    public function message(int $messageId, int $inboxId, int $senderId, string $message, int $messageType, \DateTime $timeSent, bool $deletedState)
     {
         $this->messageId = $messageId;
         $this->inboxId = $inboxId;

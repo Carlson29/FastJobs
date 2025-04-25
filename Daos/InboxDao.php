@@ -1,7 +1,7 @@
 <?php
 
 namespace Daos;
-use Inbox;
+use business\Inbox;
 
 require '..\business\Inbox.php';
 class InboxDao extends Dao

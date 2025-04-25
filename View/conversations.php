@@ -640,6 +640,7 @@ and open the template in the editor.
                 data: {action: "getMessageHeader", "inboxId": inboxId, "userId": userId},
                 success: function (data) {
                     var header="";
+                    //alert(data);
                     var details = JSON.parse(data);
 
                 var profilePic = "../defaultPic/default.jpg";

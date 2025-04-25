@@ -1,9 +1,8 @@
 <?php
-
-use Cassandra\Date;
-use Daos\Dao;
-
-require 'Dao.php';
+namespace Daos;
+use business\User;
+use DateTime;
+//require 'Dao.php';
 require '..\business\User.php';
 
 class UserDao extends Dao
@@ -60,6 +59,27 @@ class UserDao extends Dao
         }
 
         return true;
+    }
+
+    public function deleteUser(int $userId): bool
+    {
+        $query = "Delete from users where userId=:userId ";
+        $statement = $this->getConn()->prepare($query);
+        $statement->bindValue(':userId', $userId);
+        try {
+            $statement->execute();
+            $statement->closeCursor();
+            if ($statement->rowCount() == 0) {
+                return false;
+            } else {
+                return true;
+            }
+        } catch (PDOException $ex) {
+            echo "An error occurred during deleteUser" . $ex->getMessage();
+            exit();
+        }
+
+        return false;
     }
 
     public function getFirstUser(): ?User
@@ -170,7 +190,7 @@ class UserDao extends Dao
         return $allUsers;
     }
 
-    public function register(string $name, DateTime $dateOfBirth, string $email, string $password, int $userType, string $profilePic, string $searchDiff): int
+    public function register(string $name, \DateTime $dateOfBirth, string $email, string $password, int $userType, string $profilePic, string $searchDiff): int
     {
 
         $password = password_hash($password, PASSWORD_BCRYPT);
@@ -295,6 +315,9 @@ class UserDao extends Dao
             if ($statement->rowCount() == 1) {
                 return true;
             }
+            else{
+                return false;
+            }
         } catch (PDOException $ex) {
             echo "An error occurred in updateLocation" . $ex->getMessage();
             exit();
@@ -337,7 +360,9 @@ class UserDao extends Dao
 
 }
 
-
+/*$userDao = new UserDao("fastjobs");
+$user=$userDao->getUserById(1);
+echo $user;*/
 //require 'Dao.php';
 /*$dao=new Dao("gossip");
 $db=$dao -> getConn();

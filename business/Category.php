@@ -1,5 +1,5 @@
 <?php
-
+namespace business;
 class Category
 {
     private int $categoryId;

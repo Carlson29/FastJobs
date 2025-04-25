@@ -3,8 +3,8 @@
 namespace Daos;
 
 
-use Message;
-
+use business\Message;
+use DateTime;
 //require 'Dao.php';
 require '..\business\Message.php';
 

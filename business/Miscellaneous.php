@@ -1,6 +1,7 @@
 <?php
-//require "Destination.php";
-
+namespace business;
+use business\Destination;
+require 'Destination.php';
 class Miscellaneous
 {
 

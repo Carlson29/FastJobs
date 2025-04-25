@@ -272,8 +272,8 @@ overflow: visible;
                     type: 'post',
                     data: {action: "get_Workers_By_Location"},
                     success: function (data) {
-                      //  alert(data);
-                        var allUsers = JSON.parse(data);
+                       //alert(data);
+                       var allUsers = JSON.parse(data);
                         //alert(allUsers);
                         var workers ="";
                         for (var i = 0; i < allUsers.length; i++) {
@@ -341,7 +341,7 @@ overflow: visible;
                  type: 'post',
                  data: {action: "get_Workers_By_Category", categoryId: categoryId},
                  success: function (data) {
-                     //alert(data);
+                    //alert(data);
                      var allUsers = JSON.parse(data);
                      //alert(allUsers);
                      var workers ="";

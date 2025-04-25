@@ -1,5 +1,6 @@
 <?php
-
+namespace business;
+use DateTime;
 class InboxParticipant
 {
  private int $userId;
@@ -16,7 +17,7 @@ class InboxParticipant
      * @param bool $isOpen
      * @param DateTime $lastSent
      */
-    public function inboxParticipant(int $userId, int $inboxId, bool $deletedState, int $unSeenMessages, bool $isOpen, DateTime $lastSent)
+    public function inboxParticipant(int $userId, int $inboxId, bool $deletedState, int $unSeenMessages, bool $isOpen, \DateTime $lastSent)
     {
         $this->userId = $userId;
         $this->inboxId = $inboxId;

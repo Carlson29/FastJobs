@@ -1,8 +1,8 @@
 <?php
 
 namespace Daos;
-use Category;
-require 'Dao.php';
+use business\Category;
+//require 'Dao.php';
 require '..\business\Category.php';
 class CategoryDao extends Dao
 {
@@ -29,8 +29,8 @@ class CategoryDao extends Dao
             //$statement->closeCursor();
             return -1;
     }
-    function getCategory(int $categoryId):?\Category{
-        $category = new \Category();
+    function getCategory(int $categoryId):?Category{
+        $category = new Category();
         $query = "Select * from categories where categoryId=:categoryId";
         $statement = $this->getConn()->prepare($query);
         $statement->bindValue(':categoryId', $categoryId);
@@ -54,7 +54,7 @@ class CategoryDao extends Dao
 
 }
 
-$dao=new CategoryDao("fastjobs");
+/*$dao=new CategoryDao("fastjobs");
 //$id=$dao->createCategory("carpenter");
 $id=$dao->getCategory(1);
-echo $id;
+echo $id;*/

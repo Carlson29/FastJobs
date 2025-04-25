@@ -193,6 +193,7 @@ and open the template in the editor.
     </style>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title><?php
+        use business\User;
         global $pageTitle;
         global $user;
         echo $pageTitle;

@@ -3,16 +3,25 @@
 use Daos\InboxDao;
 use Daos\InboxParticipantsDao;
 use Daos\MessageDao;
-
+use Daos\UserDao;
+use business\Miscellaneous;
+use Daos\Dao;
+use business\User;
 session_start();
+
+//use DateTime;
+
 //use UserDao;
 //require '..\Daos\Dao.php';
 //require '..\business\User.php';
+require '..\Daos\Dao.php';
 require '..\Daos\UserDao.php';
 require '..\Daos\MessageDao.php';
 require '..\Daos\InboxParticipantsDao.php';
 require '..\Daos\InboxDao.php';
 require '..\business\Miscellaneous.php';
+//require_once '..\business\User.php';
+//require '..\business\User.php';
 
 if (isset($_SESSION['user'])) {
     $user = $_SESSION['user'];
@@ -506,9 +515,9 @@ switch ($action) {
                 if ($users[$i]->getLongitude() != null && $users[$i]->getLatitude() != null) {
                     $lon2 = (float)$users[$i]->getLongitude();
                     $lat2 = (float)$users[$i]->getLatitude();
-                    $distance = $m->getDistance($lon1, $lat2, $lon2, $lat2);
-                    if ($distance < 30) {
-                        $users[$i]->setDistance($distance);
+                    $destination = $m->googleGetDistance($lon1, $lat2, $lon2, $lat2);
+                    if ($destination!=null && $m->verifyDistance(30,$destination->getDistance())) {
+                        $users[$i]->setDestination($destination);
                         array_push($closeUsers, $users[$i]);
                         $tracker++;
                         $added++;
@@ -537,7 +546,12 @@ switch ($action) {
             $user[0] = $closeUsers[$i]->getId();
             $user[1] = $closeUsers[$i]->getName();
             $user[2] = $closeUsers[$i]->getProfilePic();
-            $user[3] = $closeUsers[$i]->getDistance() . "";
+            if($closeUsers[$i]->getDestination()==null){
+                $user[3] =" ";
+            }
+            else {
+                $user[3] = $closeUsers[$i]->getDestination()->getDistance(). "";
+            }
             array_push($allUsers, $user);
         }
         $allUsers = json_encode($allUsers);
@@ -622,6 +636,7 @@ switch ($action) {
         include "../View/profile.php";
         break;
     case "show_User_Profile":
+        $user = unserialize($_SESSION['user']);
         $userId = filter_input(INPUT_GET, "id", FILTER_UNSAFE_RAW);
         $userDao= new UserDao("fastjobs");
         $mySelf = $userDao->getUserById($userId);

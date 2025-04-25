@@ -1,5 +1,5 @@
 <?php
-
+namespace business;
 class Destination
 {
     private string $distance;

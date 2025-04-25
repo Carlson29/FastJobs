@@ -4,7 +4,7 @@ namespace Daos;
 //use 'business\InboxParticipant.php';
 use Daos\Dao;
 use DateTime;
-use InboxParticipant;
+use business\InboxParticipant;
 
 //require 'Dao.php';
 require '..\business\InboxParticipant.php';
