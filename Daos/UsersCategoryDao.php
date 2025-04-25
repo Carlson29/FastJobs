@@ -1,7 +1,8 @@
 <?php
 
 namespace Daos;
-require 'Dao.php';
+//require 'Dao.php';
+use business\UsersCategory;
 require '..\business\UsersCategory.php';
 
 class UsersCategoryDao extends Dao
