@@ -59,4 +59,38 @@ namespace Daos;
          return $this->conn;
      }
 
+
+     public function updateIncrement( string $table, int $increment){
+         $query = "ALTER TABLE " . $table . " AUTO_INCREMENT ". $increment;
+         $statement = $this->getConn()->prepare($query);
+        // $statement->bindValue(':increment', $increment);
+         try {
+             $statement->execute();
+             $statement->closeCursor();
+         } catch (PDOException $ex) {
+             echo "An error occurred in updateIncrement" . $ex->getMessage();
+             exit();
+         }
+
+         //$statement->closeCursor();
+     }
+     public function deletedById( string $table, string $columnName, int $id):bool{
+         $query = "delete from " . $table . " where ". $columnName . "=:id";
+         $statement = $this->getConn()->prepare($query);
+         $statement->bindValue(':id', $id);
+         try {
+             $statement->execute();
+             $statement->closeCursor();
+             if ($statement->rowCount() == 1) {
+                 return true;
+             }
+         } catch (PDOException $ex) {
+             echo "An error occurred in updateIncrement" . $ex->getMessage();
+             exit();
+         }
+         return false;
+
+         //$statement->closeCursor();
+     }
+
 }
