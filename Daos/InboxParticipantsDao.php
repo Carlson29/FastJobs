@@ -50,7 +50,7 @@ class InboxParticipantsDao extends Dao
         try {
             $statement->execute();
             $statement->closeCursor();
-            if($statement->rowCount()==1){
+            if($statement->rowCount()>=1){
                 return true;
             }
             // $userId = $this->getConn()->lastInsertId();
@@ -87,11 +87,58 @@ class InboxParticipantsDao extends Dao
         }
         return $ibpsArray;
     }
-
+    public function getInboxParticipantsByInboxId(int $InboxId):array {
+        // $user = new User();
+        $query = "Select * from inboxparticipants where inboxId=:inboxId ";
+        $statement = $this->getConn()->prepare($query);
+        $statement->bindValue(':inboxId', $InboxId);
+        try {
+            $statement->execute();
+        } catch (PDOException $ex) {
+            echo "An error occurred  on getInboxParticipants" . $ex->getMessage();
+            exit();
+        }
+        $ibps = $statement->fetchAll();
+        $ibpsArray =[];
+        //array_splice($ibpsArray, 0);
+        foreach ($ibps as $ibp){
+            $Ibp= new InboxParticipant();
+            $lastSent= new DateTime($ibp[5]);
+            $Ibp->inboxParticipant($ibp[0],$ibp[1],$ibp[2],$ibp[3],$ibp[4],$lastSent);
+            //$ibpsArray =$Ibp;
+            array_push($ibpsArray, $Ibp);
+        }
+        return $ibpsArray;
+    }
 
     public function getOtherIbp(int $inboxId, int $userId):?InboxParticipant {
         $Ibp= new InboxParticipant();
         $query = "Select * from inboxparticipants where inboxId=:inboxId and userId!=:userId";
+        $statement = $this->getConn()->prepare($query);
+        $statement->bindValue(':inboxId', $inboxId);
+        $statement->bindValue(':userId', $userId);
+        try {
+            $statement->execute();
+            $ibp = $statement->fetch();
+            $statement->closeCursor();
+            if($ibp!=null){
+                $lastSent= new DateTime($ibp[5]);
+
+                $Ibp->inboxParticipant($ibp[0],$ibp[1],$ibp[2],$ibp[3],$ibp[4],$lastSent);
+            }
+            else{
+                $Ibp=null;
+            }
+        } catch (PDOException $ex) {
+            echo "An error occurred  on getOtherIbp" . $ex->getMessage();
+            exit();
+        }
+
+        return $Ibp;
+    }
+    public function getIbp(int $inboxId, int $userId):?InboxParticipant {
+        $Ibp= new InboxParticipant();
+        $query = "Select * from inboxparticipants where inboxId=:inboxId and userId=:userId";
         $statement = $this->getConn()->prepare($query);
         $statement->bindValue(':inboxId', $inboxId);
         $statement->bindValue(':userId', $userId);
@@ -160,6 +207,29 @@ class InboxParticipantsDao extends Dao
             // $userId = $this->getConn()->lastInsertId();
         } catch (PDOException $ex) {
             echo "An error occurred in updateIsOpen" . $ex->getMessage();
+            return false;
+            exit();
+        }
+
+        //$statement->closeCursor();
+        return false;
+    }
+
+    public function deleteIbp(int $userId,int $inboxId):bool
+    {
+        $query = "Delete from inboxparticipants where userId=:userId and inboxId=:inboxId";
+        $statement = $this->getConn()->prepare($query);
+        $statement->bindValue(':userId', $userId);
+        $statement->bindValue(':inboxId', $inboxId);
+        try {
+            $statement->execute();
+            $statement->closeCursor();
+            if($statement->rowCount()==1){
+                return true;
+            }
+            // $userId = $this->getConn()->lastInsertId();
+        } catch (PDOException $ex) {
+            echo "An error occurred in deleteIbp" . $ex->getMessage();
             return false;
             exit();
         }
