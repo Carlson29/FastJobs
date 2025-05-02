@@ -42,9 +42,10 @@ class UsersCategoryDao extends Dao
             exit();
         }
         $ucs = $statement->fetchAll();
+        $statement->closeCursor();
         $userCats =[];
         foreach ($ucs as $uc){
-            $cat= new \UsersCategory();
+            $cat= new UsersCategory();
             $cat->usersCategory($uc[0],$uc[1]);
 
             array_push($userCats, $cat);
@@ -52,6 +53,28 @@ class UsersCategoryDao extends Dao
         return $userCats;
     }
 
+    public function deleteUserCategory(int $userId,int $catId):bool
+    {
+        $query = "Delete from userscategory where userId=:userId and categoryId=:catId";
+        $statement = $this->getConn()->prepare($query);
+        $statement->bindValue(':userId', $userId);
+        $statement->bindValue(':catId', $catId);
+        try {
+            $statement->execute();
+            $statement->closeCursor();
+            if($statement->rowCount()==1){
+                return true;
+            }
+            // $userId = $this->getConn()->lastInsertId();
+        } catch (PDOException $ex) {
+            echo "An error occurred in deleteUserCategory" . $ex->getMessage();
+            return false;
+            exit();
+        }
+
+        //$statement->closeCursor();
+        return false;
+    }
 }
 //$dao=new UsersCategoryDao("fastjobs");
 //$id=$dao->createUserCategory(1,1);

@@ -116,9 +116,9 @@ class UserDao extends Dao
         $u = new User();
         $query = "";
         if ($firstLoop == true) {
-            $query = "Select * from users where dateJoint >=:dateJoint and userId!=:userId order by dateJoint ASC limit " . " " . $count;
+            $query = "Select * from users where dateJoint >=:dateJoint and userId!=:userId and userType=2 order by dateJoint ASC limit " . " " . $count;
         } else {
-            $query = "Select * from users where dateJoint >:dateJoint and userId!=:userId order by dateJoint ASC limit " . " " . $count;
+            $query = "Select * from users where dateJoint >:dateJoint and userId!=:userId and userType=2 order by dateJoint ASC limit " . " " . $count;
         }
         $statement = $this->getConn()->prepare($query);
         $dateJoint = $dateJoint->format('Y-m-d H:i:s');
@@ -155,9 +155,9 @@ class UserDao extends Dao
         $u = new User();
         $query = "";
         if ($firstLoop == true) {
-            $query = "Select * from users, userscategory where users.dateJoint >=:dateJoint and users.userId!=:userId and userscategory.categoryId =:catId and userscategory.userId=users.userId order by users.dateJoint ASC limit" . " " . $count;
+            $query = "Select * from users, userscategory where users.dateJoint >=:dateJoint and users.userId!=:userId and users.userType=2 and userscategory.categoryId =:catId and userscategory.userId=users.userId order by users.dateJoint ASC limit" . " " . $count;
         } else {
-            $query = "Select * from users, userscategory where users.dateJoint >:dateJoint and users.userId!=:userId and userscategory.categoryId =:catId and userscategory.userId=users.userId order by users.dateJoint ASC limit" . " " . $count;
+            $query = "Select * from users, userscategory where users.dateJoint >:dateJoint and users.userId!=:userId and users.userType=2 and userscategory.categoryId =:catId and userscategory.userId=users.userId order by users.dateJoint ASC limit" . " " . $count;
         }
         $statement = $this->getConn()->prepare($query);
         $dateJoint = $dateJoint->format('Y-m-d H:i:s');

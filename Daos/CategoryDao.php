@@ -2,7 +2,7 @@
 
 namespace Daos;
 use business\Category;
-//require 'Dao.php';
+
 require '..\business\Category.php';
 class CategoryDao extends Dao
 {

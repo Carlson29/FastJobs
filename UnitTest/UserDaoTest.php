@@ -88,8 +88,8 @@ class UserDaoTest extends TestCase
     }
     public function testGetUsers(){
         $dateJoint1=new DateTime("2025-02-15 15:03:02");
-        $actualUsers=$this->dao->getUsers($dateJoint1,2,true,20);
-        $expectedUsers=[$this->user1,$this->user2];
+        $actualUsers=$this->dao->getUsers($dateJoint1,1,true,20);
+        $expectedUsers=[$this->user2];
         $expectedUsers = array_map(fn($user) => $user->getId(), $expectedUsers);
         $actualUsers = array_map(fn($user) => $user->getId(), $actualUsers);
         $this->assertEquals($actualUsers, $expectedUsers);
