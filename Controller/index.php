@@ -53,14 +53,15 @@ switch ($action) {
             if (isset($_POST['worker'])) {
                 $dateOfBirth = new DateTime($dateOfBirth);
                 $id = $userDao->register($userName, $dateOfBirth, $email, $password, 2, "", "u");
+                header("Location:?action=show_login&msg=Registered");
                 // echo "helloo" . $id;
             } else if (isset($_POST['user'])) {
                 $dateOfBirth = new DateTime($dateOfBirth);
                 $id = $userDao->register($userName, $dateOfBirth, $email, $password, 1, "", "u");
-                header("Location:?action=show_clientHome");
+                header("Location:?action=show_login&msg=Registered");
             }
         } else {
-            echo "in use";
+            header("Location:?action=show_login&msg=Email in use");
         }
         break;
     case "show_login":
