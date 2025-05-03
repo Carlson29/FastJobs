@@ -13,11 +13,14 @@ and open the template in the editor.
         }
 
         #header {
-            height: 50px;
+            height: 10vh;
             /*#3b3c36*/
             background-color: #4C676B;
             width: 100%;
             overflow: hidden;
+            display: flex;
+            position: relative;
+            flex-direction: row;
         }
 
         #foot {
@@ -110,12 +113,12 @@ and open the template in the editor.
 
         button {
             border-radius: 40px;
-            background-color: #6A6A6A;
+            background-color: wheat;
         }
 
         #loginPage,
         #signUpPage {
-            background-image: linear-gradient(#6A6A6A, #4C676B, #3b3c36);
+           /* background-image: linear-gradient(#6A6A6A, #4C676B, #3b3c36);*/
             height: 100%;
             overflow: hidden;
             /*Radial Gradients ,Conic Gradients*/
@@ -188,7 +191,18 @@ and open the template in the editor.
             margin-top: -0.5vh;
             margin-left: 0.5vh;
         }
-
+        #mainLogoSection{
+           /* text-align: center;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;*/
+        }
+#mainLogo{
+    margin-left: 45vw;
+    height: 8.5vh;
+    width: 7vw;
+}
 
     </style>
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -222,6 +236,10 @@ and open the template in the editor.
 
         ?>
 
+        <div id="mainLogoSection">
+            <img src="../logo/main2.png" alt="" id="mainLogo">
+        </div>
+
     </div>
     <?php
     if($user!=null && $user->getUserType()==1){
@@ -244,6 +262,11 @@ and open the template in the editor.
                 <a href="../Controller/index.php?action=show_clientHome" class="button">
                     <img src="../logo/home.png" alt="" class="logo" >
                     <p id="logoName"> Home</p>
+                </a></div>
+            <div id="logoSection">
+                <a href="../Controller/index.php?action=logout" class="button">
+                    <img src="../logo/logout.png" alt="" class="logo" >
+                    <p id="logoName"> Logout</p>
                 </a></div>
         </div>
     </div>

@@ -59,7 +59,7 @@ padding-top: 2.5vh;*/
     }
 
 </style>
-<body >
+<body onload="getLocation()" >
 <div id="decorations">
    <div id="decorationImageSection">
        <img id="decorationImage" src="" >
@@ -100,6 +100,36 @@ let pictures =[];
 var index = 1;
 
 setInterval(changePicture,5000);
+
+function getLocation() {
+    //closeNav();
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition); // showPosition is the function that will handle the location data
+
+        function showPosition(position) {
+
+            let latitude = position.coords.latitude;
+            let longitude = position.coords.longitude;
+            //alert("Latitude: " + latitude + "Longitude: " + longitude);
+            $.ajax({
+                url: "../Controller/index.php",
+                type: 'post',
+                data: {action: "store_Location", "latitude": latitude, "longitude": longitude},
+                success: function (data) {
+
+                },
+                error: function () {
+                    $("#output").html("Error with ajax");
+                }
+            });
+
+        }
+
+    } else {
+        alert("Geolocation is not supported by this browser.");
+    }
+
+}
 
 function changePicture(){
     document.getElementById("decorationImage").src = "../tradesPeoplePictures/"+pictures[index];

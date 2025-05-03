@@ -18,6 +18,11 @@
            color: #3b3c36;
            width: 99vw;
        }
+       #mainLogo{
+           margin-left: 45vw;
+           height: 8vh;
+           width: 7vw;
+       }
 
    </style>
 
@@ -33,6 +38,9 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
 
     <div id="header">
+        <div id="mainLogoSection">
+            <img src="../logo/main2.png" alt="" id="mainLogo">
+        </div>
     </div>
 
 </head>
