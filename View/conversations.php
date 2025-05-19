@@ -58,13 +58,13 @@ and open the template in the editor.
         }
 
         #conversationBody {
-            position: relative;
+            position: fixed;
             width: 63.5vw;
             height: 83vh;
             background-color: whitesmoke;
             display: flex;
             flex-direction: column;
-            left: 1vw;
+            right: 1vw;
             overflow-y: auto;
         }
 
@@ -364,10 +364,10 @@ and open the template in the editor.
     <div id="messageHeader">
         <div id="messageHeaderDetails">
         <div id="">
-            <img id="messageHeaderPic" src="../defaultPic/default.jpg">
+
         </div>
         <div id="messageHeaderName">
-            <p> Craic </p>
+
         </div>
         </div>
     </div>
@@ -375,113 +375,11 @@ and open the template in the editor.
 
 <div id="conversationContents">
     <div id="ibpSection">
-        <div id="ibp">
-            <div><img id="ibpPic" src="../defaultPic/default.jpg"></div>
-            <div id="ibpName"><p>Craic</p></div>
-            <p id="lastMessage">heyyyyyyyyyyyyyyyyyyyyyyyy yyyyyyy
-                yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy</p>
-            <div id="ibpTimeSent"><p>19:56</p></div>
-            <div id=""><p id="ibpUnseenMessages">1</p></div>
-        </div>
-        <div id="ibp">
-            <div><img id="ibpPic" src="../defaultPic/default.jpg"></div>
-            <div id="ibpName"><p>Craic</p></div>
-            <p id="lastMessage">hey</p>
-            <div id="ibpTimeSent"><p>19:56</p></div>
-            <div id=""><p id="ibpUnseenMessages">1</p></div>
-        </div>
-        <div id="ibp">
-            <div><img id="ibpPic" src="../defaultPic/default.jpg"></div>
-            <div id="ibpName"><p>Craic</p></div>
-            <p id="lastMessage">heyyyyyyyyyyyyyyyyyyyyyyyy yyyyyyy
-                yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy</p>
-            <div id="ibpTimeSent"><p>19:56</p></div>
-            <div id=""><p id="ibpUnseenMessages">1</p></div>
-        </div>
-        <div id="ibp">
-            <div><img id="ibpPic" src="../defaultPic/default.jpg"></div>
-            <div id="ibpName"><p>Craic</p></div>
-            <p id="lastMessage">heyyyyyyyyyyyyyyyyyyyyyyyy yyyyyyy
-                yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy</p>
-            <div id="ibpTimeSent"><p>19:56</p></div>
-            <div id=""><p id="ibpUnseenMessages">1</p></div>
-        </div>
-        <div id="ibp">
-            <div><img id="ibpPic" src="../defaultPic/default.jpg"></div>
-            <div id="ibpName"><p>Craic</p></div>
-            <p id="lastMessage">heyyyyyyyyyyyyyyyyyyyyyyyy yyyyyyy
-                yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy</p>
-            <div id="ibpTimeSent"><p>19:56</p></div>
-            <div id=""><p id="ibpUnseenMessages">1</p></div>
-        </div>
-        <div id="ibp">
-            <div><img id="ibpPic" src="../defaultPic/default.jpg"></div>
-            <div id="ibpName"><p>Craic</p></div>
-            <p id="lastMessage">heyyyyyyyyyyyyyyyyyyyyyyyy yyyyyyy
-                yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy</p>
-            <div id="ibpTimeSent"><p>19:56</p></div>
-            <div id=""><p id="ibpUnseenMessages">1</p></div>
-        </div>
-        <div id="ibp">
-            <div><img id="ibpPic" src="../defaultPic/default.jpg"></div>
-            <div id="ibpName"><p>Craic</p></div>
-            <p id="lastMessage">heyyyyyyyyyyyyyyyyyyyyyyyy yyyyyyy
-                yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy</p>
-            <div id="ibpTimeSent"><p>19:56</p></div>
-            <div id=""><p id="ibpUnseenMessages">1</p></div>
-        </div>
+
     </div>
     <div id="conversationBox">
         <div id="conversationBody">
-            <div id="sent-msg">
-                <div class="" id="sent-arrow">
-                    <p id="myMsg">hellojdjdndndndndnndndn </p>
-                </div>
-            </div>
-            <div id="received-msg">
-                <div class="" id="received-arrow">
-                    <p id="FriendMsg">hi carl</p>
-                </div>
-            </div>
-            <div id="sent-msg">
-                <div class="" id="sent-arrow">
-                    <p id="myMsg">hellojdjdndndndndnndndn jjsjskksnmddkdldlllllllllllllllllllllllllllllllllllm
-                        dmmdmdddhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh</p>
-                </div>
-            </div>
-            <div id="sent-msg">
-                <div class="" id="sent-arrow">
-                    <p id="myMsg">hellojdjdndndndndnndndn hjhhh jjsjskksnmddkdldlllllllllllllllllllllllllllllllllllm
-                        dmmdmdddhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh</p>
-                </div>
-            </div>
-            <div id="received-msg">
-                <div class="" id="received-arrow">
-                    <p id="FriendMsg">hi carl</p>
-                </div>
-            </div>
-            <div id="sent-msg">
-                <div class="" id="sent-arrow">
-                    <p id="myMsg">hellojdjdndndndndnndndn</p>
-                </div>
-            </div>
-            <div id="received-msg">
-                <div class="" id="received-arrow">
-                    <p id="FriendMsg">hi carl nnnnnnnnnnnnnnnnnnndjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj
-                        dnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnj hdhhhhhhhhhhhhhhhhhhhhhh
-                        hddddddddddddddddd hddddddddddddddddddddddd hhhhhhhhhhhhhhhhhhhhhhhhhhhhh</p>
-                </div>
-            </div>
-            <div id="received-msg-img">
-                <div class="" id="received-media-arrow">  </div>
-               <img src="../defaultPic/default.jpg" id="received-img">
-               <p id="received-timeSent-img" > today</p>
-        </div>
-            <div id="sent-msg-img">
-                <div class="" id="sent-media-arrow">  </div>
-                <img src="../messageImages/20250404.jpg" id="sent-img">
-                <p id="sent-timeSent-img" > today</p>
-            </div>
+
         </div>
 
         <div id="conversationFooter">
@@ -542,7 +440,7 @@ and open the template in the editor.
                         type: 'post',
                         data: {action: "send_First_Message", "userId": otherUserId, "message": msg},
                         success: function (data) {
-                            alert(data);
+                          //  alert(data);
                             if (data != 0) {
                                 getMessages(data)
                                 otherUserId = 0;
@@ -760,7 +658,9 @@ and open the template in the editor.
                         //alert(allIbps[i][5]);
                         //console.log(allIbps[i][5]);
                     }
-                    document.getElementById("ibpSection").innerHTML = ibps
+                    if(allIbps.length > 0){
+                        document.getElementById("ibpSection").innerHTML = ibps;
+                    }
                 },
                 error: function () {
                     alert("Error with ajax");
