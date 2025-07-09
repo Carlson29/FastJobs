@@ -2,6 +2,7 @@
 
 namespace Daos;
 use business\Inbox;
+use PDOException;
 
 require '..\business\Inbox.php';
 class InboxDao extends Dao

@@ -2,6 +2,7 @@
 namespace Daos;
 use business\User;
 use DateTime;
+use PDOException;
 //require 'Dao.php';
 require '..\business\User.php';
 

@@ -1,6 +1,7 @@
 <?php
 
 namespace Daos;
+use PDOException;
 use business\Category;
 
 require '..\business\Category.php';

@@ -5,6 +5,7 @@ namespace Daos;
 
 use business\Message;
 use DateTime;
+use PDOException;
 //require 'Dao.php';
 require '..\business\Message.php';
 

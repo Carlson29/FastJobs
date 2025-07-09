@@ -3,6 +3,7 @@
 namespace Daos;
 //require 'Dao.php';
 use business\UsersCategory;
+use PDOException;
 require '..\business\UsersCategory.php';
 
 class UsersCategoryDao extends Dao
