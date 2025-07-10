@@ -1,74 +1,4 @@
-<!DOCTYPE html>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
-<html>
-<head>
-    <title><?php
-        global $pageTitle;
-        global $user;
-        global $otherUserId;
-        //$otherUser=$otherUserId;
-        $userId = $user->getId();
-        echo $pageTitle; ?>
-    </title>
-    <link rel="stylesheet" href="../css/conversations.css">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-</head>
-
-
-<body onload="">
-<div id="headers">
-    <div id="ibpSectionHeader">
-<a
-            <?php
-            $action="";
-            if($user->getUserType() == 1){
-                $action= "show_clientHome";
-            }
-            else if($user->getUserType() == 2){
-                $action= "show_workerHome";
-            }
-            ?>
-            href="../Controller/index.php?action=<?php echo $action; ?>"
-    ><img src="../logo/home.png" alt="" class="logo" >  </a>
-    </div>
-    <div id="messageHeader">
-        <div id="messageHeaderDetails">
-        <div id="">
-
-        </div>
-        <div id="messageHeaderName">
-
-        </div>
-        </div>
-    </div>
-</div>
-
-<div id="conversationContents">
-    <div id="ibpSection">
-
-    </div>
-    <div id="conversationBox">
-        <div id="conversationBody">
-
-        </div>
-
-        <div id="conversationFooter">
-            <div id="inputSection">
-                <input type="file" id="messageFile">
-                <input type="text" id="messageEntered">
-                <button onclick="sendMessage()"> send message</button>
-            </div>
-        </div>
-
-    </div>
-</div>
-</body>
-<script>
-    var mainInboxId = 0;
+var mainInboxId = 0;
     var otherUserId = <?php echo $otherUserId ?>;
     //alert(otherUserId);
     var convoBody = document.getElementById("conversationBody");
@@ -410,11 +340,3 @@ and open the template in the editor.
         }
 
     });
-
-</script>
-
-</html>
-
-
-
-

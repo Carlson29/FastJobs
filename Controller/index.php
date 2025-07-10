@@ -22,7 +22,7 @@ require '..\business\Miscellaneous.php';
 //require '..\business\User.php';
 session_start();
 
-$user = null;
+$user;
 if (isset($_SESSION['user'])) {
     try {
         $user = unserialize($_SESSION['user']);
