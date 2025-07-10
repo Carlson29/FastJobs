@@ -43,8 +43,6 @@
   </div>
 
   <script>
-    // Your existing JavaScript remains the same
-    // Only the HTML/CSS structure has been cleaned up
     function getLocation() {
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(showPosition);
