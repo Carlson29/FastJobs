@@ -1,172 +1,98 @@
-<?php
-include 'workerHeader.php';
-?>
-<style>
-    body{
-        display: flex;
-        flex-direction: column;
-    }
-    #decorations{
-        height: 57vh;
-        width: 99vw;
-    }
-    #mainComponents{
-       background-color: wheat;
-        height: 25vh;
-        width: 76vw;
-        position: absolute;
-        bottom:8vh;
-        display: flex;
-        flex-direction: row;
-        padding-left: 23vw;
-    }
-    body{
-        background-color: whitesmoke;
-    }
-    .logo{
-        width: 10vw;
-        height:15vh;
-    }
-    #logoSection{
-        position: relative;
-        top: 3vh;
-        margin-right: 2vw;
-        margin-left: 2vw;
-    }
-    #logoName{
-        position: relative;
-        top: -2.5vh;
-        margin-left: 3vw;
-    }
-    #decorationImage{
+<?php include 'workerHeader.php'; ?>
 
-        /*  width: 100%;
-          height: 54vh;
-          display: block;
-          object-fit: cover;  or contain depending on what you want */
-        height: 54vh;
-        width: 90vw;
-       position: relative;
-     /* padding-left: 4.5vw;
-padding-top: 2.5vh;*/
-    }
-    #decorationImageSection{
-        height: 54vh;
-        width: 90vw;
-        position: relative;
-        padding-left: 4.5vw;
-        padding-top: 2.5vh;
-    }
-
-</style>
-<body onload="getLocation()" >
 <div id="decorations">
    <div id="decorationImageSection">
-       <img id="decorationImage" src="" >
+       <img id="decorationImage" src="" alt="Worker Portfolio">
    </div>
 </div>
-<div id="mainComponents" >
 
-    <div id="logoSection">
-        <a href="../Controller/index.php?action=show_Profile">
-<img src="../logo/profile.png" class="logo" id="profileImage">
-        <p id="logoName"> Profile</p>
+<div id="mainComponents">
+    <div class="logoSection">
+        <a href="../Controller/index.php?action=show_Profile" class="nav-link" aria-label="Profile">
+            <img src="../logo/profile.png" class="logo" id="profileImage" alt="Profile Icon">
+            <p class="logoName">Profile</p>
         </a>
     </div>
 
-    <div id="logoSection">
-        <a href="../Controller/index.php?action=show_conversations">
-        <img src="../logo/chat.png" class="logo" id="chatImage">
-        <p id="logoName"> chats</p>
+    <div class="logoSection">
+        <a href="../Controller/index.php?action=show_conversations" class="nav-link" aria-label="Chats">
+            <img src="../logo/chat.png" class="logo" id="chatImage" alt="Chat Icon">
+            <p class="logoName">Chats</p>
         </a>
     </div>
-    <div id="logoSection">
-        <img src="../logo/feed.png" class="logo" id="feedImage">
-        <p id="logoName">Jobs feed </p>
+
+    <div class="logoSection">
+        <a href="#" class="nav-link" aria-label="Jobs Feed"> <!-- Update href when implemented -->
+            <img src="../logo/feed.png" class="logo" id="feedImage" alt="Jobs Feed Icon">
+            <p class="logoName">Jobs Feed</p>
+        </a>
     </div>
-    <div id="logoSection">
-        <a href="../Controller/index.php?action=logout">
-        <img src="../logo/logout.png" class="logo" id="logoutImage">
-        <p id="logoName"> Logout</p>
+
+    <div class="logoSection">
+        <a href="../Controller/index.php?action=logout" class="nav-link" aria-label="Logout">
+            <img src="../logo/logout.png" class="logo" id="logoutImage" alt="Logout Icon">
+            <p class="logoName">Logout</p>
         </a>
     </div>
 </div>
 
-</body>
-
 <script>
-let pictures =[];
-//start from 1 to make sure the slide show continues
+// JavaScript remains the same, but could be moved to external file
+let pictures = [];
 var index = 1;
 
-setInterval(changePicture,5000);
+setInterval(changePicture, 5000);
 
 function getLocation() {
-    //closeNav();
     if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(showPosition); // showPosition is the function that will handle the location data
+        navigator.geolocation.getCurrentPosition(showPosition);
 
         function showPosition(position) {
-
             let latitude = position.coords.latitude;
             let longitude = position.coords.longitude;
-            //alert("Latitude: " + latitude + "Longitude: " + longitude);
+            
             $.ajax({
                 url: "../Controller/index.php",
                 type: 'post',
                 data: {action: "store_Location", "latitude": latitude, "longitude": longitude},
-                success: function (data) {
-
-                },
-                error: function () {
-                    $("#output").html("Error with ajax");
+                error: function() {
+                    console.error("Error with location AJAX");
                 }
             });
-
         }
-
     } else {
-        alert("Geolocation is not supported by this browser.");
+        console.warn("Geolocation is not supported by this browser.");
     }
-
 }
 
-function changePicture(){
-    document.getElementById("decorationImage").src = "../tradesPeoplePictures/"+pictures[index];
-    if(index >=pictures.length-1){
-        index = 0;
+function changePicture() {
+    if (pictures.length > 0) {
+        document.getElementById("decorationImage").src = "../tradesPeoplePictures/"+pictures[index];
+        index = (index >= pictures.length-1) ? 0 : index + 1;
     }
-    else{
-        index++;
-    }
-
 }
 
-   function getPictures(){
-    $(document).ready(function () {
-        $.ajax({
-            url: "../Controller/index.php",
-            type: 'post',
-            data: {action: "get_Worker_Pictures"},
-            success: function (data) {
-               pictures= JSON.parse(data);
-               document.getElementById("decorationImage").src = "../tradesPeoplePictures/"+ pictures[0];
-
-            },
-            error: function () {
-                alert("Error with ajax");
+function getPictures() {
+    $.ajax({
+        url: "../Controller/index.php",
+        type: 'post',
+        data: {action: "get_Worker_Pictures"},
+        success: function(data) {
+            pictures = JSON.parse(data);
+            if (pictures.length > 0) {
+                document.getElementById("decorationImage").src = "../tradesPeoplePictures/"+ pictures[0];
             }
-        });
+        },
+        error: function() {
+            console.error("Error loading pictures");
+        }
     });
 }
 
-    window.addEventListener('load',function(){
-            getPictures();
-        }
-    );
+window.addEventListener('load', function() {
+    getPictures();
+    getLocation();
+});
 </script>
 
-<?php
-include 'workerFooter.php';
-?>
-
+<?php include 'workerFooter.php'; ?>

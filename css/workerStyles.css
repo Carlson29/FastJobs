@@ -1,0 +1,181 @@
+/* workerStyles.css */
+:root {
+  --primary-color: #4C676B;
+  --secondary-color: #3b3c36;
+  --accent-color: wheat;
+  --background-color: whitesmoke;
+}
+
+/* Base Layout */
+body {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--background-color);
+  margin: 0;
+  min-height: 100vh;
+}
+
+/* Header Styles */
+#header {
+  height: 8vh;
+  background-color: var(--primary-color);
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#mainLogo {
+  height: 8vh;
+  width: 7vw;
+}
+
+/* Main Content Styles */
+#decorations {
+  height: 57vh;
+  width: 100vw;
+}
+
+#decorationImageSection {
+  height: 54vh;
+  width: 90vw;
+  margin: 2.5vh auto 0;
+}
+
+#decorationImage {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+
+/* Navigation Components */
+#mainComponents {
+  background-color: var(--accent-color);
+  height: 25vh;
+  width: 100vw;
+  position: fixed;
+  bottom: 8vh; /* Matches footer height */
+  left: 0;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 0;
+  z-index: 10;
+  box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
+}
+
+#decorations {
+  height: calc(100vh - 8vh - 25vh - 8vh);
+  width: 100vw;
+  overflow-y: auto;
+  padding-bottom: 25vh; 
+}
+
+.logoSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 2vw;
+  flex: 1;
+  max-width: 25%;
+}
+
+/* logo prettify */
+.logoSection a {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  color: var(--secondary-color);
+  transition: all 0.3s ease;
+  padding: 10px;
+  border-radius: 10px;
+  width: 100%;
+}
+
+/* Logo Image Styles */
+.logoSection img {
+  transition: transform 0.3s ease;
+  margin-bottom: 8px;
+}
+
+/* Logo Text Styles */
+.logoName {
+  font-size: 1rem;
+  font-weight: 500;
+  margin-top: 5px;
+  color: var(--secondary-color);
+  transition: color 0.3s ease;
+}
+
+/* Hover Effects */
+.logoSection:hover a {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.logoSection:hover img {
+  transform: scale(1.1);
+}
+
+.logoSection:hover .logoName {
+  color: var(--primary-color);
+  font-weight: 600;
+}
+
+/* Active State */
+.logoSection a:active {
+  transform: scale(0.95);
+}
+
+/* Focus Accessibility */
+.logoSection a:focus {
+  outline: 2px solid var(--primary-color);
+  outline-offset: 3px;
+}
+
+.logo {
+  width: 6vw;
+  height: 15vh;
+  object-fit: contain;
+}
+
+.logoName {
+  margin-top: -2.5vh;
+  text-align: center;
+  color: var(--secondary-color);
+}
+
+/* Footer Styles */
+#foot {
+  height: 8vh;
+  background-color: var(--primary-color);
+  position: fixed;
+  bottom: 0;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--secondary-color);
+  z-index: 20;
+}
+
+@media (max-width: 768px) {
+  .logoSection {
+    padding: 0 1vw;
+  }
+  
+  .logoName {
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .logo {
+    width: 12vw;
+    height: 8vh;
+  }
+  
+  .logoName {
+    font-size: 0.75rem;
+  }
+}

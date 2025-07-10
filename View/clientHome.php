@@ -215,6 +215,33 @@ overflow: visible;
 
     </div>
 
+    <div id="mainComponents">
+        <div class="logoSection">
+            <a href="../Controller/index.php?action=show_Profile">
+                <img src="../logo/profile.png" class="logo" id="profileImage" alt="Profile">
+                <p class="logoName">Profile</p>
+            </a>
+        </div>
+
+        <div class="logoSection">
+            <a href="../Controller/index.php?action=show_conversations">
+                <img src="../logo/chat.png" class="logo" id="chatImage" alt="Chats">
+                <p class="logoName">Chats</p>
+            </a>
+        </div>
+
+        <div class="logoSection">
+            <img src="../logo/feed.png" class="logo" id="feedImage" alt="Jobs Feed">
+            <p class="logoName">Jobs Feed</p>
+        </div>
+
+        <div class="logoSection">
+            <a href="../Controller/index.php?action=logout">
+                <img src="../logo/logout.png" class="logo" id="logoutImage" alt="Logout">
+                <p class="logoName">Logout</p>
+            </a>
+        </div>
+    </div>
 
     </body>
     <script>
