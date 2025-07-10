@@ -7,8 +7,6 @@ use Daos\UserDao;
 use business\Miscellaneous;
 use Daos\Dao;
 use business\User;
-session_start();
-
 //use DateTime;
 
 //use UserDao;
@@ -22,11 +20,20 @@ require '..\Daos\InboxDao.php';
 require '..\business\Miscellaneous.php';
 //require_once '..\business\User.php';
 //require '..\business\User.php';
+session_start();
 
+$user = null;
 if (isset($_SESSION['user'])) {
-    $user = $_SESSION['user'];
-} else {
-    $user = "";
+    try {
+        $user = unserialize($_SESSION['user']);
+        if (!($user instanceof User)) {
+            $user = null;
+            unset($_SESSION['user']);
+        }
+    } catch (Exception $e) {
+        $user = null;
+        unset($_SESSION['user']);
+    }
 }
 
 $action = filter_input(INPUT_POST, 'action');
@@ -53,15 +60,15 @@ switch ($action) {
             if (isset($_POST['worker'])) {
                 $dateOfBirth = new DateTime($dateOfBirth);
                 $id = $userDao->register($userName, $dateOfBirth, $email, $password, 2, "", "u");
-                header("Location:?action=show_login&msg=Registered");
+                header("Location:../controller/index.php?action=show_login&msg=Registered");
                 // echo "helloo" . $id;
             } else if (isset($_POST['user'])) {
                 $dateOfBirth = new DateTime($dateOfBirth);
                 $id = $userDao->register($userName, $dateOfBirth, $email, $password, 1, "", "u");
-                header("Location:?action=show_login&msg=Registered");
+                header("Location:../controller/index.php?action=show_login&msg=Registered");
             }
         } else {
-            header("Location:?action=show_login&msg=Email in use");
+            header("Location:../controller/index.php?action=show_login&msg=Email in use");
         }
         break;
     case "show_login":
@@ -77,12 +84,12 @@ switch ($action) {
         if ($user != null) {
             $_SESSION['user'] = serialize($user);
             if($user->getUserType()==1){
-                header("Location:?action=show_clientHome");
+                header("Location:../controller/index.php?action=show_clientHome");
             } else if($user->getUserType()==2){
-                header("Location:?action=show_workerHome");
+                header("Location:../controller/index.php?action=show_workerHome");
             }
         } else {
-            header("Location:?action=show_login&msg=sorry credentials do not match ");
+            header("Location:../controller/index.php?action=show_login&msg=sorry credentials do not match ");
         }
         break;
     case "show_clientHome":
@@ -649,7 +656,7 @@ switch ($action) {
         break;
     case "logout":
         session_destroy();
-        header("Location: ?action=show_login");
+        header("Location:../controller/index.php?action=show_login");
         break;
     case "get_Worker_Pictures":
         //$files = glob('path/to/your/folder/*.*'); // You can change the pattern

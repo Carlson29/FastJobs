@@ -35,7 +35,7 @@ class User
      * @param string $searchDiff
      * @param string $dateJoint
      */
-    public function user(int $id, string $name, \DateTime $dateOfBirth, string $email, string $password, int $userType, string $longitude, string $latitude, string $profilePic, string $searchDiff, \DateTime $dateJoint)
+    public function user(int $id, string $name, \DateTime $dateOfBirth, string $email, string $password, int $userType, string $longitude, string $latitude, string $profilePic, string $searchDiff, DateTime $dateJoint)
     {
         $this->id = $id;
         $this->name = $name;
@@ -47,7 +47,7 @@ class User
         $this->latitude = $latitude;
         $this->profilePic = $profilePic;
         $this->searchDiff = $searchDiff;
-        $this->dateJoint=$dateJoint;
+        $this->dateJoint = $dateJoint;
         $this->destination=null;
     }
 
