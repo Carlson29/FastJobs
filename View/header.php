@@ -7,6 +7,7 @@
     echo htmlspecialchars($pageTitle); ?>
     </title>
     <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/clientStyles.css">
     <!-- Favicon would go here -->
 </head>
 <body>

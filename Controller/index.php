@@ -433,7 +433,7 @@ switch ($action) {
                     $lon2 = (float)$users[$i]->getLongitude();
                     $lat2 = (float)$users[$i]->getLatitude();
                     $destination = $m->googleGetDistance($lon1, $lat2, $lon2, $lat2);
-                    if ($destination!=null && $m->verifyDistance(30,$destination->getDistance())) {
+                    if ($destination!=null && $m->verifyDistance(100000000000000000,$destination->getDistance())) {
                         $users[$i]->setDestination($destination);
                         array_push($closeUsers, $users[$i]);
                         $tracker++;
