@@ -136,7 +136,77 @@ body {
   bottom: 8px;
 }
 
-/* EXACT COPY of worker home navigation */
+#workers-container {
+    flex: 1;
+    overflow-y: auto;
+    padding: 15px;
+    margin-bottom: 25vh; /* Space for menu */
+    padding-bottom: 10vh; /* Space for footer */
+}
+
+#workers {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 15px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Worker Card Styles */
+.worker-card {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    overflow: hidden;
+    transition: transform 0.2s ease;
+}
+
+.worker-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 10px rgba(0,0,0,0.15);
+}
+
+.worker-picture {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.worker-details {
+    padding: 12px;
+    position: relative;
+}
+
+.worker-name {
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: var(--secondary-color);
+}
+
+.distance-away {
+    color: #666;
+    font-size: 0.9em;
+    margin: 5px 0 0;
+}
+
+.message-link {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: var(--primary-color);
+    padding: 5px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.message-icon {
+    width: 20px;
+    height: 20px;
+    fill: white;
+}
+
 #mainComponents {
   background-color: var(--accent-color);
   height: 25vh;
@@ -182,7 +252,7 @@ body {
 .logoName {
   font-size: 1rem;
   font-weight: 500;
-  margin-top: 5px;
+  margin-top: 10px;
   color: var(--secondary-color);
   transition: color 0.3s ease;
 }

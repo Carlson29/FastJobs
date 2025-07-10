@@ -31,11 +31,6 @@ body {
 }
 
 /* Main Content Styles */
-#decorations {
-  height: 57vh;
-  width: 100vw;
-}
-
 #decorationImageSection {
   height: 54vh;
   width: 90vw;
@@ -103,7 +98,7 @@ body {
 .logoName {
   font-size: 1rem;
   font-weight: 500;
-  margin-top: 5px;
+  margin-top: 10px;
   color: var(--secondary-color);
   transition: color 0.3s ease;
 }
