@@ -140,7 +140,7 @@ body {
     flex: 1;
     overflow-y: auto;
     padding: 15px;
-    margin-bottom: 25vh; /* Space for menu */
+    margin-bottom: 30vh; /* Space for menu */
     padding-bottom: 10vh; /* Space for footer */
 }
 

@@ -12,6 +12,7 @@
     <!-- Main Content Area (scrollable) -->
     <div id="workers-container">
         <div id="workers">
+            <!-- javascript here -->
             <?php for ($i = 0; $i < 24; $i++) { ?>
                 <div class="worker-card">
                     <img src="../defaultPic/default.jpg" class="worker-picture" alt="Worker">
