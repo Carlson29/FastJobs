@@ -650,6 +650,9 @@ switch ($action) {
         $_SESSION['workerDateJoint2']= serialize(null);
         break;
     case "logout":
+        $user = unserialize($_SESSION['user']);
+        $userDao= new UserDao("fastjobs");
+        $userDao->updateLogOutTime($user->getId());
         session_destroy();
         header("Location: ?action=show_login");
         break;
