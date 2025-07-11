@@ -56,7 +56,7 @@ include 'header.php';
            overflow: hidden;
            text-overflow: ellipsis;*/
 
-            max-height: 20vw
+            max-height: 20vw;
             max-height: 3vh;
             display: -webkit-box; /* For multi-line truncation */
             -webkit-line-clamp: 3; /* Limit the text to 2 lines */

@@ -3,6 +3,7 @@
 namespace Daos;
 
  use PDO;
+ use PDOException;
 
  class Dao
 {

@@ -5,6 +5,7 @@ namespace Daos;
 use Daos\Dao;
 use DateTime;
 use business\InboxParticipant;
+use PDOException;
 
 //require 'Dao.php';
 require '..\business\InboxParticipant.php';

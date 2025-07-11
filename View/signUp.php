@@ -36,7 +36,7 @@
     <button hidden id="signUp" >Sign Up</button>
 </form>
     <button id="" name="" onclick=""><a href="../Controller/index.php?action=show_login">Login</a></button>
-<button id="validateButton" name="" onclick="vakidateDetails()">Sign Up</button>
+<button id="validateButton" name="" onclick="validateDetails()">Sign Up</button>
 </div>
 </div>
 </body>
@@ -44,7 +44,7 @@
 
 
 
-    function vakidateDetails() {
+    function validateDetails() {
         document.getElementById('errorMessage').innerHTML="";
        const submit= document.getElementById('signUp')
         var userName = document.getElementById('userName').value.trim();
