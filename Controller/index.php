@@ -436,6 +436,7 @@ switch ($action) {
                     /*else{
                         array_push($closeUsers, $users[$i]);
                         $tracker++;
+                        $added++;
                         $add = true;
                     }*/
                 } //add those who don't have their location registered
