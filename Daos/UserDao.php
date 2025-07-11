@@ -357,8 +357,31 @@ class UserDao extends Dao
         }
         return $allCats;
     }
+    public function updateLogOutTime( int $id): bool
+    {
+        $query = "UPDATE users SET lastLogOut = CURRENT_TIMESTAMP WHERE userId = :id;";
+        $statement = $this->getConn()->prepare($query);
+        $statement->bindValue(':id', $id);
+        try {
+            $statement->execute();
+            //$userId = $this->getConn()->lastInsertId();
+            $statement->closeCursor();
+            if ($statement->rowCount() == 1) {
+                return true;
+            }
+            else{
+                return false;
+            }
+        } catch (PDOException $ex) {
+            echo "An error occurred in updateLogOutTime" . $ex->getMessage();
+            exit();
+        }
+
+        //$statement->closeCursor();
 
 
+        return false;
+    }
 }
 
 /*$userDao = new UserDao("fastjobs");
