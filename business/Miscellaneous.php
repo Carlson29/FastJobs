@@ -97,14 +97,14 @@ class Miscellaneous
     }
 }
 
-$m = new Miscellaneous();
+//$m = new Miscellaneous();
 $myLat = "53.9962218";
 $myLong = "-6.377908";
 //$lat1 = deg2rad($myLat);
 //$lon1 = deg2rad($myLong);
 //phpinfo();
 //$d = $m->googleGetDistance($myLong, $myLat, $myLong, $myLat);
-//$d=$m->verifyDistance(30,"31000 m");
+//$d=$m->verifyDistance(30,$d->getDistance());
 //var_dump($d);
 //echo $d;
 //https://maps.googleapis.com/maps/api/distancematrix/json?origins=53.9962218,-6.377908&destinations=53.9962218,-6.377908&key=AIzaSyB0nKwKyFJ6bQuyVew-RGf12E8tRM-7Eyc

@@ -433,12 +433,12 @@ switch ($action) {
                         $added++;
                         $add = true;
                     }
-                    /*else{
+                    else{
                         array_push($closeUsers, $users[$i]);
                         $tracker++;
                         $added++;
                         $add = true;
-                    }*/
+                    }
                 } //add those who don't have their location registered
                 else {
                    array_push($closeUsers, $users[$i]);
@@ -473,6 +473,7 @@ switch ($action) {
         echo $allUsers;
         break;
     case "get_Workers_By_Category":
+        $user = unserialize($_SESSION['user']);
         $_SESSION['workerDateJoint']= serialize(null);
         $catId=filter_input(INPUT_POST, "categoryId", FILTER_UNSAFE_RAW);
         $userDao = new UserDao("fastjobs");
