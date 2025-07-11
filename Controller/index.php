@@ -40,9 +40,9 @@ $action = filter_input(INPUT_POST, 'action');
 if ($action == NULL) {
     $action = filter_input(INPUT_GET, 'action');
 }
-if ($action == NULL && $user != NULL) {
+if ($action == NULL && !isset($user)) {
     $action = 'show_signup';
-} elseif ($action == NULL && $user == NULL) {
+} elseif ($action == NULL && isset($user)) {
     $action = 'show_signup';
 }
 switch ($action) {

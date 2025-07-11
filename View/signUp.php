@@ -38,8 +38,8 @@
               <label for="user">NO</label>
             </div>
             <div class="checkbox-option">
-              <input type="checkbox" name="worker" id="worker" value="2">
-              <label for="worker">YES</label>
+              <input type="checkbox" name="worker" id="worker1" value="2">
+              <label for="worker1">YES</label>
             </div>
           </div>
         </div>
@@ -63,7 +63,7 @@ function validateDetails() {
   const email = document.getElementById('email').value.trim();
   const password = document.getElementById('password').value;
   const dateOfBirth = document.getElementById('dateOfBirth').value;
-  const worker = document.getElementById('worker').checked;
+  const worker1 = document.getElementById('worker1').checked;
   const user = document.getElementById('user').checked;
   
   if (!dateOfBirth) {
@@ -83,7 +83,7 @@ function validateDetails() {
     document.getElementById('errorMessage').innerHTML = "Please enter email";
   } else if (year < 18) {
     document.getElementById('errorMessage').innerHTML = "Sorry you must be 18yrs or over";
-  } else if (!worker && !user) {
+  } else if (!worker1 && !user) {
     document.getElementById('errorMessage').innerHTML = "Please choose user Type";
   } else {
     submit.click();
