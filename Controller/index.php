@@ -433,7 +433,7 @@ switch ($action) {
                     $lon2 = (float)$users[$i]->getLongitude();
                     $lat2 = (float)$users[$i]->getLatitude();
                     $destination = $m->googleGetDistance($lon1, $lat2, $lon2, $lat2);
-                    if ($destination!=null && $m->verifyDistance(100000000000000000,$destination->getDistance())) {
+                    if ($destination!=null && $m->verifyDistance(1000000,$destination->getDistance())) {
                         $users[$i]->setDestination($destination);
                         array_push($closeUsers, $users[$i]);
                         $tracker++;
@@ -584,7 +584,7 @@ switch ($action) {
         $closeUsers = [];
         $tracker = 0;
         while ($tracker < $num) {
-            $users = $userDao->getUsers($dateJoint, $count);
+            $users = $userDao->getUsers($dateJoint, $count, $firstLoop, $mySelf->getId());
             if ($users == null) {
                 break;
             }
