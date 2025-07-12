@@ -13,7 +13,7 @@
     <div id="workers-container">
         <div id="workers">
             <!-- javascript here -->
-            <?php for ($i = 0; $i < 24; $i++) { ?>
+            <!-- <?php for ($i = 0; $i < 24; $i++) { ?>
                 <div class="worker-card">
                     <img src="../defaultPic/default.jpg" class="worker-picture" alt="Worker">
                     <div class="worker-details">
@@ -26,7 +26,7 @@
                         <p class="distance-away">122km away</p>
                     </div>
                 </div>
-            <?php } ?>
+            <?php } ?> -->
         </div>
     </div>
 
@@ -106,18 +106,19 @@
                         var profilePic = user[2] ? "../profilePics/" + user[2] : "../defaultPic/default.jpg";
 
                         workersHTML += `
-              <div class="worker-card">
-                <img src="${profilePic}" class="worker-picture" alt="${user[1]}">
-                <div class="worker-details">
-                  <div class="worker-name">${user[1]}</div>
-                  <a href="../Controller/index.php?action=show_conversations&otherUserId=${user[0]}" class="message-link">
-                    <svg class="message-icon" viewBox="0 0 16 16">
-                      <path d="M16 2a2 2 0 0 0-2-2H2a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h9.586a1 1 0 0 1 .707.293l2.853 2.853a.5.5 0 0 0 .854-.353V2zM3.5 3h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1 0-1zm0 2.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1 0-1zm0 2.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1 0-1z"/>
-                    </svg>
-                  </a>
-                  <p class="distance-away">${user[3]} away</p>
-                </div>
-              </div>`;
+                        <div class="worker-card">
+                            <img src="${profilePic}" class="worker-picture" alt="${user[1]}">
+                            <div class="worker-details">
+                                <div class="worker-name">${user[1]}</div>
+                                <a href="../Controller/index.php?action=show_conversations&otherUserId=${user[0]}" class="message-link">
+                                    <svg class="message-icon" viewBox="0 0 16 16">
+                                        <path d="M16 2a2 2 0 0 0-2-2H2a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h9.586a1 1 0 0 1 .707.293l2.853 2.853a.5.5 0 0 0 .854-.353V2zM3.5 3h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1 0-1zm0 2.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1 0-1zm0 2.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1 0-1z" />
+                                    </svg>
+                                </a>
+                                <p class="distance-away">${user[3]} away</p>
+                            </div>
+                        </div>
+                        `;
                     });
 
                     document.getElementById("workers").innerHTML = workersHTML;
