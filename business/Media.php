@@ -1,21 +1,24 @@
 <?php
+namespace business;
+use DateTime;
 
 class Media
 {
     private int $postId;
     private string $media;
     private int $type;
-
+    private DateTime $dateTime;
     /**
      * @param int $postId
      * @param string $media
      * @param int $type
      */
-    public function media(int $postId, string $media, int $type)
+    public function media(int $postId, string $media, int $type, DateTime $dateTime)
     {
         $this->postId = $postId;
         $this->media = $media;
         $this->type = $type;
+        $this->dateTime = $dateTime;
     }
 
     public function __construct()
@@ -53,6 +56,17 @@ class Media
     {
         $this->type = $type;
     }
+
+    public function getDateTime(): DateTime
+    {
+        return $this->dateTime;
+    }
+
+    public function setDateTime(DateTime $dateTime): void
+    {
+        $this->dateTime = $dateTime;
+    }
+
 
 
 }
