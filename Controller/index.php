@@ -2,11 +2,14 @@
 
 use Daos\InboxDao;
 use Daos\InboxParticipantsDao;
+use Daos\MediaDao;
 use Daos\MessageDao;
+use Daos\PostDao;
 use Daos\UserDao;
 use business\Miscellaneous;
 use Daos\Dao;
 use business\User;
+
 session_start();
 
 //use DateTime;
@@ -20,6 +23,8 @@ require '..\Daos\MessageDao.php';
 require '..\Daos\InboxParticipantsDao.php';
 require '..\Daos\InboxDao.php';
 require '..\business\Miscellaneous.php';
+require '..\Daos\PostDao.php';
+require '..\Daos\MediaDao.php';
 //require_once '..\business\User.php';
 //require '..\business\User.php';
 
@@ -76,9 +81,9 @@ switch ($action) {
         $user = $userDao->login($email, $password);
         if ($user != null) {
             $_SESSION['user'] = serialize($user);
-            if($user->getUserType()==1){
+            if ($user->getUserType() == 1) {
                 header("Location:?action=show_clientHome");
-            } else if($user->getUserType()==2){
+            } else if ($user->getUserType() == 2) {
                 header("Location:?action=show_workerHome");
             }
         } else {
@@ -211,8 +216,8 @@ switch ($action) {
     case "show_conversations":
         $pageTitle = 'Conversations';
         $otherUserId = filter_input(INPUT_GET, "otherUserId", FILTER_UNSAFE_RAW);
-        if($otherUserId==null || $otherUserId==""){
-            $otherUserId=0;
+        if ($otherUserId == null || $otherUserId == "") {
+            $otherUserId = 0;
         }
         $user = unserialize($_SESSION['user']);
         include "../view/conversations.php";
@@ -380,7 +385,7 @@ switch ($action) {
 
         break;
     case "get_Workers_By_Location":
-        $_SESSION['workerDateJoint2']= serialize(null);
+        $_SESSION['workerDateJoint2'] = serialize(null);
         $userDao = new UserDao("fastjobs");
         $m = new Miscellaneous();
         $mySelf = unserialize($_SESSION['user']);
@@ -391,8 +396,8 @@ switch ($action) {
         $count = 20;
         $firstLoop = "";
         if (isset($_SESSION['workerDateJoint']) && unserialize($_SESSION['workerDateJoint']) != null) {
-                $dateJoint = unserialize($_SESSION['workerDateJoint']);
-                $firstLoop = false;
+            $dateJoint = unserialize($_SESSION['workerDateJoint']);
+            $firstLoop = false;
 
         } else {
             $firstUser = $userDao->getFirstUser();
@@ -411,7 +416,7 @@ switch ($action) {
         //$up=[];
         while ($tracker < $num) {
             //get users
-            $users = $userDao->getUsers($dateJoint, $count, $firstLoop,$mySelf->getId());
+            $users = $userDao->getUsers($dateJoint, $count, $firstLoop, $mySelf->getId());
             $firstLoop = false;
             if (count($users) == 0 || $users == null) {
                 break;
@@ -422,18 +427,17 @@ switch ($action) {
             $added = 0;
             for ($i = 0; $i < count($users); $i++) {
                 if ($users[$i]->getLongitude() != null && $users[$i]->getLatitude() != null) {
-                   // $destination = new Destination();
+                    // $destination = new Destination();
                     $lon2 = (float)$users[$i]->getLongitude();
                     $lat2 = (float)$users[$i]->getLatitude();
-                    $destination = $m->googleGetDistance($lon1, $lat2, $lon2, $lat2);
-                    if ($destination!=null && $m->verifyDistance(30,$destination->getDistance())) {
+                    $destination = $m->googleGetDistance($lon1, $lat1, $lon2, $lat2);
+                    if ($destination != null && $m->verifyDistance(30, $destination->getDistance())) {
                         $users[$i]->setDestination($destination);
                         array_push($closeUsers, $users[$i]);
                         $tracker++;
                         $added++;
                         $add = true;
-                    }
-                    else{
+                    } else {
                         array_push($closeUsers, $users[$i]);
                         $tracker++;
                         $added++;
@@ -441,7 +445,7 @@ switch ($action) {
                     }
                 } //add those who don't have their location registered
                 else {
-                   array_push($closeUsers, $users[$i]);
+                    array_push($closeUsers, $users[$i]);
                     $tracker++;
                     $added++;
                     $add = true;
@@ -461,21 +465,21 @@ switch ($action) {
             $user[0] = $closeUsers[$i]->getId();
             $user[1] = $closeUsers[$i]->getName();
             $user[2] = $closeUsers[$i]->getProfilePic();
-            if($closeUsers[$i]->getDestination()==null){
-                $user[3] =" ";
-            }
-            else {
-                $user[3] = $closeUsers[$i]->getDestination()->getDistance(). "";
+            if ($closeUsers[$i]->getDestination() == null) {
+                $user[3] = " ";
+            } else {
+                $user[3] = $closeUsers[$i]->getDestination()->getDistance() . "";
             }
             array_push($allUsers, $user);
         }
         $allUsers = json_encode($allUsers);
         echo $allUsers;
+        //echo $lon1 ." ++ ". $lat1 ;
         break;
     case "get_Workers_By_Category":
         $user = unserialize($_SESSION['user']);
-        $_SESSION['workerDateJoint']= serialize(null);
-        $catId=filter_input(INPUT_POST, "categoryId", FILTER_UNSAFE_RAW);
+        $_SESSION['workerDateJoint'] = serialize(null);
+        $catId = filter_input(INPUT_POST, "categoryId", FILTER_UNSAFE_RAW);
         $userDao = new UserDao("fastjobs");
         $m = new Miscellaneous();
         $mySelf = unserialize($_SESSION['user']);
@@ -486,8 +490,8 @@ switch ($action) {
         $count = 20;
         $firstLoop = "";
         if (isset($_SESSION['workerDateJoint2']) && unserialize($_SESSION['workerDateJoint2']) != null) {
-                $dateJoint = unserialize($_SESSION['workerDateJoint2']);
-                $firstLoop = false;
+            $dateJoint = unserialize($_SESSION['workerDateJoint2']);
+            $firstLoop = false;
         } else {
             $firstUser = $userDao->getFirstUser();
             $dateJoint = $firstUser->getDateJoint();
@@ -505,7 +509,7 @@ switch ($action) {
         //$up=[];
         while ($tracker < $num) {
             //get users
-            $users = $userDao->getUsersByCategory($dateJoint, $count, $firstLoop,$mySelf->getId(),$catId);
+            $users = $userDao->getUsersByCategory($dateJoint, $count, $firstLoop, $mySelf->getId(), $catId);
             $firstLoop = false;
             if (count($users) == 0 || $users == null) {
                 break;
@@ -519,7 +523,7 @@ switch ($action) {
                     $lon2 = (float)$users[$i]->getLongitude();
                     $lat2 = (float)$users[$i]->getLatitude();
                     $destination = $m->googleGetDistance($lon1, $lat2, $lon2, $lat2);
-                    if ($destination!=null && $m->verifyDistance(30,$destination->getDistance())) {
+                    if ($destination != null && $m->verifyDistance(30, $destination->getDistance())) {
                         $users[$i]->setDestination($destination);
                         array_push($closeUsers, $users[$i]);
                         $tracker++;
@@ -549,11 +553,10 @@ switch ($action) {
             $user[0] = $closeUsers[$i]->getId();
             $user[1] = $closeUsers[$i]->getName();
             $user[2] = $closeUsers[$i]->getProfilePic();
-            if($closeUsers[$i]->getDestination()==null){
-                $user[3] =" ";
-            }
-            else {
-                $user[3] = $closeUsers[$i]->getDestination()->getDistance(). "";
+            if ($closeUsers[$i]->getDestination() == null) {
+                $user[3] = " ";
+            } else {
+                $user[3] = $closeUsers[$i]->getDestination()->getDistance() . "";
             }
             array_push($allUsers, $user);
         }
@@ -632,26 +635,26 @@ switch ($action) {
         echo $allCat;
         break;
     case "show_Profile":
-        $userDao= new UserDao("fastjobs");
+        $userDao = new UserDao("fastjobs");
         $mySelf = unserialize($_SESSION['user']);
         $mySelf = $userDao->getUserById($mySelf->getId());
-        $user=$mySelf;
+        $user = $mySelf;
         include "../View/profile.php";
         break;
     case "show_User_Profile":
         $user = unserialize($_SESSION['user']);
         $userId = filter_input(INPUT_GET, "id", FILTER_UNSAFE_RAW);
-        $userDao= new UserDao("fastjobs");
+        $userDao = new UserDao("fastjobs");
         $mySelf = $userDao->getUserById($userId);
         include "../View/profile.php";
         break;
     case "clear_DateTime":
-        $_SESSION['workerDateJoint']= serialize(null);
-        $_SESSION['workerDateJoint2']= serialize(null);
+        $_SESSION['workerDateJoint'] = serialize(null);
+        $_SESSION['workerDateJoint2'] = serialize(null);
         break;
     case "logout":
         $user = unserialize($_SESSION['user']);
-        $userDao= new UserDao("fastjobs");
+        $userDao = new UserDao("fastjobs");
         $userDao->updateLogOutTime($user->getId());
         session_destroy();
         header("Location: ?action=show_login");
@@ -659,18 +662,174 @@ switch ($action) {
     case "get_Worker_Pictures":
         //$files = glob('path/to/your/folder/*.*'); // You can change the pattern
         //$files = glob('../tradesPeoplePictures/*.png');
-        $folder="../tradesPeoplePictures/";
+        $folder = "../tradesPeoplePictures/";
         $files = array_diff(scandir($folder), array('.', '..'));
-        $allFiles=[];
-        $i=0;
+        $allFiles = [];
+        $i = 0;
         foreach ($files as $file) {
             if (is_file($folder . DIRECTORY_SEPARATOR . $file)) {
                 $allFiles[$i] = $file;
                 $i++;
             }
         }
-        $allFiles= json_encode($allFiles);
+        $allFiles = json_encode($allFiles);
         echo $allFiles;
+        break;
+    case "show_feed":
+        $user = unserialize($_SESSION['user']);
+        include "../View/jobsFeed.php";
+        break;
+    case "upload_feed":
+        $user = unserialize($_SESSION['user']);
+        $about = filter_input(INPUT_POST, "aboutFeed", FILTER_UNSAFE_RAW);
+        $target_dir = "../feedMedia/";
+        $m = new Miscellaneous();
+        $postDao = new PostDao("fastjobs");
+        $mediaDao = new MediaDao("fastjobs");
+        $files = [];
+        $response = [];
+        $success = false;
+        //check if files are available
+        if (!empty($_FILES['files'])) {
+            // $target_file= basename($_FILES["files"]["name"]);
+            for ($i = 0; $i < count($_FILES['files']['name']); $i++) {
+                if ($_FILES['files']['error'][$i] == UPLOAD_ERR_OK) {
+                    //get the extension
+                    $imageFileType = strtolower(pathinfo($_FILES['files']['name'][$i], PATHINFO_EXTENSION));
+                    $date = new DateTime();
+                    //give file a new name
+                    $date = $date->format('Y-m-d H-i-s') . '_' . uniqid() . "." . $imageFileType;
+                    //upload to directory
+                    if ($m->uploadFile2($target_dir, $_FILES['files']['tmp_name'][$i], $date)) {
+                        $files[$i] = $date;
+                        $success = true;
+                    } else {
+                        $success = false;
+
+                    }
+                }
+                if (!$success) {
+                    break;
+                }
+
+            }
+        }
+        if ($success) {
+            $postId = $postDao->createPost($user->getId(), $user->getUserType(), $about);
+            if ($postId > 0) {
+                foreach ($files as $file) {
+                    $type = -1;
+                    if ($m->checkFileType($file) == 'image') {
+                        $type = 1;
+                    } else if ($m->checkFileType($file) == 'video') {
+                        $type = 2;
+                    }
+                    $mediaDao->createMedia($postId, $file, $type);
+                }
+                $response = [
+                    'success' => true,
+                    'message' => "files uploaded successfully.",
+                ];
+            } else {
+                $response = [
+                    'success' => false,
+                    'message' => "upload failed.",
+                ];
+            }
+        } else {
+            $response = [
+                'success' => false,
+                'message' => "upload failed.",
+            ];
+        }
+// Return JSON
+        header('Content-Type: application/json');
+        echo json_encode($response);
+        break;
+    case "get_Feed":
+        $user = unserialize($_SESSION['user']);
+        $postDao = new PostDao("fastjobs");
+        $mediaDao = new MediaDao("fastjobs");
+        $userDao = new UserDao("fastjobs");
+        $m = new Miscellaneous();
+        $lon1 = (float)$user->getLongitude();
+        $lat1 = (float)$user->getLatitude();
+        $max = 10;
+        $numSelected = 0;
+        $numLeft = 10;
+        $loopCounter = 0;
+        $filteredPosts = [];
+        // $minDate=$user->getLastLogOut();
+        //get dateTime 2 days ago
+        $minDate = new DateTime(Date('Y-m-d H:i:s', strtotime('-2 days')));
+        //check for maxFeedTime
+        if (isset($_SESSION['maxFeedTime']) && unserialize($_SESSION['maxFeedTime']) != null) {
+            $minDate = unserialize($_SESSION['maxFeedTime']);
+        }
+        //while number selected is less than max
+        while ($numSelected < $max) {
+            $firstLoop = false;
+            //check if it's the first time the user is trying to access the feed page
+            if ($loopCounter == 0) {
+                $firstLoop = true;
+                $loopCounter++;
+            }
+            //check if it's not the first time the user is trying to access the feed page
+            if (isset($_SESSION['maxFeedTime']) && unserialize($_SESSION['maxFeedTime']) != null) {
+                $firstLoop = false;
+            }
+            //get post
+            $posts = $postDao->getPost($minDate, $numLeft, $firstLoop);
+            //if no recent post is available stop loop
+            if (count($posts) == 0) {
+                break;
+            }
+            $added = false;
+            //loop through post
+            foreach ($posts as $post) {
+                $tempUser = $userDao->getUserById($post->getUserId());
+                $lon2 = (float)$tempUser->getLongitude();
+                $lat2 = (float)$tempUser->getLatitude();
+                $destination = $m->googleGetDistance($lon1, $lat1, $lon2, $lat2);
+                //verify both users are in close proximity
+                if ($m->verifyDistance(1000, $destination->getDistance())) {
+                    $filteredPosts[$numSelected] = $post;
+                    //track number of users
+                    $numSelected++;
+                    $added = true;
+                }
+            }
+            //if a close user was found, subtract from max to get number left
+            if ($added) {
+                $numLeft = $max - $numSelected;
+            }
+            //set minDate to last date in array
+            $minDate = $posts[count($posts) - 1]->getDateTime();
+        }
+        //if filtered post array is not empty,
+        if (count($filteredPosts) > 0) {
+            $_SESSION['maxFeedTime'] = serialize($minDate);
+        }
+        $allMedia = [];
+        //loop through filtered post
+        for ($i = 0; $i < count($filteredPosts); $i++) {
+            //get all media related to the post
+            $singleFeed = $mediaDao->getMedia($filteredPosts[$i]->getPostId());
+            $u = $userDao->getUserById($filteredPosts[$i]->getUserId());
+            $feed = [];
+            $feed[0] = $u->getName();
+            $userMedia = [];
+            for ($j = 0; $j < count($singleFeed); $j++) {
+                $singleMedia = [];
+                $singleMedia[0] = $singleFeed[$j]->getMedia();
+                $singleMedia[1] = $singleFeed[$j]->getType();
+                $userMedia[$j] = $singleMedia;
+            }
+            $feed[1] = $userMedia;
+            //$feed[2]=$$filteredPosts[$i]->getPostId();
+            array_push($allMedia, $feed);
+        }
+        echo json_encode($allMedia);
         break;
 
 }

@@ -272,9 +272,9 @@ overflow: visible;
                     type: 'post',
                     data: {action: "get_Workers_By_Location"},
                     success: function (data) {
-                       //alert(data);
+                      //alert(data);
                        var allUsers = JSON.parse(data);
-                        //alert(allUsers);
+                       //alert(allUsers);
                         var workers ="";
                         for (var i = 0; i < allUsers.length; i++) {
                             var profilePic = "../defaultPic/default.jpg";

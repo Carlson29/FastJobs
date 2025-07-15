@@ -264,6 +264,11 @@ and open the template in the editor.
                     <p id="logoName"> Home</p>
                 </a></div>
             <div id="logoSection">
+                <a href="../Controller/index.php?action=show_feed" class="button">
+                    <img src="../logo/feed.png" alt="" class="logo" >
+                    <p id="logoName"> Feed</p>
+                </a></div>
+            <div id="logoSection">
                 <a href="../Controller/index.php?action=logout" class="button">
                     <img src="../logo/logout.png" alt="" class="logo" >
                     <p id="logoName"> Logout</p>
