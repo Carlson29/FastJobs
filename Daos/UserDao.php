@@ -23,11 +23,12 @@ class UserDao extends Dao
                 DateTime :
                 $dateOfBirth = new DateTime($users[2]);
                 $dateJoint = new DateTime($users[10]);
+                $lastLogOut = new DateTime($users[11]);
                 string :
                 $longitude = $users[6] . '';
                 $latitude = $users[7] . '';
                 $profilePic = $users[8] . '';
-                $user->user($users[0], $users[1], $dateOfBirth, $users[3], $users[4], $users[5], $longitude, $latitude, $profilePic, $users[9], $dateJoint);
+                $user->user($users[0], $users[1], $dateOfBirth, $users[3], $users[4], $users[5], $longitude, $latitude, $profilePic, $users[9], $dateJoint,$lastLogOut);
             } else {
                 $user = null;
             }
@@ -97,11 +98,12 @@ class UserDao extends Dao
                 DateTime :
                 $dateOfBirth = new DateTime($users[2]);
                 $dateJoint = new DateTime($users[10]);
+                $lastLogOut = new DateTime($users[11]);
                 string :
                 $longitude = $users[6] . '';
                 $latitude = $users[7] . '';
                 $profilePic = $users[8] . '';
-                $u->user($users[0], $users[1], $dateOfBirth, $users[3], $users[4], $users[5], $longitude, $latitude, $profilePic, $users[9], $dateJoint);
+                $u->user($users[0], $users[1], $dateOfBirth, $users[3], $users[4], $users[5], $longitude, $latitude, $profilePic, $users[9], $dateJoint,$lastLogOut);
                 return $u;
             }
 
@@ -134,12 +136,13 @@ class UserDao extends Dao
                 DateTime :
                 $dateOfBirth = new DateTime($user[2]);
                 $dateJoint = new DateTime($user[10]);
+                $lastLogOut = new DateTime($user[11]);
                 string :
                 $longitude = $user[6] . '';
                 $latitude = $user[7] . '';
                 $profilePic = $user[8] . '';
                 $u = new User();
-                $u->user($user[0], $user[1], $dateOfBirth, $user[3], $user[4], $user[5], $longitude, $latitude, $profilePic, $user[9], $dateJoint);
+                $u->user($user[0], $user[1], $dateOfBirth, $user[3], $user[4], $user[5], $longitude, $latitude, $profilePic, $user[9], $dateJoint,$lastLogOut);
                 array_push($allUsers, $u);
             }
             return $allUsers;
@@ -174,12 +177,13 @@ class UserDao extends Dao
                 DateTime :
                 $dateOfBirth = new DateTime($user[2]);
                 $dateJoint = new DateTime($user[10]);
+                $lastLogOut = new DateTime($user[11]);
                 string :
                 $longitude = $user[6] . '';
                 $latitude = $user[7] . '';
                 $profilePic = $user[8] . '';
                 $u = new User();
-                $u->user($user[0], $user[1], $dateOfBirth, $user[3], $user[4], $user[5], $longitude, $latitude, $profilePic, $user[9], $dateJoint);
+                $u->user($user[0], $user[1], $dateOfBirth, $user[3], $user[4], $user[5], $longitude, $latitude, $profilePic, $user[9], $dateJoint,$lastLogOut);
                 array_push($allUsers, $u);
             }
             return $allUsers;
@@ -281,10 +285,11 @@ class UserDao extends Dao
                 DateTime :
                 $dateOfBirth = new DateTime($users[2]);
                 $dateJoint = new DateTime($users[10]);
+                $lastLogOut = new DateTime($users[11]);
                 string :
                 $longitude = $users[6] . '';
                 $latitude = $users[7] . '';
-                $user->user($users[0], $users[1], $dateOfBirth, $users[3], $users[4], $users[5], $longitude, $latitude, $users[8] . "", $users[9], $dateJoint);
+                $user->user($users[0], $users[1], $dateOfBirth, $users[3], $users[4], $users[5], $longitude, $latitude, $users[8] . "", $users[9], $dateJoint, $lastLogOut);
                 return $user;
             } else {
                 $user = null;

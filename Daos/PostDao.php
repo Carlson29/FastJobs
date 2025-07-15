@@ -3,15 +3,16 @@
 namespace Daos;
 use business\Post;
 use PDOException;
-
+//require 'Dao.php';
 require '..\business\Post.php';
 class PostDao extends Dao
 {
-    function createPost(int $userId, int $userType):int{
-        $query = "INSERT INTO post (userId, userType) VALUES (:userId, :userType) ";
+    function createPost(int $userId, int $userType, string $about):int{
+        $query = "INSERT INTO post (userId, userType, about) VALUES (:userId, :userType, :about) ";
         $statement = $this->getConn()->prepare($query);
         $statement->bindValue(':userId', $userId);
         $statement->bindValue(':userType', $userType);
+        $statement->bindValue(':about', $about."");
         try {
             $statement->execute();
             $id = $this->getConn()->lastInsertId();
@@ -53,10 +54,15 @@ class PostDao extends Dao
         }
         return $postArray;
     }
-    public function getPost(int $dateTime, bool $firstLoop):array {
-        // $user = new User();
-        $query = "SELECT * from post where dateTime>=:dateTime order by dateTime ASC limit 10";
+    public function getPost(\DateTime $dateTime, int $max,bool $firstLoop):array {
+        $query ="";
+        if($firstLoop){
+            $query = "SELECT * from post where dateTime>=:dateTime order by dateTime ASC limit " . $max;
+        } else{
+            $query = "SELECT * from post where dateTime>:dateTime order by dateTime ASC limit " . $max;
+        }
         $statement = $this->getConn()->prepare($query);
+        $dateTime =$dateTime->format('Y-m-d H:i:s');
         $statement->bindValue(':dateTime', $dateTime);
         try {
             $statement->execute();
@@ -77,3 +83,7 @@ class PostDao extends Dao
         return $postArray;
     }
 }
+/*$p=new postDao("fastjobs");
+$id=$p->createPost(1,2);
+echo $id;*/
+//$p->getPost()

@@ -1,4 +1,6 @@
 <?php
+namespace business;
+use DateTime;
 
 class Post
 {

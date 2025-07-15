@@ -17,7 +17,7 @@ class User
     private string $searchDiff;
     private DateTime $dateJoint;
     private ? Destination $destination;
-
+    private DateTime $lastLogOut;
 
    public function __construct(){
 
@@ -35,7 +35,7 @@ class User
      * @param string $searchDiff
      * @param string $dateJoint
      */
-    public function user(int $id, string $name, \DateTime $dateOfBirth, string $email, string $password, int $userType, string $longitude, string $latitude, string $profilePic, string $searchDiff, \DateTime $dateJoint)
+    public function user(int $id, string $name, \DateTime $dateOfBirth, string $email, string $password, int $userType, string $longitude, string $latitude, string $profilePic, string $searchDiff, \DateTime $dateJoint, DateTime $lastLogOut)
     {
         $this->id = $id;
         $this->name = $name;
@@ -49,6 +49,7 @@ class User
         $this->searchDiff = $searchDiff;
         $this->dateJoint=$dateJoint;
         $this->destination=null;
+        $this->lastLogOut=$lastLogOut;
     }
 
     public function getId(): int
@@ -171,6 +172,16 @@ class User
     public function setPassword(string $password): void
     {
         $this->password = $password;
+    }
+
+    public function getLastLogOut(): DateTime
+    {
+        return $this->lastLogOut;
+    }
+
+    public function setLastLogOut(DateTime $lastLogOut): void
+    {
+        $this->lastLogOut = $lastLogOut;
     }
 
 
