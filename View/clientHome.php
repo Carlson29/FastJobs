@@ -9,6 +9,30 @@
         </div>
     </div>
 
+    <aside id="clientMenuWrapper">
+        <div id="clientMenu">
+            <a href="../Controller/index.php?action=show_Profile" class="client-option">
+                <img src="../logo/profile.png" class="logo" alt="Profile Icon">
+                <p class="logoName">Profile</p>
+            </a>
+            <a href="../Controller/index.php?action=show_conversations" class="client-option">
+                <img src="../logo/chat.png" class="logo" alt="Chat Icon">
+                <p class="logoName">Chats</p>
+            </a>
+            <a href="#" class="client-option">
+                <img src="../logo/feed.png" class="logo" alt="Feed Icon">
+                <p class="logoName">Feed</p>
+            </a>
+            <a href="../Controller/index.php?action=logout" class="client-option">
+                <img src="../logo/logout.png" class="logo" alt="Logout Icon">
+                <p class="logoName">Logout</p>
+            </a>
+        </div>
+        <button id="clientMenuToggle" onclick="toggleClientMenu()">
+            <img src="../logo/chevron-back-outline.svg" alt="Toggle">
+        </button>
+    </aside>
+
     <!-- Main Content Area (scrollable) -->
     <div id="workers-container">
         <div id="workers">
@@ -30,38 +54,15 @@
         </div>
     </div>
 
-    <!-- Navigation Menu -->
-    <div id="mainComponents">
-        <div class="logoSection">
-            <a href="../Controller/index.php?action=show_Profile">
-                <img src="../logo/profile.png" class="logo" id="profileImage" alt="Profile">
-                <p class="logoName">Profile</p>
-            </a>
-        </div>
-
-        <div class="logoSection">
-            <a href="../Controller/index.php?action=show_conversations">
-                <img src="../logo/chat.png" class="logo" id="chatImage" alt="Chats">
-                <p class="logoName">Chats</p>
-            </a>
-        </div>
-
-        <div class="logoSection">
-            <a href="../Controller/index.php?action=show_clientHome">
-                <img src="../logo/home.png" class="logo" id="chatImage" alt="Home">
-                <p class="logoName">Home</p>
-            </a>
-        </div>
-
-        <div class="logoSection">
-            <a href="../Controller/index.php?action=logout">
-                <img src="../logo/logout.png" class="logo" id="logoutImage" alt="Logout">
-                <p class="logoName">Logout</p>
-            </a>
-        </div>
-    </div>
 
     <script>
+        let clientMenuToggled = false;
+        function toggleClientMenu() {
+            const menu = document.getElementById("clientMenuWrapper");
+            menu.style.left = clientMenuToggled ? "-200px" : "0px";
+            clientMenuToggled = !clientMenuToggled;
+        }
+
         function getLocation() {
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(showPosition);
