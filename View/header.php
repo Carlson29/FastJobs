@@ -224,7 +224,9 @@ and open the template in the editor.
 
     <div id="header">
         <?php
-        if($user!=null && $user->getUserType()==1){
+        if($user!=null){
+       // var_dump($user);
+        if($user->getUserType()!=null){
             ?>
             <span style="font-size:30px;cursor:pointer" id="openSideBar" onclick="openNav()"><svg
                         xmlns="http://www.w3.org/2000/svg" id="sideMenuButton" fill="currentColor"
@@ -232,6 +234,7 @@ and open the template in the editor.
             <path d="M16 14a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12zm-4.5-6.5H5.707l2.147-2.146a.5.5 0 1 0-.708-.708l-3 3a.5.5 0 0 0 0 .708l3 3a.5.5 0 0 0 .708-.708L5.707 8.5H11.5a.5.5 0 0 0 0-1z"/>
             </svg></span>
             <?php
+       }
         }
 
         ?>
@@ -242,7 +245,7 @@ and open the template in the editor.
 
     </div>
     <?php
-    if($user!=null && $user->getUserType()==1){
+    if($user!=null /*&& $user->getUserType()==1*/){
     ?>
     <div id="sidebar">
         <div id="mySidenav" class="sidenav">
