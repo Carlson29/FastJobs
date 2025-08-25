@@ -93,6 +93,11 @@ switch ($action) {
     case "show_clientHome":
         $pageTitle = 'Home Page';
         $user = unserialize($_SESSION['user']);
+        if (isset($_SESSION['previousInbox'])) {
+            $ibpDao= new InboxParticipantsDao("fastjobs");
+            $prevId = unserialize($_SESSION['previousInbox']);
+                $ibpDao->updateIsOpen($user->getId(), $prevId, false);
+        }
         include "../view/clientHome.php";
         break;
     case "show_workerHome":
@@ -119,13 +124,14 @@ switch ($action) {
         $user = unserialize($_SESSION['user']);
         $inboxId = filter_input(INPUT_POST, "inboxId", FILTER_UNSAFE_RAW);
         $target_dir = "../messageImages/";
+        $messageType=-1;
         $m = new Miscellaneous();
         //chnage file name
         $target_file = basename($_FILES["file"]["name"]);
         $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
         $check = getimagesize($_FILES["file"]["tmp_name"]);
         $date = new DateTime();
-        $date = $date->format('Y-m-d H-i-s') . "." . $imageFileType;
+        $date = $date->format('Y-m-d H-i-s') . '_' . uniqid() . "." . $imageFileType;
         /*if($check !== false) {
             echo "File is an image - " . $check["mime"] . ".";
             $uploadOk = 1;
@@ -135,10 +141,18 @@ switch ($action) {
         }*/
 
         // if (move_uploaded_file($_FILES["file"]["tmp_name"], $target_dir .$date)) {
-        if ($m->uploadFile($target_dir, $_FILES, $date)) {
+    if($m->checkFileType($date)=="video"){
+        $target_dir = "../messageVideos/";
+        $messageType=3;
+    }
+    else if ($m->checkFileType($date)=="image"){
+        $target_dir = "../messageImages/";
+        $messageType=2;
+    }
+        if ($m->uploadFile2($target_dir, $_FILES["file"]["tmp_name"], $date)) {
             //echo "The file ". htmlspecialchars( basename( $_FILES["file"]["name"])). " has been uploaded.";
             $messageDao = new MessageDao("fastjobs");
-            $insertState = $messageDao->insertMessage($inboxId, $user->getId(), $date, 2);
+            $insertState = $messageDao->insertMessage($inboxId, $user->getId(), $date, $messageType);
             if ($insertState > 0) {
                 $msg = $messageDao->getMessageById($insertState);
                 $ibpDao = new InboxParticipantsDao("fastjobs");
@@ -223,6 +237,15 @@ switch ($action) {
         include "../view/conversations.php";
         break;
 
+    case "close_Previous_Ibp":
+        $user = unserialize($_SESSION['user']);
+        $ibpDao = new InboxParticipantsDao("fastjobs");
+        if (isset($_SESSION['previousInbox'])) {
+            $prevId = unserialize($_SESSION['previousInbox']);
+                $ibpDao->updateIsOpen($user->getId(), $prevId, false);
+        }
+        break;
+
     case "get_Messages":
         $user = unserialize($_SESSION['user']);
         $inboxId = filter_input(INPUT_POST, "inboxId", FILTER_UNSAFE_RAW);
@@ -286,6 +309,7 @@ switch ($action) {
                 $ibp[3] = $lastMessage->getMessage();
                 $ibp[4] = $otherUser->getName();
                 $ibp[5] = $otherUser->getProfilePic();
+                $ibp[6] = $otherIbp->getUserId();
                 array_push($ibps, $ibp);
             }
         }
@@ -293,9 +317,12 @@ switch ($action) {
         echo $allIbps;
         break;
     case "get_New_Messages":
+        $user = unserialize($_SESSION['user']);
         $lastSent = unserialize($_SESSION['lastSeenMessage']);
         $inboxId = filter_input(INPUT_POST, "inboxId", FILTER_UNSAFE_RAW);
         $messageDao = new MessageDao("fastjobs");
+        $ibpDao = new InboxParticipantsDao("fastjobs");
+        $ibpDao->updateIsOpen($user->getId(), $inboxId, true);
         $messages = $messageDao->getNewMessages($inboxId, $lastSent);
         $jsonMessages = "";
         $length = count($messages);
@@ -370,12 +397,12 @@ switch ($action) {
         $details = json_encode($details);
         echo $details;
         break;
-    case "close_Previous_Ibp":
+   /* case "close_Previous_Ibp":
         $user = unserialize($_SESSION['user']);
         $prevId = unserialize($_SESSION['previousInbox']);
         $ibpDao = new InboxParticipantsDao("fastjobs");
         $ibpDao->updateIsOpen($user->getId(), $prevId, false);
-        break;
+        break;*/
     case "store_Location":
         $user = unserialize($_SESSION['user']);
         $latitude = filter_input(INPUT_POST, "latitude", FILTER_UNSAFE_RAW);
@@ -656,6 +683,7 @@ switch ($action) {
         $user = unserialize($_SESSION['user']);
         $userDao = new UserDao("fastjobs");
         $userDao->updateLogOutTime($user->getId());
+
         session_destroy();
         header("Location: ?action=show_login");
         break;
@@ -762,13 +790,16 @@ switch ($action) {
         // $minDate=$user->getLastLogOut();
         //get dateTime 2 days ago
         $minDate = new DateTime(Date('Y-m-d H:i:s', strtotime('-2 days')));
+        //$minDate = new DateTime("2025/07/20");
         //check for maxFeedTime
         if (isset($_SESSION['maxFeedTime']) && unserialize($_SESSION['maxFeedTime']) != null) {
             $minDate = unserialize($_SESSION['maxFeedTime']);
         }
+
         //while number selected is less than max
         while ($numSelected < $max) {
             $firstLoop = false;
+            $posts=[];
             //check if it's the first time the user is trying to access the feed page
             if ($loopCounter == 0) {
                 $firstLoop = true;
@@ -778,8 +809,14 @@ switch ($action) {
             if (isset($_SESSION['maxFeedTime']) && unserialize($_SESSION['maxFeedTime']) != null) {
                 $firstLoop = false;
             }
-            //get post
-            $posts = $postDao->getPost($minDate, $numLeft, $firstLoop);
+            if($firstLoop==true) {
+                //get post
+                $posts = $postDao->getPost($minDate, $numLeft, $firstLoop);
+            }
+            else if($firstLoop==false) {
+                //get older post
+               $posts = $postDao->getOlderPost($minDate, $numLeft);
+            }
             //if no recent post is available stop loop
             if (count($posts) == 0) {
                 break;
@@ -803,8 +840,10 @@ switch ($action) {
             if ($added) {
                 $numLeft = $max - $numSelected;
             }
-            //set minDate to last date in array
-            $minDate = $posts[count($posts) - 1]->getDateTime();
+            if(count($posts)>0) {
+                //set minDate to last date in array
+                $minDate = $posts[count($posts) - 1]->getDateTime();
+            }
         }
         //if filtered post array is not empty,
         if (count($filteredPosts) > 0) {
@@ -826,10 +865,16 @@ switch ($action) {
                 $userMedia[$j] = $singleMedia;
             }
             $feed[1] = $userMedia;
-            //$feed[2]=$$filteredPosts[$i]->getPostId();
+            $feed[2] = $u->getProfilePic()."";
+            $feed[3] = $filteredPosts[$i]->getDateTime()->format('Y-m-d H:i:s');
+            $feed[4] = $filteredPosts[$i]->getType();
+            $feed[5] = $filteredPosts[$i]->getAbout();
+                //$feed[2]=$$filteredPosts[$i]->getPostId();
             array_push($allMedia, $feed);
         }
         echo json_encode($allMedia);
         break;
-
+    case 'reload_feed':
+        $_SESSION['maxFeedTime'] = serialize(null);
+        break;
 }
