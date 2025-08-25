@@ -383,6 +383,19 @@ overflow: visible;
               suggs.innerHTML= "";
           }
       });
+
+     /* window.addEventListener('beforeunload', (event) => {
+          // Optional: prompt the user (some browsers ignore this)
+          event.preventDefault();
+       //   event.returnValue = ''; // Required for Chrome to show the prompt
+      });
+
+      window.addEventListener('unload', () => {
+          // Perform cleanup or send signal to server
+         //alert('Window is being closed or refreshed');
+          navigator.sendBeacon('../Controller/index.php?action=logout');
+      }); */
+
     </script>
 <?php
 include 'footer.php';
