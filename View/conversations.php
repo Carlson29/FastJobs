@@ -87,7 +87,9 @@ and open the template in the editor.
             /*  right: 1vw;*/
             background-color: grey;
             display: inline-block;
-            max-width: 55vw;
+            max-width: 43vw;
+            min-width: 27px;
+            min-height: 22px;
             margin-bottom: 0.3vw;
             align-self: end;
             font-size: 1.2vw;
@@ -96,8 +98,9 @@ and open the template in the editor.
             border-radius: 2vw;
             padding: 1vw 1vw 1vw 1vw;
             position: relative;
-            bottom: 2.2vh;
-            right: 0.5vw;
+            bottom: 0vh;
+            right: 0vw;
+            z-index: 4;
             /* bottom:0.1vw ;*/
         }
 
@@ -105,7 +108,9 @@ and open the template in the editor.
             /* left: 1vw;*/
             background-color: grey;
             display: inline-block;
-            max-width: 55vw;
+            max-width: 43vw;
+            min-width: 27px;
+            min-height: 22px;
             margin-bottom: 0.3vw;
             align-self: start;
             font-size: 1.2vw;
@@ -114,8 +119,9 @@ and open the template in the editor.
             border-radius: 1vw;
             padding: 1vw 1vw 1vw 1vw;
             position: relative;
-            left: 0.5vw;
-            bottom: 2.2vh;
+            left: 0vw;
+            bottom: 0vh;
+            z-index: 4;
         }
 
         #sent-arrow {
@@ -125,13 +131,16 @@ and open the template in the editor.
         #sent-arrow::after {
             content: '';
             position: relative;
+            display: flex;
             width: 0;
             height: 0;
-            border-left: 1vw solid transparent;
-            border-right: 1vw solid transparent;
-            border-top: 1vw solid grey;
-            position: absolute;
-            right: 0vw;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-top: 20px solid grey;
+            align-self: end;
+            right: 13px;
+            bottom: 21px;
+            z-index: 3;
             /* top: 0.5vh;
               left: -0.6vw;*/
         }
@@ -143,21 +152,27 @@ and open the template in the editor.
 
         #sent-msg {
             align-self: end;
+            display: flex;
         }
 
         #received-msg {
             align-self: start;
+            display: flex;
         }
 
         #received-arrow::after {
             content: '';
             width: 0;
             height: 0;
-            border-left: 1vw solid transparent;
-            border-right: 1vw solid transparent;
-            border-top: 1vw solid grey;
-            position: absolute;
-            left: 0vw;
+            position: relative;
+            display: flex;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-top: 20px solid grey;
+            align-self: start;
+            top: 20px;
+            z-index: 3;
+            left: 10px;
         }
 
         #ibp {
@@ -487,6 +502,8 @@ and open the template in the editor.
                 background-color: grey;
                 display: inline-block;
                 max-width: 55vw;
+                min-width: 27px;
+                min-height: 22px;
                 margin-bottom: 10px;
                 align-self: end;
                 font-size: 15px;
@@ -495,8 +512,9 @@ and open the template in the editor.
                 border-radius: 2vw;
                 padding: 1vw 1vw 1vw 1vw;
                 position: relative;
-                bottom: 2.2vh;
-                right: 0.5vw;
+                bottom: 0vh;
+               /* right: 0.5vw;*/
+                z-index: 4;
 
             }
 
@@ -504,6 +522,8 @@ and open the template in the editor.
                 background-color: grey;
                 display: inline-block;
                 max-width: 55vw;
+                min-width: 27px;
+                min-height: 22px;
                 margin-bottom: 10px;
                 align-self: start;
                 font-size: 15px;
@@ -512,8 +532,9 @@ and open the template in the editor.
                 border-radius: 1vw;
                 padding: 1vw 1vw 1vw 1vw;
                 position: relative;
-                left: 0.5vw;
-                bottom: 2.2vh;
+                left: 0vw;
+                bottom: 0vh;
+                z-index: 4;
             }
 
             #sent-arrow {
@@ -523,38 +544,46 @@ and open the template in the editor.
             #sent-arrow::after {
                 content: '';
                 position: relative;
+                display: flex;
                 width: 0;
                 height: 0;
-                border-left: 1vw solid transparent;
-                border-right: 1vw solid transparent;
-                border-top: 1vw solid grey;
-                position: absolute;
-                right: 0vw;
-
+                border-left: 10px solid transparent;
+                border-right: 10px solid transparent;
+                border-top: 20px solid grey;
+                right: 15px;
+                align-self: end;
+                bottom: 15px;
+                z-index: 3;
             }
 
             #received-arrow {
                 align-self: start;
-
+                 display: flex;
             }
 
             #sent-msg {
                 align-self: end;
+                display: flex;
             }
 
             #received-msg {
                 align-self: start;
+                display: flex;
             }
 
             #received-arrow::after {
                 content: '';
+                position: relative;
+                display: flex;
                 width: 0;
                 height: 0;
-                border-left: 1vw solid transparent;
-                border-right: 1vw solid transparent;
-                border-top: 1vw solid grey;
-                position: absolute;
-                left: 0vw;
+                border-left: 10px solid transparent;
+                border-right: 10px solid transparent;
+                border-top: 20px solid grey;
+                align-self: start;
+                top: 18px;
+                z-index: 3;
+                left: 10px;
             }
 
             #ibp {
@@ -770,16 +799,6 @@ and open the template in the editor.
                 top:1vh;
                 left:0.5vw;
             }
-          /*  #optionsLogoDiv{
-                position:relative;
-                left:70vw;
-                align-self: end;
-            }
-            #optionsLogo {
-                height: 5vh;
-                width: 5vh;
-                border-radius: 0.5vw;
-            }*/
 
         }
 
@@ -816,14 +835,14 @@ and open the template in the editor.
                 position: relative;
                 top: -3vh;
                 margin-left: 2vw;
-                font-size: 20px;
+                font-size: 15px;
                 margin-top: 2.5vh;
             }
             #received-timeSent-img {
                 position: relative;
                 top: -3vh;
                 margin-left: 2vw;
-                font-size: 20px;
+                font-size: 15px;
                 margin-top: 2.5vh;
             }
             #optionsLogoDiv{
@@ -847,6 +866,7 @@ and open the template in the editor.
         //$otherUser=$otherUserId;
         $userId = $user->getId();
         echo $pageTitle; ?></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 
@@ -907,6 +927,7 @@ and open the template in the editor.
     //alert(otherUserId);
     var convoBody = document.getElementById("conversationBody");
     document.getElementById("messageFile").hidden = true;
+    document.getElementById("inputSection").style.display="none";
     var convoBodyHeight = 0;
     var height = 0;
     var fetched = false;
@@ -1012,7 +1033,7 @@ and open the template in the editor.
                     for (var i = allMessages.length - 1; i >= 0; i--) {
                         if (allMessages[i][2] ==<?php echo $userId ?>) {
                             if (allMessages[i][4] == 1) {
-                                messages = messages + "<div id='sent-msg'><div class='' id='sent-arrow'> <p id='myMsg'>" + allMessages[i][3] + "</p>  </div> </div>";
+                                messages = messages + "<div id='sent-msg'> <p id='myMsg'>" + allMessages[i][3] + "</p>  <div class='' id='sent-arrow'> </div> </div>";
                             } else if (allMessages[i][4] == 2) {
                                 messages += "<div id='sent-msg-img'>  <div class='' id='sent-media-arrow'>  </div> <img src='../messageImages/" + allMessages[i][3] + "' id='sent-img'>     <p id='sent-timeSent-img' >" + allMessages[i][5] + "</p>  </div>";
                             } else if (allMessages[i][4] == 3) {
@@ -1021,7 +1042,7 @@ and open the template in the editor.
 
                         } else {
                             if (allMessages[i][4] == 1) {
-                                messages = messages + "<div id='received-msg'>  <div class='' id='received-arrow'>  <p id='FriendMsg'>" + allMessages[i][3] + "</p> </div></div>";
+                                messages = messages + "<div id='received-msg'>  <div class='' id='received-arrow'> </div> <p id='FriendMsg'>" + allMessages[i][3] + "</p> </div>";
                             } else if (allMessages[i][4] == 2) {
                                 messages += "<div id='received-msg-img'>  <div class='' id='received-media-arrow'>  </div> <img src='../messageImages/" + allMessages[i][3] + "' id='received-img'>     <p id='received-timeSent-img' >" + allMessages[i][5] + "</p>  </div>";
                             } else if (allMessages[i][4] == 3) {
@@ -1034,6 +1055,7 @@ and open the template in the editor.
                     screenResize();
                     convoBody.scrollTop = convoBody.scrollHeight;
                     convoBodyHeight = convoBody.scrollHeight;
+                    document.getElementById("inputSection").style.display="block";
                 },
                 error: function () {
                     alert("Error with ajax");
@@ -1107,15 +1129,19 @@ and open the template in the editor.
                     for (var i = allMessages.length - 1; i >= 0; i--) {
                         if (allMessages[i][2] ==<?php echo $userId ?>) {
                             if (allMessages[i][4] == 1) {
-                                messages = messages + "<div id='sent-msg'><div class='' id='sent-arrow'> <p id='myMsg'>" + allMessages[i][3] + "</p>  </div> </div>";
+                                messages = messages + "<div id='sent-msg'> <p id='myMsg'>" + allMessages[i][3] + "</p>  <div class='' id='sent-arrow'> </div> </div>";
                             } else if (allMessages[i][4] == 2) {
                                 messages += "<div id='sent-msg-img'>  <div class='' id='sent-media-arrow'>  </div> <img src='../messageImages/" + allMessages[i][3] + "' id='sent-img'>     <p id='sent-timeSent-img' >" + allMessages[i][5] + "</p>  </div>";
+                            } else if (allMessages[i][4] == 3) {
+                                messages += "<div id='sent-msg-img'>  <div class='' id='sent-media-arrow'>  </div>  <video id='sent-img' controls> <source src='../messageVideos/" + allMessages[i][3] + "'> </video>   <p id='sent-timeSent-img' >" + allMessages[i][5] + "</p>  </div>";
                             }
                         } else {
                             if (allMessages[i][4] == 1) {
-                                messages = messages + "<div id='received-msg'>  <div class='' id='received-arrow'>  <p id='FriendMsg'>" + allMessages[i][3] + "</p> </div></div>";
+                                messages = messages + "<div id='received-msg'>  <div class='' id='received-arrow'> </div> <p id='FriendMsg'>" + allMessages[i][3] + "</p> </div>";
                             } else if (allMessages[i][4] == 2) {
                                 messages += "<div id='received-msg-img'>  <div class='' id='received-media-arrow'>  </div> <img src='../messageImages/" + allMessages[i][3] + "' id='received-img'>     <p id='received-timeSent-img' >" + allMessages[i][5] + "</p>  </div>";
+                            } else if (allMessages[i][4] == 3) {
+                                messages += "<div id='received-msg-img'>  <div class='' id='received-media-arrow'>  </div>  <video id='received-img' controls> <source src='../messageVideos/" + allMessages[i][3] + "'> </video>   <p id='received-timeSent-img' >" + allMessages[i][5] + "</p>  </div>";
                             }
                         }
                     }
@@ -1148,9 +1174,22 @@ and open the template in the editor.
                     for (var i = allMessages.length - 1; i >= 0; i--) {
                         fetched = true;
                         if (allMessages[i][2] ==<?php echo $userId ?>) {
-                            messages = messages + "<div id='sent-msg'><div class='' id='sent-arrow'> <p id='myMsg'>" + allMessages[i][3] + "</p>  </div> </div>";
+                            if (allMessages[i][4] == 1) {
+                                messages = messages + "<div id='sent-msg'> <p id='myMsg'>" + allMessages[i][3] + "</p>  <div class='' id='sent-arrow'> </div> </div>";
+                            } else if (allMessages[i][4] == 2) {
+                                messages += "<div id='sent-msg-img'>  <div class='' id='sent-media-arrow'>  </div> <img src='../messageImages/" + allMessages[i][3] + "' id='sent-img'>     <p id='sent-timeSent-img' >" + allMessages[i][5] + "</p>  </div>";
+                            } else if (allMessages[i][4] == 3) {
+                                messages += "<div id='sent-msg-img'>  <div class='' id='sent-media-arrow'>  </div>  <video id='sent-img' controls> <source src='../messageVideos/" + allMessages[i][3] + "'> </video>   <p id='sent-timeSent-img' >" + allMessages[i][5] + "</p>  </div>";
+                            }
+
                         } else {
-                            messages = messages + "<div id='received-msg'>  <div class='' id='received-arrow'>  <p id='FriendMsg'>" + allMessages[i][3] + "</p> </div></div>";
+                            if (allMessages[i][4] == 1) {
+                                messages = messages + "<div id='received-msg'>  <div class='' id='received-arrow'> </div> <p id='FriendMsg'>" + allMessages[i][3] + "</p> </div>";
+                            } else if (allMessages[i][4] == 2) {
+                                messages += "<div id='received-msg-img'>  <div class='' id='received-media-arrow'>  </div> <img src='../messageImages/" + allMessages[i][3] + "' id='received-img'>     <p id='received-timeSent-img' >" + allMessages[i][5] + "</p>  </div>";
+                            } else if (allMessages[i][4] == 3) {
+                                messages += "<div id='received-msg-img'>  <div class='' id='received-media-arrow'>  </div>  <video id='received-img' controls> <source src='../messageVideos/" + allMessages[i][3] + "'> </video>   <p id='received-timeSent-img' >" + allMessages[i][5] + "</p>  </div>";
+                            }
                         }
                     }
                     //var temp=document.getElementById("conversationBody").innerHTML;
