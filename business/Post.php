@@ -9,7 +9,7 @@ class Post
     private DateTime $dateTime;
     private int $type;
     private int $userType;
-
+    private string $about;
     /**
      * @param int $postId
      * @param int $userId
@@ -17,13 +17,14 @@ class Post
      * @param int $type
      * @param int $userType
      */
-    public function post(int $postId, int $userId, DateTime $dateTime, int $type, int $userType)
+    public function post(int $postId, int $userId, DateTime $dateTime, int $type, int $userType, string $about)
     {
         $this->postId = $postId;
         $this->userId = $userId;
         $this->dateTime = $dateTime;
         $this->type = $type;
         $this->userType = $userType;
+        $this->about = $about;
     }
     public function __construct(){
 
@@ -80,6 +81,15 @@ class Post
         $this->userType = $userType;
     }
 
+    public function getAbout(): string
+    {
+        return $this->about;
+    }
+
+    public function setAbout(string $about): void
+    {
+        $this->about = $about;
+    }
 
 
 }
